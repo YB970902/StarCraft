@@ -1,22 +1,15 @@
 #pragma once
 
-#include <SDKDDKVer.h>
 #include <iostream>
 #include <stdio.h>
 #include <tchar.h>
 #include <Windows.h>
-#include <d2d1.h>
-#include <d3d9.h>
 #include <stdlib.h>
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <list>
 
-#pragma comment(lib, "winmm.lib")
-#pragma comment(lib, "D2D1.lib")
-#pragma comment(lib, "dwrite.lib")
-
-using namespace D2D1;
 using namespace std;
 
 const int WIN_START_POS_X = 200;
@@ -29,6 +22,9 @@ const int WIN_SIZE_Y = 900;
 
 #define INPUT InputManager::GetInstance()
 #define TIME TimeManager::GetInstance()
+
+#define DELTA_TIME TimeManager::GetInstance()->GetDeltaTime()
+#define SAFE_RELEASE(p) if(p){ p->Release(); delete p; }
 
 extern HWND g_hWnd;
 extern HINSTANCE g_hInstance;

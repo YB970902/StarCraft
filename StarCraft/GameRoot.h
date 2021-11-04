@@ -1,16 +1,11 @@
 #pragma once
 
-class Image;
+class GameObject;
 class GameRoot
 {
 protected:
-	int mMousePosX = 0;
-	int mMousePosY = 0;
-	int mClickedMousePosX = 0;
-	int mClickedMousePosY = 0;
-
-	Image* mBackBuffer = nullptr;
-
+	GameObject* mPlayer1 = nullptr;
+	GameObject* mPlayer2 = nullptr;
 public:
 	void Init();
 	void Release();
