@@ -19,7 +19,8 @@ const int MOUSE_RIGHT = 2;
 class InputManager : public Singleton<InputManager>
 {
 protected:
-	eInputState mKeyState[MAX_KEY_COUNT];
+	eInputState mKeyState[MAX_KEY_COUNT] = {};
+	POINT mMousePosition = {};
 
 public:
 	void Init();
@@ -29,4 +30,6 @@ public:
 	bool IsOnceKeyDown(int key);
 	bool IsOnceKeyUp(int key);
 	bool IsStayKeyDown(int key);
+
+	POINT GetMousePosition() { return mMousePosition; }
 };

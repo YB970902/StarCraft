@@ -12,9 +12,12 @@ void InputManager::Release()
 
 void InputManager::Update()
 {
+	GetCursorPos(&mMousePosition);
+	ScreenToClient(g_hWnd, &mMousePosition);
+
 	for (int i = 0; i < MAX_KEY_COUNT; ++i)
 	{
-		if (GetAsyncKeyState(i) == 0x8000)
+		if ((GetAsyncKeyState(i) & 0x8000) == 0x8000)
 		{
 			switch (mKeyState[i])
 			{
