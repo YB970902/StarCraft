@@ -15,17 +15,20 @@ protected:
 
 	int mMaxPeopleCount = 0;
 public:
-	Room(Server* pServer, int maxCount);
+	Room(Server* pServer, room_id roomID, const char* pTitle, int maxCount);
 	~Room();
 
-	bool UserJoin(Session* pSession);
+	void UserJoin(Session* pSession);
 	void UserExit(Session* pSession);
 
 	void ProcessMessage(user_id userID, char* pData);
 
-	const char* GetTitle() { return mTitle; }
-	void SetTitle(const char* title) { sprintf_s(mTitle, MAX_NAME_LEN - 1, "%s", title); }
+	inline room_id GetRoomID() { return mRoomID; }
+	inline const char* GetTitle() { return mTitle; }
+	inline void SetTitle(const char* title) { sprintf_s(mTitle, MAX_NAME_LEN - 1, "%s", title); }
 
-	int GetMaxPeopleCount() { return mMaxPeopleCount; }
-	int GetCurPeopleCount() { return mVecSession.size(); }
+	inline int GetMaxPeopleCount() { return mMaxPeopleCount; }
+	inline int GetCurPeopleCount() { return mVecSession.size(); }
+
+	inline bool IsFull() { return (GetCurPeopleCount() >= GetMaxPeopleCount()); }
 };
