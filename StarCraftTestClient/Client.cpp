@@ -79,7 +79,7 @@ void Client::PostReceive()
 	mSocket.async_read_some
 	(
 		boost::asio::buffer(mReceiveBuffer),
-		boost::bind(&Client::HandleRecieve, this,
+		boost::bind(&Client::HandleReceive, this,
 			boost::asio::placeholders::error,
 			boost::asio::placeholders::bytes_transferred)
 	);
@@ -89,16 +89,10 @@ void Client::HandleConnect(const boost::system::error_code& error)
 {
 	if (!error)
 	{
-		std::cout << "서버 접속 성공" << std::endl;
 		PostReceive();
-		MsgSetName packet;
-		sprintf_s(packet.Name, MAX_NAME_LEN - 1, "%s", mName);
-		std::cout << packet.Name << std::endl;
-		PostSend(false, packet.Size, (char*)&packet);
 	}
 	else
 	{
-		std::cout << "서버 접속 실패" << std::endl;
 		PrintErrorCode(error);
 	}
 }
@@ -126,9 +120,8 @@ void Client::HandleWrite(const boost::system::error_code& error, size_t bytes_tr
 	}
 }
 
-void Client::HandleRecieve(const boost::system::error_code& error, size_t bytes_transferred)
+void Client::HandleReceive(const boost::system::error_code& error, size_t bytes_transferred)
 {
-	std::cout << "값 받음" << std::endl;
 	if (error)
 	{
 		PrintErrorCode(error);
@@ -143,6 +136,8 @@ void Client::HandleRecieve(const boost::system::error_code& error, size_t bytes_
 
 	while (packetData > 0)
 	{
+		if (NET->IsSending()) continue;
+
 		if (packetData < sizeof(Message))
 		{
 			break;
@@ -151,16 +146,20 @@ void Client::HandleRecieve(const boost::system::error_code& error, size_t bytes_
 		Message* pMsg = (Message*)&mPacketBuffer[readData];
 		if (pMsg->Size <= packetData)
 		{
-			ProcessPacket(&mPacketBuffer[readData]);
+			EnterCriticalSection(&mLock);
+			NET->ReceiveMessage(pMsg);
 
 			packetData -= pMsg->Size;
 			readData += pMsg->Size;
+			LeaveCriticalSection(&mLock);
 		}
 		else
 		{
 			break;
 		}
 	}
+
+	EnterCriticalSection(&mLock);
 
 	if (packetData > 0)
 	{
@@ -169,53 +168,11 @@ void Client::HandleRecieve(const boost::system::error_code& error, size_t bytes_
 		memcpy(&mPacketBuffer[0], &TempBuffer[0], packetData);
 	}
 
+	NET->ReceiveEnd();
+
 	mPacketBufferMark = packetData;
 
+	LeaveCriticalSection(&mLock);
+
 	PostReceive();
-}
-
-void Client::ProcessPacket(const char* pData)
-{
-	Message* pMsg = (Message*)pData;
-
-	switch (pMsg->Tag)
-	{
-	case eMessageTag::SetUserID:
-	{
-		MsgSetUserID* pPacket = (MsgSetUserID*)pData;
-		std::cout << "당신의 아이디는 " << pPacket->UserID << "입니다" << std::endl;
-
-		mUserID = pPacket->UserID;
-	}
-	break;
-	case eMessageTag::UnitMove:
-	{
-		MsgUnitMove* pPacket = (MsgUnitMove*)pData;
-
-		std::cout << "UserID : " << pPacket->UserID << " UnitID : " << pPacket->UnitID << " Moved" << std::endl;
-	}
-	break;
-	case eMessageTag::RoomJoinSuccess:
-	{
-		MsgRoomJoinSuccess* pPacket = (MsgRoomJoinSuccess*)pData;
-
-		std::cout << pPacket->Title << "에 입장하였습니다" << std::endl;
-		std::cout << "현재 인원 : " << pPacket->CurCount << " 최대 인원 : " << pPacket->MaxCount << std::endl;
-	}
-	break;
-	case eMessageTag::RoomJoin:
-	{
-		MsgRoomJoin* pPacket = (MsgRoomJoin*)pData;
-
-		std::cout << pPacket->Name << "님이 입장하였습니다" << std::endl;
-	}
-	break;
-	case eMessageTag::RoomText:
-	{
-		MsgRoomText* pPacket = (MsgRoomText*)pData;
-
-		std::cout << pPacket->Name << " : " << pPacket->Text << std::endl;
-	}
-	break;
-	}
 }

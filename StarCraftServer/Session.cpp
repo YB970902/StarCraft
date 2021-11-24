@@ -2,25 +2,37 @@
 #include "Session.h"
 #include "Server.h"
 #include "Room.h"
+#include "SessionState.h"
 
 Session::Session(user_id userID, boost::asio::io_service& IOService, Server* pServer)
-	: mUserID{ userID }, mSocket{ IOService }, mpServer{ pServer }
+	: mUserID{ userID }, mSocket{ IOService }, mpServer{ pServer } { }
+
+Session::~Session() { }
+
+void Session::Init()
 {
+	mpRoom = nullptr;
 	mPacketBufferMark = 0;
+	mpState = new SessionState(this);
+	mpState->Init();
 }
 
-Session::~Session()
+void Session::Release()
 {
 	while (mQueSendData.empty() == false)
 	{
 		delete[] mQueSendData.front();
 		mQueSendData.pop_front();
 	}
-}
+	if (mpRoom)
+	{
+		ExitRoom();
+	}
+	mSocket.close();
 
-void Session::Init()
-{
-
+	mpState->Release();
+	delete mpState;
+	mpState = nullptr;
 }
 
 void Session::PostSend(bool bIsImmediately, size_t size, char* pData)
@@ -62,16 +74,6 @@ void Session::PostReceive()
 	);
 }
 
-void Session::JoinedRoom(Room* pRoom, room_id ID)
-{
-	mpRoom = pRoom;
-	MsgRoomJoinSuccess msgJoinSuccess;
-	sprintf_s(msgJoinSuccess.Title, MAX_NAME_LEN - 1, "%s", pRoom->GetTitle());
-	msgJoinSuccess.CurCount = pRoom->GetCurPeopleCount();
-	msgJoinSuccess.MaxCount = pRoom->GetMaxPeopleCount();
-	PostSend(false, msgJoinSuccess.Size, (char*)&msgJoinSuccess);
-}
-
 void Session::HandleWrite(const boost::system::error_code& error, size_t bytes_transferred)
 {
 	delete[] mQueSendData.front();
@@ -85,6 +87,70 @@ void Session::HandleWrite(const boost::system::error_code& error, size_t bytes_t
 
 		PostSend(true, pHeader->Size, pData);
 	}
+}
+
+void Session::JoinLobby()
+{
+	JoinRoomByRoomID(DEFAULT_ROOM_ID);
+}
+
+void Session::ExitRoom()
+{
+	mpRoom->UserExit(this);
+	if (mpRoom->GetCurPeopleCount() == 0)
+	{
+		mpServer->DestroyRoom(mpRoom);
+		mpRoom = nullptr;
+	}
+}
+
+void Session::CreateRoom(const char* pTitle, int maxCount)
+{
+	JoinRoomByRoom(mpServer->CreateRoom(pTitle, maxCount));
+}
+
+void Session::SendRoomInfo()
+{
+	std::vector<Room*> roomList = mpServer->GetRoomList();
+
+	MsgRoomInfo msg;
+	msg.Length = roomList.size();
+	for (int i = 0; i < roomList.size(); ++i)
+	{
+		msg.Index = i;
+		sprintf_s(msg.Title, MAX_NAME_LEN - 1, "%s", roomList[i]->GetTitle());
+		msg.CurCount = roomList[i]->GetCurPeopleCount();
+		msg.MaxCount = roomList[i]->GetMaxPeopleCount();
+		msg.RoomID = roomList[i]->GetRoomID();
+		PostSend(false, msg.Size, (char*)&msg);
+	}
+}
+
+bool Session::JoinRoomByRoomID(room_id roomID)
+{
+	return JoinRoomByRoom(mpServer->GetRoom(roomID));
+}
+
+bool Session::JoinRoomByRoom(Room* pRoom)
+{
+	if (pRoom == nullptr || pRoom->IsFull())
+	{
+		MsgRoomJoinFail msg;
+		PostSend(false, msg.Size, (char*)&msg);
+		return false;
+	}
+	pRoom->UserJoin(this);
+	if (mpRoom != nullptr)
+	{
+		mpRoom->UserExit(this);
+	}
+	mpRoom = pRoom;
+	MsgRoomJoinSuccess msg;
+	sprintf_s(msg.Title, MAX_NAME_LEN, "%s", pRoom->GetTitle());
+	msg.CurCount = pRoom->GetCurPeopleCount();
+	msg.MaxCount = pRoom->GetMaxPeopleCount();
+	PostSend(false, msg.Size, (char*)&msg);
+	return true;
 }
 
 void Session::HandleReceive(const boost::system::error_code& error, size_t bytes_transferred)
@@ -152,4 +218,6 @@ void Session::ProcessPacket(char* pData)
 		mpRoom->ProcessMessage(mUserID, pData);
 		break;
 	}
+
+	mpState->Process(pHeader);
 }

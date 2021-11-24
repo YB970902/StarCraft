@@ -22,6 +22,9 @@
     <Filter Include="Room">
       <UniqueIdentifier>{2cdb999d-2bd5-4f82-81c4-d53be1629a23}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Session\State">
+      <UniqueIdentifier>{e9c5aaca-709e-4eac-8347-8433f90c3b0b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Session.cpp">
@@ -39,6 +42,9 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="SessionState.cpp">
+      <Filter>Session</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Session.h">
@@ -54,6 +60,15 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Protocol.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SessionState.h">
+      <Filter>Session</Filter>
+    </ClInclude>
+    <ClInclude Include="resource1.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

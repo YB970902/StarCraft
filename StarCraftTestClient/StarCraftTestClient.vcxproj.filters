@@ -16,24 +16,129 @@
     <Filter Include="Client">
       <UniqueIdentifier>{9a9acc1a-cdf2-4db1-9f00-56f2271d8efe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame">
+      <UniqueIdentifier>{ac2537d8-59b4-48ed-bb5a-91874b93c4e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{b12d37ab-88a6-4d77-bb68-87b071b5bd9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\TimeManager">
+      <UniqueIdentifier>{91fb9af3-ce54-4716-82de-95b87dccaf53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\NetworkManager">
+      <UniqueIdentifier>{a812b665-9dbd-4941-bafc-664f21eb15dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\SceneManager">
+      <UniqueIdentifier>{cedae4ba-a97a-41a7-aa95-b3d9c9a86e56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{783095b8-a551-47e3-afd0-ec226fb081eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stdafx">
+      <UniqueIdentifier>{79cdb1fa-5f0d-4f34-8fae-2a58b81292a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObserverPattern">
+      <UniqueIdentifier>{41c08256-a281-4e7f-a8df-75e28baca32f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\UserManager">
+      <UniqueIdentifier>{ef385483-553a-486c-bd8b-1f1ad6c7e063}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{fe0bf132-a7e2-499b-a7da-2673cb5be27d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Client.h">
       <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="MainGame.h">
+      <Filter>MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkManager.h">
+      <Filter>Manager\NetworkManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>Manager\TimeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Manager\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="LobbyScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="ObserverPattern.h">
+      <Filter>ObserverPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="UserManager.h">
+      <Filter>Manager\UserManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Fixed.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateRoomScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomScene.h">
+      <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Client.cpp">
       <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="MainGame.cpp">
+      <Filter>MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkManager.cpp">
+      <Filter>Manager\NetworkManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>Manager\TimeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Manager\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Stdafx</Filter>
+    </ClCompile>
+    <ClCompile Include="LobbyScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="ObserverPattern.cpp">
+      <Filter>ObserverPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="UserManager.cpp">
+      <Filter>Manager\UserManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Math.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Fixed.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateRoomScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomScene.cpp">
+      <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

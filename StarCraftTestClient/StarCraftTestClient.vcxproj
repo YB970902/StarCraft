@@ -146,14 +146,39 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
+    <ClInclude Include="CreateRoomScene.h" />
+    <ClInclude Include="Fixed.h" />
+    <ClInclude Include="LoginScene.h" />
+    <ClInclude Include="MainGame.h" />
+    <ClInclude Include="LobbyScene.h" />
+    <ClInclude Include="Math.h" />
+    <ClInclude Include="NetworkManager.h" />
+    <ClInclude Include="ObserverPattern.h" />
+    <ClInclude Include="RoomScene.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Singleton.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TimeManager.h" />
+    <ClInclude Include="UserManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="CreateRoomScene.cpp" />
+    <ClCompile Include="Fixed.cpp" />
+    <ClCompile Include="LoginScene.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainGame.cpp" />
+    <ClCompile Include="LobbyScene.cpp" />
+    <ClCompile Include="Math.cpp" />
+    <ClCompile Include="NetworkManager.cpp" />
+    <ClCompile Include="ObserverPattern.cpp" />
+    <ClCompile Include="RoomScene.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TimeManager.cpp" />
+    <ClCompile Include="UserManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
