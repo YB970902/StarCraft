@@ -1,19 +1,21 @@
 #pragma once
 
-static const char* SERVER_ADDRESS = "127.0.0.1";
+static const char* SERVER_ADDRESS = "121.132.120.90";
 const unsigned int PORT_NUMBER = 31400;
 
 const unsigned int MAX_RECEIVE_BUFFER_LEN = 512;
 
 const unsigned int MAX_NAME_LEN = 17;
 const unsigned int MAX_TEXT_LEN = 32;
+const unsigned int MAX_TEXT_LOG_SIZE = 10;
 
 using user_id = unsigned int;
 using unit_id = unsigned int;
 using room_id = unsigned int;
 
 const unsigned int MAX_USER_COUNT = 10;
-const user_id NONE_USER_ID = 0;
+const unsigned int MAX_ROOM_COUNT = 10;
+const user_id DEFAULT_USER_ID = 0;
 const room_id DEFAULT_ROOM_ID = 0;
 
 static void PrintErrorCode(const boost::system::error_code& error)
@@ -38,11 +40,14 @@ enum class eMessageTag
 	RoomJoinFail,
 	RoomJoinSuccess,
 	RoomJoin,
+	RoomExitRequest,
 	RoomExit,
+	RoomLeft,
 	RoomCreate,
 	RoomBanned,
 	RoomUpdateRequest,
-	RoomData,
+	RoomInfo,
+	ReqRoomInfo,
 	RoomText,
 	UnitMove,
 	UnitChase,
@@ -72,17 +77,7 @@ struct MsgSetUserID : public Message
 		Tag = eMessageTag::SetUserID;
 		Size = sizeof(MsgSetUserID);
 	}
-	user_id UserID = NONE_USER_ID;
-};
-
-struct MsgSetRoomID : public Message
-{
-	MsgSetRoomID()
-	{
-		Tag = eMessageTag::SetRoomID;
-		Size = sizeof(MsgSetRoomID);
-	}
-	room_id RoomID = DEFAULT_ROOM_ID;
+	user_id UserID = DEFAULT_USER_ID;
 };
 
 struct MsgRoomJoinRequest : public Message
@@ -126,6 +121,15 @@ struct MsgRoomJoin : public Message
 	char Name[MAX_NAME_LEN] = { 0, };
 };
 
+struct MsgRoomExitRequest : public Message
+{
+	MsgRoomExitRequest()
+	{
+		Tag = eMessageTag::RoomExitRequest;
+		Size = sizeof(MsgRoomExitRequest);
+	}
+};
+
 struct MsgRoomExit : public Message
 {
 	MsgRoomExit()
@@ -144,7 +148,7 @@ struct MsgRoomCreate : public Message
 		Size = sizeof(MsgRoomCreate);
 	}
 	char Title[MAX_NAME_LEN] = { 0, };
-	int MapIndex = 0;
+	int MaxCount = 0;
 };
 
 struct MsgRoomBanned : public Message
@@ -165,17 +169,28 @@ struct MsgRoomUpdateRequest : public Message
 	}
 };
 
-struct MsgRoomData : public Message
+struct MsgRoomInfo : public Message
 {
-	MsgRoomData()
+	MsgRoomInfo()
 	{
-		Tag = eMessageTag::RoomData;
-		Size = sizeof(MsgRoomData);
+		Tag = eMessageTag::RoomInfo;
+		Size = sizeof(MsgRoomInfo);
 	}
 	int Length = 0;
+	int Index = 0;
+	room_id RoomID = DEFAULT_ROOM_ID;
 	char Title[MAX_NAME_LEN] = { 0, };
 	int CurCount = 0;
 	int MaxCount = 0;
+};
+
+struct MsgReqRoomInfo : public Message
+{
+	MsgReqRoomInfo()
+	{
+		Tag = eMessageTag::ReqRoomInfo;
+		Size = sizeof(MsgReqRoomInfo);
+	}
 };
 
 struct MsgRoomText : public Message
