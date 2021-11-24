@@ -1,41 +1,31 @@
 #include "stdafx.h"
-#include "Client.h"
+#include "MainGame.h"
 
 int main()
 {
+	TIME->Init(30);
 	boost::asio::io_service ioService;
-	Client client(ioService);
-	std::cout << "이름을 입력하세요 (최대" << (MAX_NAME_LEN - 1) << "글자) : ";
-	char name[MAX_NAME_LEN];
-	std::cin >> name;
-	client.SetName(name);
-	std::cin.ignore();
-	std::cin.clear();
-	client.Connect();
+	NET->Init(ioService);
 
 	boost::thread thread(boost::bind(&boost::asio::io_service::run, &ioService));
 
+	MainGame* pMainGame = new MainGame();
+	pMainGame->Init();
+
 	char inputMessage[MAX_TEXT_LEN] = { 0, };
-	while (std::cin.getline(inputMessage, MAX_TEXT_LEN))
+	while (true)
 	{
-		//if (strnlen_s(inputMessage, MAX_TEXT_LEN) == 0)
-		//{
-		//	break;
-		//}
-
-		if (false == client.IsConnected())
+		if (TIME->IsUpdateTime())
 		{
-			std::cout << "서버와 연결되지 않았습니다" << std::endl;
-			continue;
+			// 업데이트
+			pMainGame->Update();
+			pMainGame->Render();
 		}
-
-		MsgRoomText msg;
-		sprintf_s(msg.Text, MAX_TEXT_LEN - 1, "%s", inputMessage);
-		sprintf_s(msg.Name, MAX_NAME_LEN - 1, "%s", name);
-		client.PostSend(false, msg.Size, (char*)&msg);
 	}
 
-	client.Close();
+	pMainGame->Release();
+
+	NET->Release();
 
 	getchar();
 
