@@ -4,6 +4,7 @@
 void RoomScene::Init()
 {
 	mChatIndex = 0;
+	mbIsExitRoom = false;
 }
 
 void RoomScene::Release()
@@ -14,7 +15,7 @@ void RoomScene::Release()
 
 void RoomScene::Update()
 {
-	if (_kbhit())
+	if (_kbhit() && !mbIsExitRoom)
 	{
 		char ch = _getch();
 		switch (ch)
@@ -37,7 +38,10 @@ void RoomScene::Update()
 				memset(mChat, '\0', MAX_TEXT_LEN);
 			}
 			break;
-		case 255:
+		case 27: // ESC 키
+			mbIsExitRoom = true;
+			NET->RequestJoinRoom(DEFAULT_ROOM_ID);
+			break;
 		default:
 			if (mChatIndex < MAX_TEXT_LEN - 1)
 			{
@@ -71,6 +75,15 @@ void RoomScene::Notice(Message* pMsg)
 		break;
 	case eMessageTag::RoomExit:
 		AddChat(((MsgRoomExit*)pMsg)->Name, "접속종료");
+		break;
+	case eMessageTag::RoomJoinFail:
+		mbIsExitRoom = false;
+		break;
+	case eMessageTag::RoomJoinSuccess:
+		USER->SetRoomName(static_cast<MsgRoomJoinSuccess*>(pMsg)->Title);
+		USER->SetCurrentRoomCount(static_cast<MsgRoomJoinSuccess*>(pMsg)->CurCount);
+		USER->SetMaxRoomCount(static_cast<MsgRoomJoinSuccess*>(pMsg)->MaxCount);
+		SCENE->ChangeScene(eSceneTag::Lobby);
 		break;
 	}
 }

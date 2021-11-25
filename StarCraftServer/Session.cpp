@@ -106,15 +106,27 @@ void Session::ExitRoom()
 
 void Session::CreateRoom(const char* pTitle, int maxCount)
 {
-	JoinRoomByRoom(mpServer->CreateRoom(pTitle, maxCount));
+	if (JoinRoomByRoom(mpServer->CreateRoom(pTitle, maxCount)))
+	{
+		mpState->ChangeState(eSessionState::Room);
+	}
 }
 
 void Session::SendRoomInfo()
 {
 	std::vector<Room*> roomList = mpServer->GetRoomList();
 
+	if (roomList.empty())
+	{
+		MsgRoomInfo msg;
+		msg.Length = 0;
+		PostSend(false, msg.Size, (char*)&msg);
+		return;
+	}
+
 	MsgRoomInfo msg;
 	msg.Length = roomList.size();
+	
 	for (int i = 0; i < roomList.size(); ++i)
 	{
 		msg.Index = i;
@@ -142,7 +154,7 @@ bool Session::JoinRoomByRoom(Room* pRoom)
 	pRoom->UserJoin(this);
 	if (mpRoom != nullptr)
 	{
-		mpRoom->UserExit(this);
+		ExitRoom();
 	}
 	mpRoom = pRoom;
 	MsgRoomJoinSuccess msg;

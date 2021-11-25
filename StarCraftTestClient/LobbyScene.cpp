@@ -5,12 +5,16 @@ void LobbyScene::Init()
 {
 	mChatIndex = 0;
 	mbIsWaitingJoinRoom = false;
+	NET->RefreshRoomInfo();
 }
 
 void LobbyScene::Release()
 {
 	mListChatContent.clear();
 	memset(mChat, '\0', MAX_TEXT_LEN);
+
+	mVecRoom.clear();
+	mVecRoomReceiving.clear();
 }
 
 void LobbyScene::Update()
@@ -144,6 +148,13 @@ void LobbyScene::AddChat(std::string name, std::string chat)
 
 void LobbyScene::AddRoomInfo(MsgRoomInfo* pMsg)
 {
+	if (pMsg->Length == 0)
+	{
+		mVecRoom.clear();
+		mVecRoomReceiving.clear();
+		return;
+	}
+
 	if (mVecRoomReceiving.size() < pMsg->Length) { mVecRoomReceiving.resize(pMsg->Length); }
 	++mReceivingCount;
 	mVecRoomReceiving[pMsg->Index] = pMsg;
