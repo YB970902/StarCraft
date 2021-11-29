@@ -8,6 +8,8 @@ private:
 
 	std::list<std::pair<std::string, std::string>> mListChatContent;
 
+	bool mbIsExitRoom = false;
+
 public:
 	virtual void Init() override;
 	virtual void Release() override;

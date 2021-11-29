@@ -66,17 +66,19 @@ Room* Server::CreateRoom(const char* pTitle, int maxCount)
 
 void Server::DestroyRoom(Room* pRoom)
 {
+	if (pRoom->GetRoomID() == DEFAULT_ROOM_ID) { return; }
+
 	for (auto it = mVecRoom.begin(); it != mVecRoom.end(); ++it)
 	{
 		if ((*it) == pRoom)
 		{
 			mQueRoomID.push_back(pRoom->GetRoomID());
 			mVecRoom.erase(it);
+			delete pRoom;
 			break;
 		}
 	}
 
-	delete pRoom;
 }
 
 Room* Server::GetRoom(room_id roomID)

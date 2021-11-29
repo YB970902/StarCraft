@@ -68,7 +68,6 @@ void ConnectingState::ProcessMessage(Message* pMsg)
 void LobbyState::Enter()
 {
 	mpSession->JoinLobby();
-	mpSession->SendRoomInfo();
 }
 
 void LobbyState::Exit()
@@ -108,6 +107,9 @@ void RoomState::ProcessMessage(Message* pMsg)
 	{
 	case eMessageTag::RoomExitRequest:
 		mpSession->ExitRoom();
+		break;
+	case eMessageTag::RoomJoinRequest:
+		mpSession->GetSessionState()->ChangeState(eSessionState::Lobby);
 		break;
 	}
 }

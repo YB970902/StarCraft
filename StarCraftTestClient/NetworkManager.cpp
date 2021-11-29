@@ -86,6 +86,10 @@ void NetworkManager::ReceiveMessage(Message* pMsg)
 		newMsg = new MsgSetUserID();
 		memcpy(newMsg, pMsg, sizeof(MsgSetUserID));
 		break;
+	case eMessageTag::RoomJoinFail:
+		newMsg = new MsgRoomJoinFail();
+		memcpy(newMsg, pMsg, sizeof(MsgRoomJoinFail));
+		break;
 	case eMessageTag::RoomJoinSuccess:
 		newMsg = new MsgRoomJoinSuccess();
 		memcpy(newMsg, pMsg, sizeof(MsgRoomJoinSuccess));
