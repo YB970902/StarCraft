@@ -21,6 +21,8 @@ protected:
 
 	IDWriteFactory2* mpDWriteFactory = nullptr;
 	IWICImagingFactory2* mpWicFactory = nullptr;
+
+	ID2D1Effect* mpEffect = nullptr;
 	
 	ID2D1Bitmap* mpBitmap = nullptr;
 

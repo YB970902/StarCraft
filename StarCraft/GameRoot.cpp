@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GameRoot.h"
 #include "GameObject.h"
+#include "EffectTest.h"
 
 void GameRoot::Init()
 {
@@ -197,6 +198,8 @@ void GameRoot::CreateImage(LPWSTR fileName)
 	);
 
 	mpD2DContext->CreateBitmapFromWicBitmap(pConverter, NULL, &mpBitmap);
+
+	mpD2DContext->CreateEffect(TEST_Effect, &mpEffect);
 }
 
 void GameRoot::Update()

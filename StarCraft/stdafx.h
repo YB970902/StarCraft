@@ -11,6 +11,7 @@
 #include <wincodec.h>
 
 #include <iostream>
+#include <fstream>
 #include <stdio.h>
 #include <tchar.h>
 #include <stdlib.h>
