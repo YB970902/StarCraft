@@ -40,6 +40,9 @@
     <Filter Include="Effect">
       <UniqueIdentifier>{78db92d6-9512-422d-9dd6-acda4121e9bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Effect\EffectReader">
+      <UniqueIdentifier>{393b3ed9-4a49-4aa9-ac7e-eb978115318d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -60,8 +63,11 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="EffectTest.cpp">
+    <ClCompile Include="ColorReplaceEffect.cpp">
       <Filter>Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectReader.cpp">
+      <Filter>Effect\EffectReader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -86,8 +92,16 @@
     <ClInclude Include="GameObject.h">
       <Filter>GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="EffectTest.h">
+    <ClInclude Include="ColorReplaceEffect.h">
       <Filter>Effect</Filter>
     </ClInclude>
+    <ClInclude Include="EffectReader.h">
+      <Filter>Effect\EffectReader</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="ColorReplaceShader.hlsl">
+      <Filter>Effect</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

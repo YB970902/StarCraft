@@ -9,9 +9,11 @@
 #include <d3d11_3.h>
 #include <dwrite_3.h>
 #include <wincodec.h>
+#include <initguid.h>
 
 #include <iostream>
 #include <fstream>
+#include <atlstr.h>
 #include <stdio.h>
 #include <tchar.h>
 #include <stdlib.h>
@@ -19,6 +21,8 @@
 #include <map>
 #include <unordered_map>
 #include <list>
+
+#include <Windows.Applicationmodel.Activation.h>
 
 #pragma comment(lib, "winmm.lib")
 #pragma comment(lib, "d2d1")

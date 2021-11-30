@@ -1,13 +1,26 @@
 #include "stdafx.h"
 #include "GameRoot.h"
 #include "GameObject.h"
-#include "EffectTest.h"
+#include "ColorReplaceEffect.h"
 
 void GameRoot::Init()
 {
 	InitializeContext();
 
-	CreateImage((LPWSTR)TEXT("Images/Marine.png"));
+	CreateImage((LPWSTR)TEXT("Images/Units/Marine/MarineL.png"), &mpBitmap);
+	CreateImage((LPWSTR)TEXT("Images/Palette.png"), &mpPalette);
+
+	HRESULT hr = ColorReplaceEffect::Register(mpD2DFactory);
+	if (SUCCEEDED(hr))
+	{
+		hr = mpD2DContext->CreateEffect(GUID_ColorReplacePixelShader, &mpEffect);
+		if (SUCCEEDED(hr))
+		{
+			mpEffect->SetInput(0, mpBitmap);
+			//mpEffect->SetInput(1, mpPalette);
+			mpEffect->SetValue((int)eColorReplaceProperty::ROW, EFFECT_COLOR_RED);
+		}
+	}
 
 	TIME->Init(60);
 
@@ -169,7 +182,7 @@ void GameRoot::InitializeContext()
 	mpD2DContext->SetTarget(mpD2DTargetBitmap);
 }
 
-void GameRoot::CreateImage(LPWSTR fileName)
+void GameRoot::CreateImage(LPWSTR fileName, ID2D1Bitmap** ppBitmap)
 {
 	// 이미지 읽기
 
@@ -197,9 +210,11 @@ void GameRoot::CreateImage(LPWSTR fileName)
 		WICBitmapPaletteTypeCustom
 	);
 
-	mpD2DContext->CreateBitmapFromWicBitmap(pConverter, NULL, &mpBitmap);
+	mpD2DContext->CreateBitmapFromWicBitmap(pConverter, NULL, ppBitmap);
 
-	mpD2DContext->CreateEffect(TEST_Effect, &mpEffect);
+	pDecoder->Release();
+	pFrame->Release();
+	pConverter->Release();
 }
 
 void GameRoot::Update()
@@ -210,6 +225,10 @@ void GameRoot::Update()
 	}
 	mPlayer1->Update();
 	mPlayer2->Update();
+
+	float value;
+	mpEffect->GetValue((int)eColorReplaceProperty::ROW, &value);
+	cout << value << endl;
 }
 
 void GameRoot::Render()
@@ -217,7 +236,8 @@ void GameRoot::Render()
 	mpD2DContext->BeginDraw();
 	mpD2DContext->Clear(D2D1::ColorF(D2D1::ColorF::CornflowerBlue));
 	
-	mpD2DContext->DrawBitmap(mpBitmap);
+	if (mpEffect) { mpD2DContext->DrawImage(mpEffect, D2D1_POINT_2F{ 64.0f, 0.0f }, D2D1_RECT_F{0.0f, 0.0f, 64.0f, 64.0f}); }
+	//mpD2DContext->DrawBitmap(mpBitmap);
 
 	mpD2DContext->EndDraw();
 

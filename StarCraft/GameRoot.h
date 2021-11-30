@@ -25,6 +25,7 @@ protected:
 	ID2D1Effect* mpEffect = nullptr;
 	
 	ID2D1Bitmap* mpBitmap = nullptr;
+	ID2D1Bitmap* mpPalette = nullptr;
 
 public:
 	void Init();
@@ -33,7 +34,7 @@ public:
 
 protected:
 	void InitializeContext();
-	void CreateImage(LPWSTR fileName);
+	void CreateImage(LPWSTR fileName, ID2D1Bitmap** ppBitmap);
 
 	void Update();
 	void Render();
