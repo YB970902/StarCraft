@@ -1,47 +1,76 @@
 #include "stdafx.h"
 #include "GameObject.h"
+#include "Component.h"
+#include "RendererComponent.h"
 
-void GameObject::Init()
+void GameObject::init()
 {
-	mPosition.x = 0;
-	mPosition.y = 0;
-
-	mTargetPosition.x = 0;
-	mTargetPosition.y = 0;
-
-	mbIsMoving = false;
-
-	mAngle = 0.0f;
+	AddComponent(new TransformComponent());
+	AddComponent(new RendererComponent());
 }
 
-void GameObject::Release()
+void GameObject::release()
 {
-}
+	Release();
 
-void GameObject::Update()
-{
-	if (mbIsMoving)
+	GameObject* pObj = nullptr;
+	for (auto it = mVecChild.begin(); it != mVecChild.end();)
 	{
-		mPosition.x += cosf(mAngle);
-		mPosition.y += sinf(mAngle);
+		pObj = (*it);
+		it = mVecChild.erase(it);
+		delete pObj;
+	}
 
-		if ((mPosition.x - mTargetPosition.x) * (mPosition.x - mTargetPosition.x) +
-			(mPosition.y - mTargetPosition.y) * (mPosition.y - mTargetPosition.y) < 0.1f)
-		{
-			mPosition = mTargetPosition;
-			mbIsMoving = false;
-		}
+	Component* pCom = nullptr;
+	for (auto it = mVecComponent.begin(); it != mVecComponent.end();)
+	{
+		pCom = (*it);
+		it = mVecComponent.erase(it);
+		SAFE_RELEASE(pCom);
 	}
 }
 
-void GameObject::Render(HDC hdc)
+void GameObject::update()
 {
-	Ellipse(hdc, mPosition.x - 10, mPosition.y - 10, mPosition.x + 10, mPosition.y + 10);
+	Update();
+
+	for (int i = 0; i < mVecComponent.size(); ++i)
+	{
+		mVecComponent[i]->Update();
+	}
+
+	for (int i = 0; i < mVecChild.size(); ++i)
+	{
+		mVecChild[i]->update();
+	}
 }
 
-void GameObject::MoveTo(const POINTFLOAT& target)
+GameObject::GameObject()
 {
-	mbIsMoving = true;
-	mTargetPosition = target;
-	mAngle = atan2(target.y - mPosition.y, target.x - mPosition.x);
+	init();
+}
+
+GameObject::~GameObject()
+{
+	release();
+}
+
+Component* GameObject::AddComponent(Component* pComponent)
+{
+	mVecComponent.push_back(pComponent);
+	pComponent->Init(this);
+	return pComponent;
+}
+
+Component* GameObject::GetComponent(eComponentTag tag)
+{
+	for (int i = 0; i < mVecComponent.size(); ++i)
+	{
+		if (mVecComponent[i]->GetTag() == tag)
+		{
+			return mVecComponent[i];
+		}
+	}
+
+	return nullptr;
 }

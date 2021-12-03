@@ -1,22 +1,32 @@
 #pragma once
+
+#include "Component.h"
+#include "SpriteComponent.h"
+#include "PairSpriteComponent.h"
+#include "TransformComponent.h"
+#include "EffectComponent.h"
+#include "AnimatorComponent.h"
+
+class Scene;
 class GameObject
 {
+	friend Scene;
+private:
+	vector<Component*> mVecComponent;
+	vector<GameObject*> mVecChild;
+
+	void init();
+	void release();
+	void update();
 protected:
-	const float MOVE_SPEED = 100;
-
-	POINTFLOAT mPosition = {};
-
-	bool mbIsMoving = false;
-	POINTFLOAT mTargetPosition = {};
-	float mAngle = 0.0f;
+	virtual void Init() {}
+	virtual void Release() {}
+	virtual void Update() {}
 public:
-	void Init();
-	void Release();
-	void Update();
-	void Render(HDC hdc);
 
-	void MoveTo(const POINTFLOAT& target);
+	GameObject();
+	virtual ~GameObject();
 
-	inline const POINTFLOAT& GetPosition() { return mPosition; }
-	inline void SetPosition(const POINTFLOAT& set) { mPosition.x = set.x; mPosition.y = set.y; }
+	Component* AddComponent(Component* pComponent);
+	Component* GetComponent(eComponentTag tag);
 };

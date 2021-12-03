@@ -4,19 +4,21 @@
 class TimeManager : public Singleton<TimeManager>
 {
 protected:
-	LONGLONG m_currentCount;
-	LONGLONG m_previousCount;
+	LONGLONG mCurCount = 0;
+	LONGLONG mPrevCount = 0;
 
-	float m_frequencyTime;
-	float m_frameTime;
-	float m_deltaTime;
+	float mFrequencyTime = 0.0f;
+	float mFrameTime = 0.0f;
+	float mDeltaTime = 0.0f;
 
-	int m_fps;
+	int mFPS = 0;
+
+	Fix mFixedDeltaTime = 0;
 public:
 	void Init(int fps);
 
 	bool IsUpdateTime();
 
-	inline int GetFPS() { return m_fps; }
-	inline float GetDeltaTime() { return m_deltaTime; }
+	inline int GetFPS() { return mFPS; }
+	inline Fix GetDeltaTime() { return mFixedDeltaTime; }
 };
