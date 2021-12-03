@@ -7,7 +7,7 @@
 
 cbuffer constants : register(b0)
 {
-	float3 row : packoffset(c0);
+	float3 groupColor : packoffset(c0);
 };
 
 D2D_PS_ENTRY(main)
@@ -16,7 +16,7 @@ D2D_PS_ENTRY(main)
 
 	if (color.g == 0 && color.r == color.b && color.a == 1)
 	{
-		color = float4(mul(row.r, color.r), mul(row.g, color.r), mul(row.b, color.r), 1);
+		color = float4(mul(groupColor.r, color.r), mul(groupColor.g, color.r), mul(groupColor.b, color.r), 1);
 	}
 
 	return color;

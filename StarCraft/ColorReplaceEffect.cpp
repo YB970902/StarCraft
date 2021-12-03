@@ -10,6 +10,11 @@ ColorReplaceEffect::ColorReplaceEffect()
     
 }
 
+ColorReplaceEffect::~ColorReplaceEffect()
+{
+    
+}
+
 HRESULT ColorReplaceEffect::Register(ID2D1Factory1* pFactory)
 {
     PCWSTR pszXml =
@@ -22,11 +27,11 @@ HRESULT ColorReplaceEffect::Register(ID2D1Factory1* pFactory)
                 <Property name='Category' type='string' value='Stylize'/>
                 <Property name='Description' type='string' value='Color replace'/>
                 <Inputs>
-                    <Input name='Source1'/>
+                    <Input name='Source'/>
                 </Inputs>
                 <!--Custom Properties go here-->
-                <Property name='row' type='vector3'>
-                    <Property name='DisplayName' type='string' value='row'/>
+                <Property name='groupColor' type='vector3'>
+                    <Property name='DisplayName' type='string' value='groupColor'/>
                     <Property name='Default' type='vector3' value='(1.0, 0.0, 0.0)'/>
                 </Property>
             </Effect>
@@ -34,7 +39,7 @@ HRESULT ColorReplaceEffect::Register(ID2D1Factory1* pFactory)
 
     const D2D1_PROPERTY_BINDING bindings[] =
     {
-       D2D1_VALUE_TYPE_BINDING(TEXT("row"), &SetRow, &GetRow),
+       D2D1_VALUE_TYPE_BINDING(TEXT("groupColor"), &SetGroupColor, &GetGroupColor),
     };
 
     return pFactory->RegisterEffectFromString(
@@ -104,7 +109,7 @@ ULONG __stdcall ColorReplaceEffect::Release(void)
 	}
 	else
 	{
-		return ++mRefCount;;
+		return mRefCount;
 	}
 }
 
@@ -159,7 +164,6 @@ HRESULT __stdcall ColorReplaceEffect::MapOutputRectToInputRects(const D2D1_RECT_
     }
     
     inputRects[0] = *outputRect;
-    inputRects[1] = mInputLUTRect;
     return S_OK;
 }
 
@@ -172,7 +176,6 @@ HRESULT __stdcall ColorReplaceEffect::MapInputRectsToOutputRect(const D2D1_RECT_
 
     *outputRect = inputRects[0];
     mInputRect = inputRects[0];
-    mInputLUTRect = inputRects[1];
 
     ZeroMemory(outputOpaqueSubRect, sizeof(*outputOpaqueSubRect));
     return S_OK;
@@ -193,13 +196,13 @@ HRESULT __stdcall ColorReplaceEffect::SetDrawInfo(ID2D1DrawInfo* drawInfo)
     return drawInfo->SetPixelShader(GUID_ColorReplacePixelShader);
 }
 
-HRESULT ColorReplaceEffect::SetRow(D2D_VECTOR_3F row)
+HRESULT ColorReplaceEffect::SetGroupColor(D2D_VECTOR_3F row)
 {
-    mConstants.row = row;
+    mConstants.groupColor = row;
     return S_OK;
 }
 
-D2D_VECTOR_3F ColorReplaceEffect::GetRow() const
+D2D_VECTOR_3F ColorReplaceEffect::GetGroupColor() const
 {
-    return mConstants.row;
+    return mConstants.groupColor;
 }
