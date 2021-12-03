@@ -73,7 +73,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(WindowsSDK_IncludePath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(WindowsSDK_IncludePath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;C:\boost_1_77_0;$(IncludePath)</IncludePath>
     <ReferencePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -145,25 +145,67 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AnimatorComponent.cpp" />
     <ClCompile Include="ColorReplaceEffect.cpp" />
+    <ClCompile Include="EffectComponent.cpp" />
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="EffectReader.cpp" />
+    <ClCompile Include="Fixed.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="AnimationBase.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="GameRoot.cpp" />
+    <ClCompile Include="MultipleAnimation.cpp" />
+    <ClCompile Include="PairSpriteComponent.cpp" />
     <ClCompile Include="RendererComponent.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="ShadowEffect.cpp" />
+    <ClCompile Include="SingleAnimation.cpp" />
+    <ClCompile Include="SpriteComponent.cpp" />
+    <ClCompile Include="RenderManager.cpp" />
+    <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="TimeManager.cpp" />
+    <ClCompile Include="TransformComponent.cpp" />
+    <ClCompile Include="Unit.cpp" />
+    <ClCompile Include="Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationData.h" />
+    <ClInclude Include="AnimatorComponent.h" />
+    <ClInclude Include="AnimatorData.h" />
     <ClInclude Include="ColorReplaceEffect.h" />
+    <ClInclude Include="EffectComponent.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="EffectData.h" />
     <ClInclude Include="EffectReader.h" />
+    <ClInclude Include="Enums.h" />
+    <ClInclude Include="Fixed.h" />
+    <ClInclude Include="fixed_point.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="AnimationBase.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="GameRoot.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Math.h" />
+    <ClInclude Include="MultipleAnimation.h" />
+    <ClInclude Include="PairSpriteComponent.h" />
+    <ClInclude Include="RenderConfig.h" />
     <ClInclude Include="RendererComponent.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="ShadowEffect.h" />
+    <ClInclude Include="SingleAnimation.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="SpriteComponent.h" />
+    <ClInclude Include="RenderManager.h" />
+    <ClInclude Include="SpriteData.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TestScene.h" />
     <ClInclude Include="TimeManager.h" />
+    <ClInclude Include="TransformComponent.h" />
+    <ClInclude Include="Unit.h" />
+    <ClInclude Include="Vector2.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ColorReplaceShader.hlsl">
@@ -175,6 +217,15 @@
       <CompileD2DCustomEffect Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</CompileD2DCustomEffect>
       <FileType>Document</FileType>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(WindowsSDK_IncludePath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="ShadowShader.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(WindowsSDK_IncludePath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include</AdditionalIncludeDirectories>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <CompileD2DCustomEffect Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</CompileD2DCustomEffect>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -31,9 +31,6 @@
     <Filter Include="Component\Renderer">
       <UniqueIdentifier>{1b22c799-80e7-4171-b5b3-4bd35bce6dc3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sprite">
-      <UniqueIdentifier>{ae2a8162-480e-4776-8842-842e05e99307}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameObject">
       <UniqueIdentifier>{f0248cd9-7729-4db4-a03c-0a2476cce9eb}</UniqueIdentifier>
     </Filter>
@@ -42,6 +39,48 @@
     </Filter>
     <Filter Include="Effect\EffectReader">
       <UniqueIdentifier>{393b3ed9-4a49-4aa9-ac7e-eb978115318d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\RenderManager">
+      <UniqueIdentifier>{226d7155-12c1-4faf-8482-a7f00510e1c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Sprite">
+      <UniqueIdentifier>{ae2a8162-480e-4776-8842-842e05e99307}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stdafx">
+      <UniqueIdentifier>{4f8153ce-e2af-454b-ac4e-0e537c8207ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Effect">
+      <UniqueIdentifier>{39d99b0b-8e4c-481d-b0f9-8a52718d9219}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Transform">
+      <UniqueIdentifier>{8e4a6f6b-e979-497b-b764-fc7e180b3011}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{edb6bb6d-8e77-4365-ad6e-1641e7ae602d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Unit">
+      <UniqueIdentifier>{0c4f0cdd-e3b1-4c88-82e1-fdd489811497}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect\ColorReplace">
+      <UniqueIdentifier>{495fa4f5-c411-43d5-bdbd-1ef911f91765}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect\Shadow">
+      <UniqueIdentifier>{2369a769-9df7-471f-a674-4dc31f25b949}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Animator">
+      <UniqueIdentifier>{f510aa4e-2b3a-48c2-9412-adf841791154}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\SceneManager">
+      <UniqueIdentifier>{45e5f1b6-644f-4ebe-b37d-0776a104c994}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{17242a78-027b-4366-83be-2cc47a722a83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\TestScene">
+      <UniqueIdentifier>{77c92c61-52e0-40cb-b677-e17e60b468f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Animation">
+      <UniqueIdentifier>{ccb20fc9-0113-417e-a680-5bb0963c3249}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -63,17 +102,65 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="ColorReplaceEffect.cpp">
-      <Filter>Effect</Filter>
-    </ClCompile>
     <ClCompile Include="EffectReader.cpp">
       <Filter>Effect\EffectReader</Filter>
     </ClCompile>
+    <ClCompile Include="SpriteComponent.cpp">
+      <Filter>Component\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>Manager\RenderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectComponent.cpp">
+      <Filter>Component\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformComponent.cpp">
+      <Filter>Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit.cpp">
+      <Filter>GameObject\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorReplaceEffect.cpp">
+      <Filter>Effect\ColorReplace</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowEffect.cpp">
+      <Filter>Effect\Shadow</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatorComponent.cpp">
+      <Filter>Component\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Manager\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScene.cpp">
+      <Filter>Scene\TestScene</Filter>
+    </ClCompile>
+    <ClCompile Include="SingleAnimation.cpp">
+      <Filter>Component\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="MultipleAnimation.cpp">
+      <Filter>Component\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationBase.cpp">
+      <Filter>Component\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="PairSpriteComponent.cpp">
+      <Filter>Component\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="Fixed.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="GameRoot.h">
       <Filter>GameRoot</Filter>
     </ClInclude>
@@ -92,16 +179,97 @@
     <ClInclude Include="GameObject.h">
       <Filter>GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="ColorReplaceEffect.h">
-      <Filter>Effect</Filter>
-    </ClInclude>
     <ClInclude Include="EffectReader.h">
       <Filter>Effect\EffectReader</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteComponent.h">
+      <Filter>Component\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>Manager\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderConfig.h">
+      <Filter>Stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectComponent.h">
+      <Filter>Component\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformComponent.h">
+      <Filter>Component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit.h">
+      <Filter>GameObject\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorReplaceEffect.h">
+      <Filter>Effect\ColorReplace</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowEffect.h">
+      <Filter>Effect\Shadow</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatorData.h">
+      <Filter>Component\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatorComponent.h">
+      <Filter>Component\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Manager\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteData.h">
+      <Filter>Component\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScene.h">
+      <Filter>Scene\TestScene</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectData.h">
+      <Filter>Component\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationBase.h">
+      <Filter>Component\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="MultipleAnimation.h">
+      <Filter>Component\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleAnimation.h">
+      <Filter>Component\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationData.h">
+      <Filter>Component\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="PairSpriteComponent.h">
+      <Filter>Component\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Fixed.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="fixed_point.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>Stdafx</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ColorReplaceShader.hlsl">
-      <Filter>Effect</Filter>
+      <Filter>Effect\ColorReplace</Filter>
+    </FxCompile>
+    <FxCompile Include="ShadowShader.hlsl">
+      <Filter>Effect\Shadow</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

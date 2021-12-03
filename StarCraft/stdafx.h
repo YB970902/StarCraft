@@ -1,16 +1,5 @@
 #pragma once
 
-#include <Windows.h>
-#include <d2d1_3.h>
-#include <d2d1_3helper.h>
-#include <d2d1effects_2.h>
-#include <d2d1effectauthor_1.h>
-#include <d2d1effecthelpers.h>
-#include <d3d11_3.h>
-#include <dwrite_3.h>
-#include <wincodec.h>
-#include <initguid.h>
-
 #include <iostream>
 #include <fstream>
 #include <atlstr.h>
@@ -21,8 +10,7 @@
 #include <map>
 #include <unordered_map>
 #include <list>
-
-#include <Windows.Applicationmodel.Activation.h>
+#include <queue>
 
 #pragma comment(lib, "winmm.lib")
 #pragma comment(lib, "d2d1")
@@ -35,6 +23,8 @@
 #pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
 #endif
 
+#include "Math.h"
+
 using namespace std;
 
 const int WIN_START_POS_X = 200;
@@ -44,9 +34,11 @@ const int WIN_SIZE_Y = 900;
 
 #include "InputManager.h"
 #include "TimeManager.h"
+#include "SceneManager.h"
 
 #define INPUT InputManager::GetInstance()
 #define TIME TimeManager::GetInstance()
+#define SCENE SceneManager::GetInstance()
 
 #define DELTA_TIME TimeManager::GetInstance()->GetDeltaTime()
 #define SAFE_RELEASE(p) if(p){ p->Release(); delete p; }
@@ -54,3 +46,5 @@ const int WIN_SIZE_Y = 900;
 extern HWND g_hWnd;
 extern HINSTANCE g_hInstance;
 extern POINT g_ptMouse;
+
+#include "Enums.h"
