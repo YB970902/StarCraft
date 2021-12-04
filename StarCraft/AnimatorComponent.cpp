@@ -83,14 +83,18 @@ void AnimatorComponent::AddMultipleAnimation(int animTag, MultipleAnimation* pAn
 
 void AnimatorComponent::ChangeAnimation(int animTag)
 {
-	if (mpCurAnimation) { mpCurAnimation->Stop(); }
+	if (mpCurAnimation)
+	{
+		if (mpCurAnimation == mMapAnimation[animTag]) { return; }
+		mpCurAnimation->Stop();
+	}
 	mpCurAnimation = mMapAnimation[animTag];
 	mpCurAnimation->Play();
 }
 
 void AnimatorComponent::Play()
 {
-	if (mpCurAnimation->IsEnd()) { mpCurAnimation->Play(); }
+	if (IsEnd()) { mpCurAnimation->Play(); }
 }
 
 void AnimatorComponent::Stop()

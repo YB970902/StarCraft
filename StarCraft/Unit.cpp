@@ -52,7 +52,7 @@ void Unit::Update()
 		cout << "Moved Y : " << moved.y << endl;
 
 		mpTransform->SetPosition(GetPosition() + dir * (Fix)100 * DELTA_TIME);
-		if (Vector2::GetDistance(GetPosition(), mTargetPos) < (Fix)0.001f)
+		if (Vector2::GetDistance(GetPosition(), mTargetPos) < (Fix)3)
 		{
 			mpAnimator->ChangeAnimation((int)eAnimationTag::Idle);
 			mpTransform->SetPosition(mTargetPos);
