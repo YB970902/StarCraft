@@ -108,12 +108,12 @@ Gizmo* RenderManager::RenderText(wstring text, Vector2 pos, Vector2 size, int fo
 	return pResult;
 }
 
-Gizmo* RenderManager::RenderRect(Vector2 pos, Vector2 size, D2D1::ColorF color, Vector2 anchor)
+Gizmo* RenderManager::RenderRect(Vector2 pos, Vector2 size, float weight, D2D1::ColorF color, Vector2 anchor)
 {
 	ID2D1SolidColorBrush* pBrush = nullptr;
 	mpD2DContext->CreateSolidColorBrush(D2D1::ColorF(color), &pBrush);
 
-	Gizmo* pResult = new RectGizmo(pos, size, anchor, pBrush);
+	Gizmo* pResult = new RectGizmo(pos, size, anchor, weight, pBrush);
 	mVecGizmo.push_back(pResult);
 	return pResult;
 }

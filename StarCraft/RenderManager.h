@@ -16,7 +16,7 @@ class ColorReplaceEffect;
 class ShadowEffect;
 class RendererComponent;
 class Gizmo;
-typedef priority_queue<pair<float, RendererComponent*>, vector<pair<float, RendererComponent*>>, std::less<pair<float, RendererComponent*>>> QueueZOrder;
+typedef priority_queue<pair<float, RendererComponent*>, vector<pair<float, RendererComponent*>>, std::greater<pair<float, RendererComponent*>>> QueueZOrder;
 class RenderManager : public Singleton<RenderManager>
 {
 private:
@@ -55,7 +55,7 @@ public:
 
 	void AddRenderer(float posY, RendererComponent* pComponent);
 	Gizmo* RenderText(wstring text, Vector2 pos, Vector2 size, int fontSize = 14, D2D1::ColorF color = D2D1::ColorF(D2D1::ColorF::Black), eTextAlign align = eTextAlign::Center);
-	Gizmo* RenderRect(Vector2 pos, Vector2 size, D2D1::ColorF color = D2D1::ColorF(D2D1::ColorF::Black), Vector2 anchor = Vector2(0.5f, 0.5f));
+	Gizmo* RenderRect(Vector2 pos, Vector2 size, float weight = 1.0f, D2D1::ColorF color = D2D1::ColorF(D2D1::ColorF::Black), Vector2 anchor = Vector2(0.5f, 0.5f));
 
 	Vector2 GetCameraPosition() { return mCameraPosition; }
 	void SetCameraPosition(Vector2 pos) { mCameraPosition = pos; }
