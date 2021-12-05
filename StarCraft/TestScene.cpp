@@ -1,10 +1,16 @@
 #include "stdafx.h"
 #include "TestScene.h"
 #include "Unit.h"
+#include "RenderManager.h"
 
 void TestScene::Enter()
 {
 	pUnit = static_cast<Unit*>(AddGameObject(new Unit()));
+
+	RENDER->RenderText(TEXT("Text Test"), Vector2(100, 100), Vector2(100, 50));
+	RENDER->RenderText(TEXT("텍스트 테스트"), Vector2(100, 150), Vector2(100, 50));
+
+	RENDER->RenderRect(Vector2(100, 100), Vector2(100, 50), D2D1::ColorF(0, 0, 0, 1), Vector2(0, 0));
 }
 
 void TestScene::Exit()
@@ -32,6 +38,11 @@ void TestScene::Update()
 		Fix y = (Fix)INPUT->GetMousePosition().y - pUnit->GetPosition().y;
 		pUnit->SetRotation(RAD2DEG(atan2(static_cast<float>(y * (Fix)-1), static_cast<float>(x))));
 	}
+
+	if (INPUT->IsStayKeyDown(VK_LEFT)) { RENDER->AddCameraPosition(Vector2::Right() * 100 * DELTA_TIME); }
+	if (INPUT->IsStayKeyDown(VK_RIGHT)) { RENDER->AddCameraPosition(Vector2::Left() * 100 * DELTA_TIME); }
+	if (INPUT->IsStayKeyDown(VK_UP)) { RENDER->AddCameraPosition(Vector2::Down() * 100 * DELTA_TIME); }
+	if (INPUT->IsStayKeyDown(VK_DOWN)) { RENDER->AddCameraPosition(Vector2::Up() * 100 * DELTA_TIME); }
 
 	if (INPUT->IsOnceKeyDown('Q')) { pUnit->ChangeUnitColor(EFFECT_COLOR_RED); }
 	if (INPUT->IsOnceKeyDown('W')) { pUnit->ChangeUnitColor(EFFECT_COLOR_GREEN); }

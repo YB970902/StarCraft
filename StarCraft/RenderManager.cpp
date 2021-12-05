@@ -5,6 +5,9 @@
 #include "SpriteComponent.h"
 #include "RendererComponent.h"
 #include "EffectData.h"
+#include "Gizmo.h"
+#include "TextGizmo.h"
+#include "RectGizmo.h"
 
 void RenderManager::Init()
 {
@@ -15,12 +18,15 @@ void RenderManager::Init()
 void RenderManager::Release()
 {
 	ReleaseDirect2D();
+	ReleaseGizmo();
 }
 
 void RenderManager::Render()
 {
 	mpD2DContext->BeginDraw();
 	mpD2DContext->Clear(D2D1::ColorF(D2D1::ColorF::White));
+
+	mpD2DContext->SetTransform(D2D1::Matrix3x2F::Translation(mCameraPosition.x, mCameraPosition.y));
 
 	while (mQueTerrain.empty() == false)
 	{
@@ -38,6 +44,11 @@ void RenderManager::Render()
 	{
 		mQueSky.top().second->Render(mpD2DContext);
 		mQueSky.pop();
+	}
+
+	for (int i = 0; i < mVecGizmo.size(); ++i)
+	{
+		mVecGizmo[i]->Render(mpD2DContext);
 	}
 
 	mpD2DContext->EndDraw();
@@ -62,7 +73,7 @@ ID2D1Effect* RenderManager::CreateEffect(eEffectTag tag)
 	return nullptr;
 }
 
-void RenderManager::PushRenderer(float posY, RendererComponent* pComponent)
+void RenderManager::AddRenderer(float posY, RendererComponent* pComponent)
 {
 	switch (pComponent->GetUnitLayer())
 	{
@@ -76,6 +87,35 @@ void RenderManager::PushRenderer(float posY, RendererComponent* pComponent)
 		mQueSky.emplace(posY, pComponent);
 		break;
 	}
+}
+
+Gizmo* RenderManager::RenderText(wstring text, Vector2 pos, Vector2 size, int fontSize, D2D1::ColorF color, eTextAlign align)
+{
+	IDWriteTextFormat* pFormat = nullptr;
+	mpDWriteFactory->CreateTextFormat(TEXT("Arial"), nullptr,
+		DWRITE_FONT_WEIGHT_REGULAR,
+		DWRITE_FONT_STYLE_NORMAL,
+		DWRITE_FONT_STRETCH_NORMAL,
+		fontSize, TEXT("ko"), &pFormat);
+
+	pFormat->SetTextAlignment((DWRITE_TEXT_ALIGNMENT)align);
+
+	ID2D1SolidColorBrush* pBrush = nullptr;
+	mpD2DContext->CreateSolidColorBrush(D2D1::ColorF(color), &pBrush);
+
+	Gizmo* pResult = new TextGizmo(pFormat, text, pos, size, pBrush);
+	mVecGizmo.push_back(pResult);
+	return pResult;
+}
+
+Gizmo* RenderManager::RenderRect(Vector2 pos, Vector2 size, D2D1::ColorF color, Vector2 anchor)
+{
+	ID2D1SolidColorBrush* pBrush = nullptr;
+	mpD2DContext->CreateSolidColorBrush(D2D1::ColorF(color), &pBrush);
+
+	Gizmo* pResult = new RectGizmo(pos, size, anchor, pBrush);
+	mVecGizmo.push_back(pResult);
+	return pResult;
 }
 
 void RenderManager::InitDirect2D()
@@ -220,6 +260,17 @@ void RenderManager::ReleaseDirect2D()
 	mpSwapChain->Release();
 
 	mpDWriteFactory->Release();
+}
+
+void RenderManager::ReleaseGizmo()
+{
+	Gizmo* pGizmo = nullptr;
+	for (auto it = mVecGizmo.begin(); it != mVecGizmo.end(); )
+	{
+		pGizmo = (*it);
+		it = mVecGizmo.erase(it);
+		delete pGizmo;
+	}
 }
 
 ID2D1Bitmap* RenderManager::CreateBitmap(LPWSTR fileName)

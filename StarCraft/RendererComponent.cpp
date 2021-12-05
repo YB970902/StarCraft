@@ -19,7 +19,7 @@ void RendererComponent::Release()
 void RendererComponent::Update()
 {
 	// 렌더가 가능한 순간이라면
-	RENDER->PushRenderer(mpTransform->GetPosition().y, this);
+	RENDER->AddRenderer(mpTransform->GetPosition().y, this);
 }
 
 void RendererComponent::Render(ID2D1DeviceContext2* pContext)

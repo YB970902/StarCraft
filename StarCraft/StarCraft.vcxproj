@@ -153,7 +153,9 @@
     <ClCompile Include="Fixed.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="AnimationBase.cpp" />
+    <ClCompile Include="Gizmo.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="RectGizmo.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="GameRoot.cpp" />
@@ -166,6 +168,7 @@
     <ClCompile Include="SpriteComponent.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="TestScene.cpp" />
+    <ClCompile Include="TextGizmo.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="Unit.cpp" />
@@ -185,8 +188,10 @@
     <ClInclude Include="fixed_point.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="AnimationBase.h" />
+    <ClInclude Include="Gizmo.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="GameRoot.h" />
+    <ClInclude Include="RectGizmo.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="MultipleAnimation.h" />
@@ -202,6 +207,7 @@
     <ClInclude Include="SpriteData.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TestScene.h" />
+    <ClInclude Include="TextGizmo.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="Unit.h" />

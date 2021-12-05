@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "InputManager.h"
+#include "RenderManager.h"
 
 void InputManager::Init()
 {
@@ -14,6 +15,9 @@ void InputManager::Update()
 {
 	GetCursorPos(&mMousePosition);
 	ScreenToClient(g_hWnd, &mMousePosition);
+
+	mMousePosition.x -= (int)RENDER->GetCameraPosition().x;
+	mMousePosition.y -= (int)RENDER->GetCameraPosition().y;
 
 	for (int i = 0; i < MAX_KEY_COUNT; ++i)
 	{

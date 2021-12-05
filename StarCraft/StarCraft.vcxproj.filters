@@ -82,6 +82,15 @@
     <Filter Include="Component\Animation">
       <UniqueIdentifier>{ccb20fc9-0113-417e-a680-5bb0963c3249}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Gizmos">
+      <UniqueIdentifier>{4396df7f-8873-42ba-a4bf-aed93dc0efcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gizmos\TextGizmo">
+      <UniqueIdentifier>{0a7d60f1-81da-47a1-b997-8b1af72e7195}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gizmos\RectGizmo">
+      <UniqueIdentifier>{06c3a16c-a3cf-4029-a8bc-c6926e54ae54}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -158,6 +167,15 @@
     </ClCompile>
     <ClCompile Include="Fixed.cpp">
       <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Gizmo.cpp">
+      <Filter>Gizmos</Filter>
+    </ClCompile>
+    <ClCompile Include="RectGizmo.cpp">
+      <Filter>Gizmos\RectGizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="TextGizmo.cpp">
+      <Filter>Gizmos\TextGizmo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -262,6 +280,15 @@
     </ClInclude>
     <ClInclude Include="Enums.h">
       <Filter>Stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="Gizmo.h">
+      <Filter>Gizmos</Filter>
+    </ClInclude>
+    <ClInclude Include="TextGizmo.h">
+      <Filter>Gizmos\TextGizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="RectGizmo.h">
+      <Filter>Gizmos\RectGizmo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

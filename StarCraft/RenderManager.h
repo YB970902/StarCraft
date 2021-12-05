@@ -4,11 +4,18 @@
 
 #define RENDER RenderManager::GetInstance()
 
+enum class eTextAlign
+{
+	Left = 0,
+	Right = 1,
+	Center = 2,
+};
 
 class SpriteComponent;
 class ColorReplaceEffect;
 class ShadowEffect;
 class RendererComponent;
+class Gizmo;
 typedef priority_queue<pair<float, RendererComponent*>, vector<pair<float, RendererComponent*>>, std::less<pair<float, RendererComponent*>>> QueueZOrder;
 class RenderManager : public Singleton<RenderManager>
 {
@@ -34,6 +41,10 @@ private:
 	QueueZOrder mQueGround;
 	QueueZOrder mQueSky;
 
+	vector<Gizmo*> mVecGizmo;
+
+	Vector2 mCameraPosition;
+
 public:
 	void Init();
 	void Release();
@@ -42,13 +53,20 @@ public:
 	ID2D1Bitmap* GetBitmap(eBitmapTag tag);
 	ID2D1Effect* CreateEffect(eEffectTag tag);
 
-	void PushRenderer(float posY, RendererComponent* pComponent);
+	void AddRenderer(float posY, RendererComponent* pComponent);
+	Gizmo* RenderText(wstring text, Vector2 pos, Vector2 size, int fontSize = 14, D2D1::ColorF color = D2D1::ColorF(D2D1::ColorF::Black), eTextAlign align = eTextAlign::Center);
+	Gizmo* RenderRect(Vector2 pos, Vector2 size, D2D1::ColorF color = D2D1::ColorF(D2D1::ColorF::Black), Vector2 anchor = Vector2(0.5f, 0.5f));
+
+	Vector2 GetCameraPosition() { return mCameraPosition; }
+	void SetCameraPosition(Vector2 pos) { mCameraPosition = pos; }
+	void AddCameraPosition(Vector2 add) { mCameraPosition += add; }
 
 private:
 	void InitDirect2D();
 	void InitBitmap();
 
 	void ReleaseDirect2D();
+	void ReleaseGizmo();
 
 	ID2D1Bitmap* CreateBitmap(LPWSTR fileName);
 	ID2D1Effect* CreateColorReplaceEffect();
