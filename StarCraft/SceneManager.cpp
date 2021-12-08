@@ -1,11 +1,13 @@
 #include "stdafx.h"
 #include "SceneManager.h"
 #include "TestScene.h"
+#include "PathFindingScene.h"
 
 void SceneManager::Init()
 {
 	AddScene(eSceneTag::TestScene, new TestScene());
-	ChangeScene(eSceneTag::TestScene);
+	AddScene(eSceneTag::PathFindingScene, new PathFindingScene());
+	ChangeScene(eSceneTag::PathFindingScene);
 }
 
 void SceneManager::Release()
