@@ -5,7 +5,7 @@ class GameRoot
 public:
 	void Init();
 	void Release();
-	void UpdateAndRender();
+	void Run();
 
 protected:
 

@@ -16,7 +16,7 @@ void GameRoot::Release()
 	SCENE->Release();
 }
 
-void GameRoot::UpdateAndRender()
+void GameRoot::Run()
 {
 	if (TIME->IsUpdateTime())
 	{
