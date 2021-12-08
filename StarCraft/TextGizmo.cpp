@@ -15,5 +15,8 @@ TextGizmo::~TextGizmo()
 
 void TextGizmo::Render(ID2D1DeviceContext2* pD2DContext)
 {
-	pD2DContext->DrawTextW(mText.c_str(), mText.length(), mpFormat, D2D1_RECT_F{ mPosition.x, mPosition.y, mPosition.x + mSize.x, mPosition.y + mSize.y }, mpBrush);
+	if (mbIsActive)
+	{
+		pD2DContext->DrawTextW(mText.c_str(), mText.length(), mpFormat, D2D1_RECT_F{ mPosition.x, mPosition.y, mPosition.x + mSize.x, mPosition.y + mSize.y }, mpBrush);
+	}
 }

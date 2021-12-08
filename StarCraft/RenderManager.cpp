@@ -26,6 +26,8 @@ void RenderManager::Render()
 	mpD2DContext->BeginDraw();
 	mpD2DContext->Clear(D2D1::ColorF(D2D1::ColorF::White));
 
+	// 줌을 적용시킨 코드
+	//mpD2DContext->SetTransform(D2D1::Matrix3x2F::Scale(D2D1::SizeF(mCameraZoom, mCameraZoom)) * D2D1::Matrix3x2F::Translation(mCameraPosition.x, mCameraPosition.y));
 	mpD2DContext->SetTransform(D2D1::Matrix3x2F::Translation(mCameraPosition.x, mCameraPosition.y));
 
 	while (mQueTerrain.empty() == false)

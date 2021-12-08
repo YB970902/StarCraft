@@ -44,6 +44,7 @@ private:
 	vector<Gizmo*> mVecGizmo;
 
 	Vector2 mCameraPosition;
+	float mCameraZoom = 0.0f;
 
 public:
 	void Init();
@@ -60,6 +61,10 @@ public:
 	Vector2 GetCameraPosition() { return mCameraPosition; }
 	void SetCameraPosition(Vector2 pos) { mCameraPosition = pos; }
 	void AddCameraPosition(Vector2 add) { mCameraPosition += add; }
+
+	void SetCameraZoom(float zoom) { mCameraZoom = zoom; }
+	void AddCameraZoom(float zoom) { mCameraZoom += zoom; }
+	float GetCameraZoom() { return mCameraZoom; }
 
 private:
 	void InitDirect2D();
