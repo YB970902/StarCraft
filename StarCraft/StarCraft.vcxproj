@@ -146,7 +146,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnimatorComponent.cpp" />
+    <ClCompile Include="BitArray.cpp" />
     <ClCompile Include="ColorReplaceEffect.cpp" />
+    <ClCompile Include="DetailMap.cpp" />
     <ClCompile Include="EffectComponent.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="EffectReader.cpp" />
@@ -155,6 +157,10 @@
     <ClCompile Include="AnimationBase.cpp" />
     <ClCompile Include="Gizmo.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="JPS.cpp" />
+    <ClCompile Include="PathFindComponent.cpp" />
+    <ClCompile Include="PathFinder.cpp" />
+    <ClCompile Include="PathFindingScene.cpp" />
     <ClCompile Include="RectGizmo.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="main.cpp" />
@@ -169,16 +175,21 @@
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="TextGizmo.cpp" />
+    <ClCompile Include="TileManager.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="Vector2.cpp" />
+    <ClCompile Include="WindowManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationData.h" />
     <ClInclude Include="AnimatorComponent.h" />
     <ClInclude Include="AnimatorData.h" />
+    <ClInclude Include="BitArray.h" />
     <ClInclude Include="ColorReplaceEffect.h" />
+    <ClInclude Include="Defines.h" />
+    <ClInclude Include="DetailMap.h" />
     <ClInclude Include="EffectComponent.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="EffectData.h" />
@@ -189,8 +200,14 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="AnimationBase.h" />
     <ClInclude Include="Gizmo.h" />
+    <ClInclude Include="Globals.h" />
+    <ClInclude Include="Headers.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="GameRoot.h" />
+    <ClInclude Include="JPS.h" />
+    <ClInclude Include="PathFindComponent.h" />
+    <ClInclude Include="PathFinder.h" />
+    <ClInclude Include="PathFindingScene.h" />
     <ClInclude Include="RectGizmo.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Math.h" />
@@ -208,10 +225,12 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="TextGizmo.h" />
+    <ClInclude Include="TileManager.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="Unit.h" />
     <ClInclude Include="Vector2.h" />
+    <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ColorReplaceShader.hlsl">

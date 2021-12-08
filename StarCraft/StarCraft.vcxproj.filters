@@ -91,6 +91,30 @@
     <Filter Include="Gizmos\RectGizmo">
       <UniqueIdentifier>{06c3a16c-a3cf-4029-a8bc-c6926e54ae54}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\PathFindingScene">
+      <UniqueIdentifier>{375dffd4-7f68-4e95-8ee1-7d24be653c3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JPS">
+      <UniqueIdentifier>{23f73891-90b3-4f6e-9aaa-4a72f2b5c78c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JPS\DetailMap">
+      <UniqueIdentifier>{f66db868-cc6b-40cb-97bd-0e89cb7caf4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JPS\BitArray">
+      <UniqueIdentifier>{7ee0e0e2-5b6b-4d2c-bcc8-3abf39c12881}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Window">
+      <UniqueIdentifier>{4a2da385-e1fe-4976-9f30-7a55bbf3f1fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JPS\PathFinder">
+      <UniqueIdentifier>{c7f2d4b2-2ce1-4429-ab91-a8a846940547}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\PathFind">
+      <UniqueIdentifier>{7c7c876f-fae6-4640-957a-15af42cd48d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\TileManager">
+      <UniqueIdentifier>{d2214a74-0ace-4933-8c54-2666d39676ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -176,6 +200,30 @@
     </ClCompile>
     <ClCompile Include="TextGizmo.cpp">
       <Filter>Gizmos\TextGizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFindingScene.cpp">
+      <Filter>Scene\PathFindingScene</Filter>
+    </ClCompile>
+    <ClCompile Include="JPS.cpp">
+      <Filter>JPS</Filter>
+    </ClCompile>
+    <ClCompile Include="DetailMap.cpp">
+      <Filter>JPS\DetailMap</Filter>
+    </ClCompile>
+    <ClCompile Include="BitArray.cpp">
+      <Filter>JPS\BitArray</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowManager.cpp">
+      <Filter>Window</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinder.cpp">
+      <Filter>JPS\PathFinder</Filter>
+    </ClCompile>
+    <ClCompile Include="TileManager.cpp">
+      <Filter>Manager\TileManager</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFindComponent.cpp">
+      <Filter>Component\PathFind</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -289,6 +337,39 @@
     </ClInclude>
     <ClInclude Include="RectGizmo.h">
       <Filter>Gizmos\RectGizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFindingScene.h">
+      <Filter>Scene\PathFindingScene</Filter>
+    </ClInclude>
+    <ClInclude Include="JPS.h">
+      <Filter>JPS</Filter>
+    </ClInclude>
+    <ClInclude Include="DetailMap.h">
+      <Filter>JPS\DetailMap</Filter>
+    </ClInclude>
+    <ClInclude Include="BitArray.h">
+      <Filter>JPS\BitArray</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines.h">
+      <Filter>Stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers.h">
+      <Filter>Stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowManager.h">
+      <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinder.h">
+      <Filter>JPS\PathFinder</Filter>
+    </ClInclude>
+    <ClInclude Include="TileManager.h">
+      <Filter>Manager\TileManager</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFindComponent.h">
+      <Filter>Component\PathFind</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

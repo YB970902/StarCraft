@@ -23,6 +23,7 @@ enum class eComponentTag
 	Sprite,
 	PairSprite,
 	Animator,
+	PathFind,
 };
 
 enum class eUnitLayer
@@ -30,6 +31,12 @@ enum class eUnitLayer
 	Terrain,
 	Ground,
 	Sky,
+};
+
+enum class eUnitTileSize
+{
+	Small = 2,
+	Big = 4,
 };
 
 const float EFFECT_COLOR_RED[] = { 1.0f, 0.0f, 0.0f };
