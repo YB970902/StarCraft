@@ -19,6 +19,9 @@ void InputManager::Update()
 	mMousePosition.x -= (int)RENDER->GetCameraPosition().x;
 	mMousePosition.y -= (int)RENDER->GetCameraPosition().y;
 
+	mMouseWheel = g_nWheel;
+	g_nWheel = 0;
+
 	for (int i = 0; i < MAX_KEY_COUNT; ++i)
 	{
 		if ((GetAsyncKeyState(i) & 0x8000) == 0x8000)

@@ -21,6 +21,7 @@ class InputManager : public Singleton<InputManager>
 protected:
 	eInputState mKeyState[MAX_KEY_COUNT] = {};
 	POINT mMousePosition = {};
+	int mMouseWheel = 0;
 
 public:
 	void Init();
@@ -32,4 +33,5 @@ public:
 	bool IsStayKeyDown(int key);
 
 	POINT GetMousePosition() { return mMousePosition; }
+	int GetMouseWheel() { return mMouseWheel; }
 };
