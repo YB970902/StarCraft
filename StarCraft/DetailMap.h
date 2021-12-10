@@ -1,5 +1,4 @@
 #pragma once
-#include "RenderConfig.h"
 
 class TextGizmo;
 class BitArray;
@@ -11,8 +10,6 @@ private:
 
 	int mWidth = 0;
 	int mHeight = 0;
-
-	vector<TextGizmo*> mGizmos;
 public:
 	void Init(int width, int height);
 	void Release();
@@ -29,9 +26,6 @@ public:
 
 	inline int GetWidth() { return mWidth; }
 	inline int GetHeight() { return mHeight; }
-
-	void UpdateGizmo();
-	void ChangeGizmoColor(int x, int y, D2D1::ColorF::Enum color);
 
 	int GetPosX(int x, int y);
 	int GetPosY(int x, int y);

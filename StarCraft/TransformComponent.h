@@ -1,6 +1,5 @@
 #pragma once
 #include "Component.h"
-#include "RenderConfig.h"
 
 class TransformComponent : public Component
 {
@@ -14,7 +13,8 @@ public:
 
 	inline void SetPosition(Fix x, Fix y) { mPosition.x = x; mPosition.y = y; }
 	inline void SetPosition(POINT pos) { mPosition.x = pos.x, mPosition.y = pos.y; }
-	inline void SetPosition(Vector2 pos) { mPosition = pos; }
+	inline void SetPosition(const Vector2& pos) { mPosition.x = pos.x; mPosition.y = pos.y; }
+	inline void AddPosition(Vector2 add) { mPosition += add; }
 	inline Vector2 GetPosition() { return mPosition; }
 	inline D2D_POINT_2F GetPointPosition() { return D2D_POINT_2F{ mPosition.x, mPosition.y }; }
 	inline Fix GetRotation() { return mRotation; }

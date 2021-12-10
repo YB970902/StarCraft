@@ -18,6 +18,7 @@ void Unit::Init()
 	mpSprite = static_cast<SpriteComponent*>(AddComponent(new PairSpriteComponent(eBitmapTag::UNIT_MARINE_L, eBitmapTag::UNIT_MARINE_R, SpriteData::MARINE_FRAME_X, SpriteData::MARINE_FRAME_Y)));
 	mpEffect = static_cast<EffectComponent*>(AddComponent(new EffectComponent(eEffectTag::COLOR_REPLACE)))->GetEffect();
 	mpAnimator = static_cast<AnimatorComponent*>(AddComponent(new AnimatorComponent()));
+	mpPathFind = static_cast<PathFindComponent*>(AddComponent(new PathFindComponent(eUnitTileSize::Big)));
 
 	mpAnimator->AddMultipleAnimation((int)eAnimationTag::Idle, new MultipleAnimation(MarineIdle));
 	mpAnimator->AddMultipleAnimation((int)eAnimationTag::Move, new MultipleAnimation(MarineMove));
@@ -61,6 +62,11 @@ void Unit::Update()
 			mbIsMove = false;
 		}
 	}
+}
+
+void Unit::FindPath(POINT pos)
+{
+	mpPathFind->FindPath(Vector2(pos.x, pos.y));
 }
 
 void Unit::SetTargetPosition(POINT pos)

@@ -11,9 +11,7 @@ public:
 	virtual ~TileCoord() = default;
 	void Add(const TileCoord& rhs) { mX += rhs.mX; mY += rhs.mY; }
 	void Clear() { mX = -1; mY = -1; }
-	void Blocked() { mX = -2; mY = -2; }
-	bool IsEmpty() { return (mX == -1 && mY == -1) || IsBlocked(); }
-	bool IsBlocked() { return (mX == -2 && mY == -2); }
+	const bool IsEmpty() const { return (mX == -1 && mY == -1); }
 
 	const bool operator==(const TileCoord& other) const { return ((mX == other.mX) && (mY == other.mY)); }
 	const bool operator!=(const TileCoord& other) const { return ((mX != other.mX) || (mY != other.mY)); }
@@ -39,6 +37,11 @@ public:
 		static int dtMove[] = { 0, -1, 1, -1, 1, 0, 1, 1, 0, 1, -1, 1, -1, 0, -1, -1, 0, 0 };
 		return TileCoord(coord.mX + dtMove[dir * 2], coord.mY + dtMove[dir * 2 + 1]);
 	}
+
+	static bool IsDiagonal(const TileCoord& lhs, const TileCoord& rhs)
+	{
+		return (lhs.mX != rhs.mX && lhs.mY != rhs.mY);
+	}
 };
 
 class TileNode
@@ -55,6 +58,16 @@ private:
 	SharedPtr mpParent = nullptr;
 	char mDir = 0;
 public:
+	void Clear()
+	{
+		mPos = { -1, -1 };
+		mScore = 0;
+		mHeuri = 0;
+		mTotal = 0;
+		mpParent = nullptr;
+		mDir = 0;
+	}
+
 	void Set(SharedPtr pParent, const TileCoord& pos, const TileCoord& end, const char dir)
 	{
 		mpParent = pParent;
@@ -71,16 +84,23 @@ public:
 		mHeuri = mPos.DistanceSqrt(end);
 		mTotal = mScore + mHeuri;
 	}
+
 	inline const Fix GetScore() const { return mScore; }
+	inline const void SetScore(Fix set) { mScore = set; }
 	inline const Fix GetHeuristic() const { return mHeuri; }
+	inline const void SetHeuristic(Fix set) { mHeuri = set; }
 	inline const Fix GetTotal() const { return mTotal; }
+	inline const void SetTotal(Fix set) { mTotal = set; }
 
 	inline const TileCoord& GetPosition() const { return mPos; }
+	inline const void SetPosition(TileCoord pos) { mPos = pos; }
 	inline const int GetPositionX() const { return mPos.GetX(); }
 	inline const int GetPositionY() const { return mPos.GetY(); }
 
 	inline const int GetDirection() const { return mDir; }
+	inline const void SetDirection(int set) { mDir = set; }
 	inline SharedPtr GetParent() const { return mpParent; }
+	inline void SetParent(SharedPtr parent) { mpParent = parent; }
 };
 
 class JumpPointHeap
@@ -161,14 +181,6 @@ private:
 			node = parent;
 		}
 	}
-};
-
-struct PathFinderData
-{
-	DetailMap* pTileMap = nullptr;
-	BitArray* pSearched = nullptr;
-	JumpPointHeap JumpPoint;
-	TileCoord EndPos;
 };
 
 class JPS

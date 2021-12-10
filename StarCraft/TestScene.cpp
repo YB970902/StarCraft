@@ -10,7 +10,7 @@ void TestScene::Enter()
 	RENDER->RenderText(TEXT("Text Test"), Vector2(100, 100), Vector2(100, 50));
 	RENDER->RenderText(TEXT("텍스트 테스트"), Vector2(100, 150), Vector2(100, 50));
 
-	RENDER->RenderRect(Vector2(100, 100), Vector2(100, 50), D2D1::ColorF(0, 0, 0, 1), Vector2(0, 0));
+	RENDER->RenderRect(Vector2(100, 100), Vector2(100, 50), 1.0f, D2D1::ColorF(0, 0, 0, 1), Vector2(0, 0));
 }
 
 void TestScene::Exit()

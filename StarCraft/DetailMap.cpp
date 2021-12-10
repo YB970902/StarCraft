@@ -13,14 +13,6 @@ void DetailMap::Init(int width, int height)
 
 	mWidth = width;
 	mHeight = height;
-
-	for (int i = 0; i < width; ++i)
-	{
-		for (int j = 0; j < height; ++j)
-		{
-			mGizmos.push_back((TextGizmo*)RENDER->RenderRect(Vector2(i * GIZMO_SIZE, j * GIZMO_SIZE), Vector2(GIZMO_SIZE - 2, GIZMO_SIZE - 2), 5, D2D1::ColorF(D2D1::ColorF::LightGreen)));
-		}
-	}
 }
 
 void DetailMap::Release()
@@ -37,6 +29,7 @@ bool DetailMap::IsCollision(int x, int y)
 
 void DetailMap::SetAt(int x, int y)
 {
+	if (x < 0 || x >= mWidth || y < 0 || y >= mHeight) return;
 	mBitX->SetAt(x, y, true);
 	mBitY->SetAt(y, x, true);
 }
@@ -214,29 +207,6 @@ int DetailMap::GetOpenValue(int x, int y, bool xAxis, bool forward)
 		return -1;
 	}
 }
-
-void DetailMap::UpdateGizmo()
-{
-	for (int x = 0; x < mWidth; ++x)
-	{
-		for (int y = 0; y < mHeight; ++y)
-		{
-			if (IsCollision(x, y))
-			{
-				mGizmos[x * mWidth + y]->SetColor(D2D1::ColorF(D2D1::ColorF::MediumVioletRed));
-			}
-			else
-			{
-				mGizmos[x * mWidth + y]->SetColor(D2D1::ColorF(D2D1::ColorF::LightGreen));
-			}
-		}
-	}
-}
-void DetailMap::ChangeGizmoColor(int x, int y, D2D1::ColorF::Enum color)
-{
-	mGizmos[x * mWidth + y]->SetColor(D2D1::ColorF(color));
-}
-
 
 int DetailMap::GetPosX(int x, int y)
 {
