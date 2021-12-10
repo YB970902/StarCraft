@@ -1,6 +1,5 @@
 #pragma once
 #include "Singleton.h"
-#include "RenderConfig.h"
 
 #define RENDER RenderManager::GetInstance()
 

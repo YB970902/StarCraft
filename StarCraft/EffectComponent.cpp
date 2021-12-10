@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "RenderConfig.h"
 #include "EffectComponent.h"
 #include "ColorReplaceEffect.h"
 #include "RenderManager.h"

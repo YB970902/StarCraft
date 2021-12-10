@@ -225,6 +225,9 @@
     <ClCompile Include="PathFindComponent.cpp">
       <Filter>Component\PathFind</Filter>
     </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Stdafx</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRoot.h">
@@ -255,9 +258,6 @@
       <Filter>Manager\RenderManager</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
-      <Filter>Stdafx</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderConfig.h">
       <Filter>Stdafx</Filter>
     </ClInclude>
     <ClInclude Include="EffectComponent.h">

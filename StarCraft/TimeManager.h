@@ -21,4 +21,5 @@ public:
 
 	inline int GetFPS() { return mFPS; }
 	inline Fix GetDeltaTime() { return mFixedDeltaTime; }
+	inline float RealDeltaTime() { return mDeltaTime; }
 };

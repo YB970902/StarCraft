@@ -6,6 +6,7 @@
 #include "TransformComponent.h"
 #include "EffectComponent.h"
 #include "AnimatorComponent.h"
+#include "PathFindComponent.h"
 
 class Scene;
 class GameObject

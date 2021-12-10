@@ -1,6 +1,5 @@
 #pragma once
 #include "Component.h"
-#include "RenderConfig.h"
 
 class SpriteComponent;
 class EffectComponent;

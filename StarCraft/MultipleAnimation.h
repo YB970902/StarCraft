@@ -1,6 +1,5 @@
 #pragma once
 #include "AnimationBase.h"
-#include "RenderConfig.h"
 #include "AnimationData.h"
 
 const Fix ONE_DIR_ANGLE = 11.25f;

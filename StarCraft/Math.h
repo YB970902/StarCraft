@@ -9,26 +9,4 @@
 
 typedef fpml::fixed_point<int, 16> Fix;
 
-//typedef numeric::fixed<16, 16> fix;
-
-//static fix fix_sqrt(fix n)
-//{
-//	fix x = 2;
-//
-//	for (int i = 0; i < 100; i++)
-//	{
-//		x = (x + (n / x)) / 2;
-//	}
-//
-//	return x;
-//}
-//
-//static fix fix_abs(fix n)
-//{
-//	if (n < 0)
-//		return n * (-1);
-//	else
-//		return n;
-//}
-
 #include "Vector2.h"

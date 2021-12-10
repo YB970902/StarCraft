@@ -2,8 +2,6 @@
 
 DEFINE_GUID(GUID_ShadowPixelShader, 0xc7b04c0e, 0x897c, 0x4dc7, 0x98, 0x1b, 0xcb, 0xd1, 0x56, 0x1b, 0x26, 0xb0);
 
-#include "RenderConfig.h"
-
 class ShadowEffect : public ID2D1EffectImpl, public ID2D1DrawTransform
 {
 private:

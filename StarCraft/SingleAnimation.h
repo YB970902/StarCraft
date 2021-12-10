@@ -1,6 +1,5 @@
 #pragma once
 #include "AnimationBase.h"
-#include "RenderConfig.h"
 #include "AnimationData.h"
 
 class SingleAnimation : public AnimationBase

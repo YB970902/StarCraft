@@ -1,5 +1,4 @@
 #pragma once
-#include "RenderConfig.h"
 
 class AnimationBase
 {

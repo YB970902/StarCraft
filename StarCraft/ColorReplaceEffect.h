@@ -2,8 +2,6 @@
 
 DEFINE_GUID(GUID_ColorReplacePixelShader, 0x628404f9, 0xea5e, 0x4795, 0x8f, 0xf5, 0xdb, 0x71, 0x91, 0x38, 0x51, 0x8e);
 
-#include "RenderConfig.h"
-
 class ColorReplaceEffect : public ID2D1EffectImpl, public ID2D1DrawTransform
 {
 private:

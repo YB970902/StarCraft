@@ -36,12 +36,6 @@ LRESULT WindowManager::WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM l
 {
 	switch (iMessage)
 	{
-	case WM_KEYDOWN:
-		if (wParam == VK_ESCAPE)
-		{
-			DestroyWindow(g_hWnd);
-		}
-		break;
 	case WM_MOUSEWHEEL:
 		g_nWheel = GET_WHEEL_DELTA_WPARAM(wParam) / WHEEL_DELTA;
 		break;

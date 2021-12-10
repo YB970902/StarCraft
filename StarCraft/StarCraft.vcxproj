@@ -81,6 +81,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(WindowsSDK_IncludePath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;C:\boost_1_77_0;$(IncludePath)</IncludePath>
+    <ReferencePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -173,6 +175,9 @@
     <ClCompile Include="SingleAnimation.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
     <ClCompile Include="RenderManager.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="TextGizmo.cpp" />
     <ClCompile Include="TileManager.cpp" />
@@ -213,7 +218,6 @@
     <ClInclude Include="Math.h" />
     <ClInclude Include="MultipleAnimation.h" />
     <ClInclude Include="PairSpriteComponent.h" />
-    <ClInclude Include="RenderConfig.h" />
     <ClInclude Include="RendererComponent.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="ShadowEffect.h" />
