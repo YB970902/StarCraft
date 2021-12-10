@@ -14,7 +14,6 @@ PathFindComponent::PathFindComponent(eUnitTileSize size)
 	mpSearched->Init(TILE->GetTileWidth(), TILE->GetTileHeight());
 	mpJumpPoint = new JumpPointHeap();
 	mpEndPos = new TileCoord();
-	mpNearTileNode = new TileNode;
 }
 
 PathFindComponent::~PathFindComponent()
@@ -22,7 +21,6 @@ PathFindComponent::~PathFindComponent()
 	SAFE_DELETE(mpSearched);
 	SAFE_DELETE(mpJumpPoint);
 	SAFE_DELETE(mpEndPos);
-	SAFE_DELETE(mpNearTileNode);
 }
 
 void PathFindComponent::Init(GameObject* pObject)
@@ -173,9 +171,9 @@ void PathFindComponent::FindPath(Vector2 targetPos)
 
 	mTempPath.clear();
 	mPassedPath.clear();
-	mpNearTileNode->Clear();
-	if (mPath.empty()) { SetMove(); }
 	mPath.clear();
+
+	SetPause();
 
 	mbIsCorrectPath = false;
 	mbIsFollowPath = false;
@@ -230,11 +228,15 @@ void PathFindComponent::KeepFinding()
 	{
 		if (mPassedPath.empty())
 		{
+			mbIsFollowPath = true;
 			TILE->CreateDetailTempPath(mpNearTileNode, mTempPath);
 			mPassedPath.reserve(mTempPath.size());
+			mTempPath.pop_front();
 			TILE->GetPositionByTileCoord(mTempPath.front(), mNextPath);
 			mPassedPath.push_back(mTempPath.front());
 			mTempPath.pop_front();
 		}
 	}
+
+	mpNearTileNode = nullptr;
 }

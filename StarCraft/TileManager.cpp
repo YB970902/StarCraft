@@ -204,7 +204,7 @@ bool TileManager::KeepSearch(TileCoord* pEndPoint, const eUnitTileSize& unitSize
 	while (pJumpPoint->IsEmpty() == false)
 	{
 		TileNode::SharedPtr pCurNode = pJumpPoint->Pop();
-		if (ppNearNode == nullptr || (*ppNearNode)->GetScore() < pCurNode->GetScore())
+		if ((*ppNearNode) == nullptr || (*ppNearNode)->GetScore() < pCurNode->GetScore())
 		{
 			(*ppNearNode) = pCurNode.get();
 		}
@@ -262,8 +262,7 @@ void TileManager::ConnectPath(vector<TileCoord>& passedPath, list<TileCoord>& co
 {
 	fill(mVecPathChecker.begin(), mVecPathChecker.end(), -1);
 
-	TileCoord prevCoord;
-	prevCoord.Clear();
+	TileCoord prevCoord = passedPath.front();
 
 	for(int i = 0; i < passedPath.size(); ++i)
 	{
