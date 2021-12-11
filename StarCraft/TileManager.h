@@ -51,7 +51,9 @@ private:
 	DetailMap* mpCurDetailMap = nullptr;
 	TileCoord* mpCurEndPoint = nullptr;
 
-	vector<TileData> mVecTileState;
+	vector<TileData> mVecNormalTileState;
+	vector<TileData> mVecSmallTileState;
+	vector<TileData> mVecBigTileState;
 
 	int mTileWidth = 0;
 	int mTileHeight = 0;
@@ -122,6 +124,8 @@ private:
 
 	void GetTileCoord(const Vector2& pos, const eUnitTileSize& unitSize, TileCoord& leftTop, TileCoord& rightBottom);
 	void GetTileCoordByPosition(const Vector2& pos, TileCoord& coord);
+
+	void SetTileState(const Vector2& pos, const eUnitTileSize& unitSize, bool isObstacle, bool isSet);
 
 	inline bool IsDiagonal(const int dir) { return (dir % 2) != 0; }
 	inline int Implies(const int a, const int b) { return a ? b : 1; }

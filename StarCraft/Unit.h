@@ -26,5 +26,7 @@ public:
 
 	void SetTargetPosition(POINT pos);
 
+	inline void SetUnitSize(eUnitTileSize unitSize) { mpPathFind->SetUnitSize(unitSize); }
+
 	void FindPath(POINT pos);
 };

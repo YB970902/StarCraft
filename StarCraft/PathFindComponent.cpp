@@ -39,8 +39,33 @@ void PathFindComponent::Update()
 	{
 		KeepFinding();
 	}
-
-	if (mbIsFollowPath)
+	if (mbIsWaiting)
+	{
+		Vector2 dir = (mNextPath - mpTransform->GetPosition()).Normalize();
+		Vector2 nextPosition = mpTransform->GetPosition() + dir * 100 * DELTA_TIME;
+		TileManager::eTileState tileState;
+		if (TILE->IsTileOpen(nextPosition, mUnitSize, tileState))
+		{
+			mbIsWaiting = false;
+		}
+		else
+		{
+			switch (tileState)
+			{
+			case TileManager::eTileState::Obstacle:
+				FindPathAgain();
+				break;
+			case TileManager::eTileState::Occupied:
+				mWaitingTime += DELTA_TIME;
+				if (mWaitingTime >= MAX_WAITING_TIME)
+				{
+					FindPathAgain();
+				}
+				break;
+			}
+		}
+	}
+	else if (mbIsFollowPath)
 	{
 		Vector2 dir = (mNextPath - mpTransform->GetPosition()).Normalize();
 		Vector2 nextPosition = mpTransform->GetPosition() + dir * 100 * DELTA_TIME;
@@ -56,14 +81,11 @@ void PathFindComponent::Update()
 			switch (tileState)
 			{
 			case TileManager::eTileState::Obstacle:
-				TILE->SetOccupyTile(mpTransform->GetPosition(), mUnitSize, true);
-				mbIsBeginSearching = true;
-				mbIsSearching = true;
-				mPath.clear();
+				FindPathAgain();
 				return;
 			case TileManager::eTileState::Occupied:
-				// 대기
-				break;
+				WaitingStart();
+				return;
 			}
 		}
 		SetPause();
@@ -80,36 +102,39 @@ void PathFindComponent::Update()
 				switch (tileState)
 				{
 				case TileManager::eTileState::Obstacle:
-					SetPause();
-					mbIsBeginSearching = true;
-					mbIsSearching = true;
-					mPath.clear();
+					FindPathAgain();
 					return;
 				case TileManager::eTileState::Occupied:
-					// 대기
-					break;
+					WaitingStart();
+					return;
 				}
 			}
 			SetPause();
 			if (mbIsCorrectPath)
 			{
-				TILE->GetPositionByTileCoord(mPath.front(), mNextPath);
-				mPath.pop_front();
 				if (mPath.empty())
 				{
 					SetStop();
 					mbIsFollowPath = false;
 				}
+				else
+				{
+					TILE->GetPositionByTileCoord(mPath.front(), mNextPath);
+					mPath.pop_front();
+				}
 			}
 			else
 			{
-				TILE->GetPositionByTileCoord(mTempPath.front(), mNextPath);
-				mPassedPath.push_back(mTempPath.front());
-				mTempPath.pop_front();
 				if (mTempPath.empty())
 				{
 					SetStop();
 					mbIsFollowPath = false;
+				}
+				else
+				{
+					TILE->GetPositionByTileCoord(mTempPath.front(), mNextPath);
+					mPassedPath.push_back(mTempPath.front());
+					mTempPath.pop_front();
 				}
 			}
 		}
@@ -169,17 +194,7 @@ void PathFindComponent::FindPath(Vector2 targetPos)
 
 	mTargetPosition = targetPos;
 
-	mTempPath.clear();
-	mPassedPath.clear();
-	mPath.clear();
-
-	SetPause();
-
-	mbIsCorrectPath = false;
-	mbIsFollowPath = false;
-	mbIsSearching = true;
-	mbIsBeginSearching = true;
-
+	FindPathAgain();
 }
 
 void PathFindComponent::KeepFinding()
@@ -239,4 +254,26 @@ void PathFindComponent::KeepFinding()
 	}
 
 	mpNearTileNode = nullptr;
+}
+
+void PathFindComponent::FindPathAgain()
+{
+	mTempPath.clear();
+	mPassedPath.clear();
+	mPath.clear();
+
+	SetMove();
+
+	mbIsWaiting = false;
+	mbIsCorrectPath = false;
+	mbIsFollowPath = false;
+	mbIsSearching = true;
+	mbIsBeginSearching = true;
+}
+
+void PathFindComponent::WaitingStart()
+{
+	SetPause();
+	mbIsWaiting = true;
+	mWaitingTime = 0;
 }

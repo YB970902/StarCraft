@@ -10,9 +10,16 @@ void PathFindingScene::Enter()
 	TILE->Init();
 	TILE->LoadTileMap();
 
-	mpUnit = new Unit();
-	AddGameObject(mpUnit);
-	mpUnit->SetPosition(5, 5);
+	mpFirstUnit = new Unit();
+	AddGameObject(mpFirstUnit);
+	mpFirstUnit->SetUnitSize(eUnitTileSize::Big);
+	mpFirstUnit->SetPosition(5, 5);
+
+	mpSecondUnit = new Unit();
+	AddGameObject(mpSecondUnit);
+	mpSecondUnit->SetPosition(55, 5);
+
+	mpCurUnit = mpFirstUnit;
 }
 
 void PathFindingScene::Exit()
@@ -24,7 +31,16 @@ void PathFindingScene::Update()
 {
 	if (INPUT->IsOnceKeyDown(VK_RBUTTON))
 	{
-		mpUnit->FindPath(INPUT->GetMousePosition());
+		mpCurUnit->FindPath(INPUT->GetMousePosition());
+	}
+
+	if (INPUT->IsOnceKeyDown('1'))
+	{
+		mpCurUnit = mpFirstUnit;
+	}
+	if (INPUT->IsOnceKeyDown('2'))
+	{
+		mpCurUnit = mpSecondUnit;
 	}
 	if (INPUT->IsStayKeyDown(VK_LSHIFT))
 	{

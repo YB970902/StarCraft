@@ -30,7 +30,9 @@ void TileManager::LoadTileMap()
 	mpTerrainMap->Init(mTileWidth, mTileHeight);
 	mpSmallUnitMap->Init(mTileWidth, mTileHeight);
 	mpBigUnitMap->Init(mTileWidth, mTileHeight);
-	mVecTileState.resize(mTileWidth * mTileHeight);
+	mVecNormalTileState.resize(mTileWidth * mTileHeight);
+	mVecSmallTileState.resize(mTileWidth * mTileHeight);
+	mVecBigTileState.resize(mTileWidth * mTileHeight);
 	mVecGizmo.resize(mTileWidth * mTileHeight);
 
 	// 임의로 장애물 생성
@@ -60,6 +62,7 @@ void TileManager::LoadTileMap()
 					for (int j = 0; j < SMALL_UNIT_TILE_SIZE; ++j)
 					{
 						mpSmallUnitMap->SetAt(x - i, y - j);
+						SetGizmoColor(x - i + 1, y - j + 1, TILE_OBSTACLE);
 					}
 				}
 				for (int i = 0; i < BIG_UNIT_TILE_SIZE; ++i)
@@ -67,11 +70,25 @@ void TileManager::LoadTileMap()
 					for (int j = 0; j < BIG_UNIT_TILE_SIZE; ++j)
 					{
 						mpBigUnitMap->SetAt(x - i + 1, y - j + 1);
-						SetGizmoColor(x - i + 1, y - j + 1, TILE_OBSTACLE);
 					}
 				}
-				++mVecTileState[x + y * mTileWidth].ObstacleCount;
+				++mVecNormalTileState[x + y * mTileWidth].ObstacleCount;
 				//SetGizmoColor(x, y, TILE_OBSTACLE);
+			}
+		}
+	}
+
+	for (int x = 0; x < mTileWidth; ++x)
+	{
+		for (int y = 0; y < mTileHeight; ++y)
+		{
+			if (mpSmallUnitMap->IsCollision(x, y))
+			{
+				++mVecSmallTileState[x + y * mTileWidth].ObstacleCount;
+			}
+			if (mpBigUnitMap->IsCollision(x, y))
+			{
+				++mVecBigTileState[x + y * mTileWidth].ObstacleCount;
 			}
 		}
 	}
@@ -262,13 +279,14 @@ void TileManager::ConnectPath(vector<TileCoord>& passedPath, list<TileCoord>& co
 {
 	fill(mVecPathChecker.begin(), mVecPathChecker.end(), -1);
 
-	TileCoord prevCoord = passedPath.front();
+	TileCoord prevCoord = correctPath.front();
 
 	for(int i = 0; i < passedPath.size(); ++i)
 	{
 		mVecPathChecker[passedPath[i].GetX() + passedPath[i].GetY() * mTileWidth] = prevCoord.GetX() + prevCoord.GetY() * mTileWidth;
 		prevCoord = passedPath[i];
 	}
+
 	prevCoord = correctPath.front();
 	correctPath.pop_front();
 	while (false == correctPath.empty())
@@ -283,9 +301,9 @@ void TileManager::ConnectPath(vector<TileCoord>& passedPath, list<TileCoord>& co
 	int index = 0;
 	while (curCoord != prevCoord)
 	{
+		correctPath.push_back(curCoord);
 		index = mVecPathChecker[curCoord.GetX() + curCoord.GetY() * mTileWidth];
 		dv = div(index, mTileWidth);
-		correctPath.push_back(curCoord);
 		curCoord = TileCoord(dv.rem, dv.quot);
 	}
 	correctPath.push_back(curCoord);
@@ -293,48 +311,12 @@ void TileManager::ConnectPath(vector<TileCoord>& passedPath, list<TileCoord>& co
 
 void TileManager::SetOccupyTile(const Vector2& pos, const eUnitTileSize& unitSize, bool set)
 {
-	TileCoord leftTop;
-	TileCoord rightBottom;
-
-	GetTileCoord(pos, unitSize, leftTop, rightBottom);
-
-	int width = rightBottom.GetX() - leftTop.GetX() + 1;
-	int height = rightBottom.GetY() - leftTop.GetY() + 1;
-
-	int offset = set ? 1 : -1;
-
-	for (int x = 0; x < width; ++x)
-	{
-		for (int y = 0; y < height; ++y)
-		{
-			mVecTileState[(leftTop.GetX() + x) + (leftTop.GetY() + y) * mTileWidth].OccupiedCount += offset;
-		}
-	}
-
-	InitGizmoColor();
+	SetTileState(pos, unitSize, false, set);
 }
 
 void TileManager::SetObstacleTile(const Vector2& pos, const eUnitTileSize& unitSize, bool set)
 {
-	TileCoord leftTop;
-	TileCoord rightBottom;
-
-	GetTileCoord(pos, unitSize, leftTop, rightBottom);
-
-	int width = rightBottom.GetX() - leftTop.GetX() + 1;
-	int height = rightBottom.GetY() - leftTop.GetY() + 1;
-
-	int offset = set ? 1 : -1;
-
-	for (int x = 0; x < width; ++x)
-	{
-		for (int y = 0; y < height; ++y)
-		{
-			mVecTileState[(leftTop.GetX() + x) + (leftTop.GetY() + y) * mTileWidth].ObstacleCount += offset;
-		}
-	}
-
-	InitGizmoColor();
+	SetTileState(pos, unitSize, true, set);
 }
 
 bool TileManager::IsTileOpen(const Vector2& pos, const eUnitTileSize& unitSize, eTileState& state)
@@ -354,12 +336,12 @@ bool TileManager::IsTileOpen(const Vector2& pos, const eUnitTileSize& unitSize, 
 	{
 		for (int y = 0; y < height; ++y)
 		{
-			if (mVecTileState[(leftTop.GetX() + x) + (leftTop.GetY() + y) * mTileWidth].IsObstacle())
+			if (mVecNormalTileState[(leftTop.GetX() + x) + (leftTop.GetY() + y) * mTileWidth].IsObstacle())
 			{
 				state = eTileState::Obstacle;
 				return false;
 			}
-			else if (mVecTileState[(leftTop.GetX() + x) + (leftTop.GetY() + y) * mTileWidth].IsOccupied())
+			else if (mVecNormalTileState[(leftTop.GetX() + x) + (leftTop.GetY() + y) * mTileWidth].IsOccupied())
 			{
 				state = eTileState::Occupied;
 				result = false;
@@ -382,12 +364,11 @@ void TileManager::InitGizmoColor()
 	{
 		for (int y = 0; y < mTileHeight; ++y)
 		{
-			//if (mpCurDetailMap->IsCollision(x, y))
-			if (mVecTileState[x + y * mTileWidth].IsObstacle())
+			if (mVecNormalTileState[x + y * mTileWidth].IsObstacle())
 			{
 				mVecGizmo[x + y * mTileWidth]->SetColor(TILE_OBSTACLE);
 			}
-			else if (mVecTileState[x + y * mTileWidth].IsOccupied())
+			else if (mVecNormalTileState[x + y * mTileWidth].IsOccupied())
 			{
 				mVecGizmo[x + y * mTileWidth]->SetColor(TILE_OCCUPIED);
 			}
@@ -913,4 +894,98 @@ void TileManager::GetTileCoordByPosition(const Vector2& pos, TileCoord& coord)
 	if (dv.rem < HALF_TILE_SIZE) { --dv.quot; }
 
 	coord.SetY(dv.quot);
+}
+
+void TileManager::SetTileState(const Vector2& pos, const eUnitTileSize& unitSize, bool isObstacle, bool isSet)
+{
+	TileCoord leftTop;
+	TileCoord rightBottom;
+
+	GetTileCoord(pos, unitSize, leftTop, rightBottom);
+
+	int width = rightBottom.GetX() - leftTop.GetX() + 1;
+	int height = rightBottom.GetY() - leftTop.GetY() + 1;
+
+	int offset = isSet ? 1 : -1;
+
+	for (int x = 0; x < width; ++x)
+	{
+		for (int y = 0; y < height; ++y)
+		{
+			mVecNormalTileState[(leftTop.GetX() + x) + (leftTop.GetY() + y) * mTileWidth].ObstacleCount += offset;
+		}
+	}
+
+	TileData* pTileData = nullptr;
+	leftTop.Add(TileCoord(-1, -1));
+	width += HALF_SMALL_UNIT_TILE_SIZE;
+	height += HALF_SMALL_UNIT_TILE_SIZE;
+
+	for (int x = 0; x < width; ++x)
+	{
+		for (int y = 0; y < height; ++y)
+		{
+			if (leftTop.GetX() + x < 0 || leftTop.GetX() + x >= mTileWidth || leftTop.GetY() + y < 0 || leftTop.GetY() + y >= mTileHeight)
+			{
+				continue;
+			}
+
+			pTileData = &mVecSmallTileState[(leftTop.GetX() + x) + (leftTop.GetY() + y) * mTileWidth];
+
+			if (isObstacle) { pTileData->ObstacleCount += offset; }
+			else { pTileData->OccupiedCount += offset; }
+
+			if (isSet)
+			{
+				if (pTileData->IsObstacle() || pTileData->IsOccupied())
+				{
+					mpSmallUnitMap->SetAt(leftTop.GetX() + x, leftTop.GetY() + y);
+				}
+			}
+			else
+			{
+				if (!pTileData->IsObstacle() || pTileData->IsOccupied())
+				{
+					mpSmallUnitMap->ClrAt(leftTop.GetX() + x, leftTop.GetY() + y);
+				}
+			}
+		}
+	}
+
+	leftTop.Add(TileCoord(-1, -1));
+	width += HALF_BIG_UNIT_TILE_SIZE;
+	height += HALF_BIG_UNIT_TILE_SIZE;
+
+	for (int x = 0; x < width; ++x)
+	{
+		for (int y = 0; y < height; ++y)
+		{
+			if (leftTop.GetX() + x < 0 || leftTop.GetX() + x >= mTileWidth || leftTop.GetY() + y < 0 || leftTop.GetY() + y >= mTileHeight)
+			{
+				continue;
+			}
+
+			pTileData = &mVecBigTileState[(leftTop.GetX() + x) + (leftTop.GetY() + y) * mTileWidth];
+
+			if (isObstacle) { pTileData->ObstacleCount += offset; }
+			else { pTileData->OccupiedCount += offset; }
+
+			if (isSet)
+			{
+				if (pTileData->IsObstacle() || pTileData->IsOccupied())
+				{
+					mpBigUnitMap->SetAt(leftTop.GetX() + x, leftTop.GetY() + y);
+				}
+			}
+			else
+			{
+				if (!pTileData->IsObstacle() || pTileData->IsOccupied())
+				{
+					mpBigUnitMap->ClrAt(leftTop.GetX() + x, leftTop.GetY() + y);
+				}
+			}
+		}
+	}
+
+	InitGizmoColor();
 }

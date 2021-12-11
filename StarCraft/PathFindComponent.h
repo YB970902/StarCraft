@@ -10,6 +10,7 @@ class TransformComponent;
 class PathFindComponent : public Component
 {
 private:
+	const Fix MAX_WAITING_TIME = (Fix)1;
 	TransformComponent* mpTransform = nullptr;
 
 	BitArray* mpSearched = nullptr;
@@ -25,6 +26,9 @@ private:
 
 	int mWidth = 0;
 	int mHeight = 0;
+
+	bool mbIsWaiting = false;
+	Fix mWaitingTime = 0;
 
 	eUnitTileSize mUnitSize;
 
@@ -49,7 +53,12 @@ public:
 	void SetPause();
 
 	void FindPath(Vector2 targetPos);
+
+	inline void SetUnitSize(eUnitTileSize unitSize) { mUnitSize = unitSize; }
 private:
 	void KeepFinding();
+
+	void FindPathAgain();
+	void WaitingStart();
 };
 

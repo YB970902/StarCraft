@@ -27,7 +27,7 @@ bool TimeManager::IsUpdateTime()
 
 	if (mDeltaTime >= mFrameTime)
 	{
-		mDeltaTime -= mFrameTime;
+		mDeltaTime = 0;
 		return true;
 	}
 	return false;
