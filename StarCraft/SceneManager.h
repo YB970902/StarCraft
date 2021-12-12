@@ -5,6 +5,7 @@ enum class eSceneTag
 {
 	TestScene,
 	PathFindingScene,
+	MapToolScene,
 };
 
 class Scene;

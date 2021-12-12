@@ -2,12 +2,15 @@
 #include "SceneManager.h"
 #include "TestScene.h"
 #include "PathFindingScene.h"
+#include "MapToolScene.h"
 
 void SceneManager::Init()
 {
 	AddScene(eSceneTag::TestScene, new TestScene());
 	AddScene(eSceneTag::PathFindingScene, new PathFindingScene());
-	ChangeScene(eSceneTag::PathFindingScene);
+	AddScene(eSceneTag::MapToolScene, new MapToolScene());
+
+	ChangeScene(eSceneTag::MapToolScene);
 }
 
 void SceneManager::Release()
