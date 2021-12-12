@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CameraManager.h"
+#include "PhysicsManager.h"
 
 void CameraManager::Init()
 {
@@ -7,6 +8,16 @@ void CameraManager::Init()
 	GetClientRect(g_hWnd, &rc);
 	mSize.width = rc.right - rc.left;
 	mSize.height = rc.bottom - rc.top;
+	PHYSICS->ProcessCameraMove(RECT{ (long)mPosition.x, (long)mPosition.y, (long)mPosition.x + (long)mSize.width, (long)mPosition.y + (long)mSize.height }, mLeftTop, mRightBottom, true);
+}
+
+void CameraManager::Update()
+{
+	if (mbIsMoved)
+	{
+		PHYSICS->ProcessCameraMove(RECT{ (long)mPosition.x, (long)mPosition.y, (long)mPosition.x + (long)mSize.width, (long)mPosition.y + (long)mSize.height }, mLeftTop, mRightBottom);
+		mbIsMoved = false;
+	}
 }
 
 bool CameraManager::IsInCamera(D2D_RECT_F rect)

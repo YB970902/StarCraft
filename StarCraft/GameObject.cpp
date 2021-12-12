@@ -5,8 +5,8 @@
 
 void GameObject::init()
 {
-	AddComponent(new TransformComponent());
-	AddComponent(new RendererComponent());
+	mpTransform = static_cast<TransformComponent*>(AddComponent(new TransformComponent()));
+	mpRenderer = static_cast<RendererComponent*>(AddComponent(new RendererComponent()));
 }
 
 void GameObject::release()
@@ -61,7 +61,7 @@ Component* GameObject::AddComponent(Component* pComponent)
 	sort(mVecComponent.begin(), mVecComponent.end(),
 		[](const Component* lhs, const Component* rhs)
 		{
-			return lhs->GetOrder() > rhs->GetOrder();
+			return lhs->GetOrder() < rhs->GetOrder();
 		});
 	pComponent->Init(this);
 	return pComponent;

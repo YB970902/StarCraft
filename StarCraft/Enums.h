@@ -26,6 +26,7 @@ enum class eComponentTag
 	PairSprite,
 	Animator,
 	PathFind,
+	Collider,
 };
 
 enum class eUnitLayer

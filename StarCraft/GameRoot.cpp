@@ -26,6 +26,7 @@ void GameRoot::Run()
 		if (INPUT->IsOnceKeyDown(VK_ESCAPE)) { DestroyWindow(g_hWnd); }
 
 		Update();
+		CAMERA->Update();
 		Render();
 	}
 }

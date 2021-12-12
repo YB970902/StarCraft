@@ -13,11 +13,11 @@ void InputManager::Release()
 
 void InputManager::Update()
 {
-	GetCursorPos(&mMousePosition);
-	ScreenToClient(g_hWnd, &mMousePosition);
+	GetCursorPos(&mLocalMousePosition);
+	ScreenToClient(g_hWnd, &mLocalMousePosition);
 
-	mMousePosition.x -= (int)RENDER->GetCameraPosition().x;
-	mMousePosition.y -= (int)RENDER->GetCameraPosition().y;
+	mMousePosition.x = mLocalMousePosition.x - (int)CAMERA->GetPosition().x;
+	mMousePosition.y = mLocalMousePosition.y - (int)CAMERA->GetPosition().y;
 
 	mMouseWheel = g_nWheel;
 	g_nWheel = 0;
