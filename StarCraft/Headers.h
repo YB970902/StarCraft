@@ -41,3 +41,5 @@ using namespace std;
 #include "InputManager.h"
 #include "TimeManager.h"
 #include "SceneManager.h"
+#include "CameraManager.h"
+#include "RandomManager.h"

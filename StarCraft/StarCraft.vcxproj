@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClCompile Include="AnimatorComponent.cpp" />
     <ClCompile Include="BitArray.cpp" />
+    <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="ColorReplaceEffect.cpp" />
     <ClCompile Include="DetailMap.cpp" />
     <ClCompile Include="EffectComponent.cpp" />
@@ -160,9 +161,11 @@
     <ClCompile Include="Gizmo.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="JPS.cpp" />
+    <ClCompile Include="MapToolScene.cpp" />
     <ClCompile Include="PathFindComponent.cpp" />
     <ClCompile Include="PathFinder.cpp" />
     <ClCompile Include="PathFindingScene.cpp" />
+    <ClCompile Include="RandomManager.cpp" />
     <ClCompile Include="RectGizmo.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="main.cpp" />
@@ -180,6 +183,7 @@
     </ClCompile>
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="TextGizmo.cpp" />
+    <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileManager.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
@@ -192,6 +196,7 @@
     <ClInclude Include="AnimatorComponent.h" />
     <ClInclude Include="AnimatorData.h" />
     <ClInclude Include="BitArray.h" />
+    <ClInclude Include="CameraManager.h" />
     <ClInclude Include="ColorReplaceEffect.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="DetailMap.h" />
@@ -210,9 +215,11 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="GameRoot.h" />
     <ClInclude Include="JPS.h" />
+    <ClInclude Include="MapToolScene.h" />
     <ClInclude Include="PathFindComponent.h" />
     <ClInclude Include="PathFinder.h" />
     <ClInclude Include="PathFindingScene.h" />
+    <ClInclude Include="RandomManager.h" />
     <ClInclude Include="RectGizmo.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Math.h" />
@@ -229,6 +236,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="TextGizmo.h" />
+    <ClInclude Include="Tile.h" />
     <ClInclude Include="TileManager.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="TransformComponent.h" />

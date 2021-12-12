@@ -115,6 +115,18 @@
     <Filter Include="Manager\TileManager">
       <UniqueIdentifier>{d2214a74-0ace-4933-8c54-2666d39676ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\MapToolScene">
+      <UniqueIdentifier>{547a92c0-1b4c-463d-8673-f6ceb678b240}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\CameraManager">
+      <UniqueIdentifier>{40e54198-fcd6-4220-b7e1-4c8f09c21b86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Tile">
+      <UniqueIdentifier>{97c047cd-fb45-4f7d-8b96-10c2b4f4e86b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\RandomManager">
+      <UniqueIdentifier>{2ed0deb5-02a5-4f44-9fe5-c24726180285}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -227,6 +239,18 @@
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Stdafx</Filter>
+    </ClCompile>
+    <ClCompile Include="MapToolScene.cpp">
+      <Filter>Scene\MapToolScene</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraManager.cpp">
+      <Filter>Manager\CameraManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>GameObject\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomManager.cpp">
+      <Filter>Manager\RandomManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -370,6 +394,18 @@
     </ClInclude>
     <ClInclude Include="PathFindComponent.h">
       <Filter>Component\PathFind</Filter>
+    </ClInclude>
+    <ClInclude Include="MapToolScene.h">
+      <Filter>Scene\MapToolScene</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraManager.h">
+      <Filter>Manager\CameraManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>GameObject\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomManager.h">
+      <Filter>Manager\RandomManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -6,6 +6,8 @@ enum class eBitmapTag
 	UNIT_MARINE_R,
 	UNIT_BATTLE_L,
 	UNIT_BATTLE_R,
+
+	TILE_PALETTE,
 };
 
 enum class eEffectTag

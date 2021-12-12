@@ -3,6 +3,8 @@
 #define INPUT InputManager::GetInstance()
 #define TIME TimeManager::GetInstance()
 #define SCENE SceneManager::GetInstance()
+#define CAMERA CameraManager::GetInstance()
+#define RANDOM RandomManager::GetInstance()
 
 #define DELTA_TIME TimeManager::GetInstance()->GetDeltaTime()
 
