@@ -127,6 +127,15 @@
     <Filter Include="Manager\RandomManager">
       <UniqueIdentifier>{2ed0deb5-02a5-4f44-9fe5-c24726180285}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Gizmos\LineGizmo">
+      <UniqueIdentifier>{75270b09-bb00-4a94-9bb0-7f482d679d4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\PhysicsManager">
+      <UniqueIdentifier>{ec0a7424-41db-42f9-a304-25c01ca92cb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Collider">
+      <UniqueIdentifier>{1cd8fa9a-903c-4be2-b3f0-3c3fbeae1216}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -251,6 +260,15 @@
     </ClCompile>
     <ClCompile Include="RandomManager.cpp">
       <Filter>Manager\RandomManager</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsManager.cpp">
+      <Filter>Manager\PhysicsManager</Filter>
+    </ClCompile>
+    <ClCompile Include="LineGizmo.cpp">
+      <Filter>Gizmos\LineGizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="ColliderComponent.cpp">
+      <Filter>Component\Collider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -406,6 +424,15 @@
     </ClInclude>
     <ClInclude Include="RandomManager.h">
       <Filter>Manager\RandomManager</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsManager.h">
+      <Filter>Manager\PhysicsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="LineGizmo.h">
+      <Filter>Gizmos\LineGizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="ColliderComponent.h">
+      <Filter>Component\Collider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

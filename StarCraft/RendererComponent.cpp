@@ -27,7 +27,7 @@ void RendererComponent::Release()
 
 void RendererComponent::Update()
 {
-	if (CAMERA->IsInCamera(GetRectPosition()))
+	if (mbIsRender)
 	{
 		RENDER->AddRenderer(mpTransform->GetPosition().y, this);
 	}

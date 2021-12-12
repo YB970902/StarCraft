@@ -13,6 +13,8 @@ private:
 	EffectComponent* mpEffect = nullptr;
 	TransformComponent* mpTransform = nullptr;
 
+	bool mbIsRender = false;
+
 public:
 	RendererComponent();
 	virtual ~RendererComponent();
@@ -29,4 +31,7 @@ public:
 	inline virtual eComponentTag GetTag() override { return eComponentTag::Renderer; }
 	inline eUnitLayer GetUnitLayer() { return mUnitLayer; }
 	inline void SetUnitLayer(eUnitLayer layer) { mUnitLayer = layer; }
+
+	inline void SetIsRender(bool set) { mbIsRender = set; }
+	inline bool IsRender() { return mbIsRender; }
 };
