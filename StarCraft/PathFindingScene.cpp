@@ -12,7 +12,6 @@ void PathFindingScene::Enter()
 
 	mpFirstUnit = new Unit();
 	AddGameObject(mpFirstUnit);
-	mpFirstUnit->SetUnitSize(eUnitTileSize::Big);
 	mpFirstUnit->SetPosition(5, 5);
 
 	mpSecondUnit = new Unit();
@@ -44,16 +43,16 @@ void PathFindingScene::Update()
 	}
 	if (INPUT->IsStayKeyDown(VK_LSHIFT))
 	{
-		if (INPUT->IsStayKeyDown('A')) { RENDER->AddCameraPosition(Vector2::Right() * CAMERA_FAST_MOVING_SPEED * DELTA_TIME); }
-		if (INPUT->IsStayKeyDown('D')) { RENDER->AddCameraPosition(Vector2::Left() * CAMERA_FAST_MOVING_SPEED * DELTA_TIME); }
-		if (INPUT->IsStayKeyDown('W')) { RENDER->AddCameraPosition(Vector2::Down() * CAMERA_FAST_MOVING_SPEED * DELTA_TIME); }
-		if (INPUT->IsStayKeyDown('S')) { RENDER->AddCameraPosition(Vector2::Up() * CAMERA_FAST_MOVING_SPEED * DELTA_TIME); }
+		if (INPUT->IsStayKeyDown('A')) { CAMERA->AddPosition(Vector2::Right() * CAMERA_FAST_MOVING_SPEED * DELTA_TIME); }
+		if (INPUT->IsStayKeyDown('D')) { CAMERA->AddPosition(Vector2::Left() * CAMERA_FAST_MOVING_SPEED * DELTA_TIME); }
+		if (INPUT->IsStayKeyDown('W')) { CAMERA->AddPosition(Vector2::Down() * CAMERA_FAST_MOVING_SPEED * DELTA_TIME); }
+		if (INPUT->IsStayKeyDown('S')) { CAMERA->AddPosition(Vector2::Up() * CAMERA_FAST_MOVING_SPEED * DELTA_TIME); }
 	}
 	else
 	{
-		if (INPUT->IsStayKeyDown('A')) { RENDER->AddCameraPosition(Vector2::Right() * CAMERA_MOVING_SPEED * DELTA_TIME); }
-		if (INPUT->IsStayKeyDown('D')) { RENDER->AddCameraPosition(Vector2::Left() * CAMERA_MOVING_SPEED * DELTA_TIME); }
-		if (INPUT->IsStayKeyDown('W')) { RENDER->AddCameraPosition(Vector2::Down() * CAMERA_MOVING_SPEED * DELTA_TIME); }
-		if (INPUT->IsStayKeyDown('S')) { RENDER->AddCameraPosition(Vector2::Up() * CAMERA_MOVING_SPEED * DELTA_TIME); }
+		if (INPUT->IsStayKeyDown('A')) { CAMERA->AddPosition(Vector2::Right() * CAMERA_MOVING_SPEED * DELTA_TIME); }
+		if (INPUT->IsStayKeyDown('D')) { CAMERA->AddPosition(Vector2::Left() * CAMERA_MOVING_SPEED * DELTA_TIME); }
+		if (INPUT->IsStayKeyDown('W')) { CAMERA->AddPosition(Vector2::Down() * CAMERA_MOVING_SPEED * DELTA_TIME); }
+		if (INPUT->IsStayKeyDown('S')) { CAMERA->AddPosition(Vector2::Up() * CAMERA_MOVING_SPEED * DELTA_TIME); }
 	}
 }

@@ -3,7 +3,6 @@
 
 class Unit : public GameObject
 {
-	TransformComponent* mpTransform = nullptr;
 	SpriteComponent* mpSprite = nullptr;
 	ID2D1Effect* mpEffect = nullptr;
 	AnimatorComponent* mpAnimator = nullptr;
@@ -25,8 +24,6 @@ public:
 	inline void SetRotation(Fix angle) { mpTransform->SetRotation(angle); }
 
 	void SetTargetPosition(POINT pos);
-
-	inline void SetUnitSize(eUnitTileSize unitSize) { mpPathFind->SetUnitSize(unitSize); }
 
 	void FindPath(POINT pos);
 };

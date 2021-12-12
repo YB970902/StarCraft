@@ -3,6 +3,7 @@
 
 class RectGizmo;
 class TextGizmo;
+class LineGizmo;
 class Tile;
 class MapToolScene : public Scene
 {
@@ -24,11 +25,18 @@ private:
 	const float FONT_SIZE = 20;
 
 	bool mbIsOpenUI = false;
+
 	RectGizmo* mpUIBackground = nullptr;
 	RectGizmo* mpBtnGroundTile = nullptr;
 	RectGizmo* mpBtnWallTile = nullptr;
+
 	TextGizmo* mpTextGround = nullptr;
 	TextGizmo* mpTextWall = nullptr;
+
+	LineGizmo* mpLineLT = nullptr;
+	LineGizmo* mpLineLB = nullptr;
+	LineGizmo* mpLineRT = nullptr;
+	LineGizmo* mpLineRB = nullptr;
 
 	int mMapWidth = 128;
 	int mMapHeight = 128;

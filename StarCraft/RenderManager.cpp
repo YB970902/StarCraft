@@ -8,6 +8,7 @@
 #include "Gizmo.h"
 #include "TextGizmo.h"
 #include "RectGizmo.h"
+#include "LineGizmo.h"
 
 void RenderManager::Init()
 {
@@ -28,7 +29,7 @@ void RenderManager::Render()
 
 	// 줌을 적용시킨 코드
 	//mpD2DContext->SetTransform(D2D1::Matrix3x2F::Scale(D2D1::SizeF(mCameraZoom, mCameraZoom)) * D2D1::Matrix3x2F::Translation(mCameraPosition.x, mCameraPosition.y));
-	mpD2DContext->SetTransform(D2D1::Matrix3x2F::Translation(mCameraPosition.x, mCameraPosition.y));
+	mpD2DContext->SetTransform(D2D1::Matrix3x2F::Translation(CAMERA->GetD2DPosition()));
 
 	while (mQueTerrain.empty() == false)
 	{
@@ -116,6 +117,16 @@ Gizmo* RenderManager::RenderRect(Vector2 pos, Vector2 size, float weight, D2D1::
 	mpD2DContext->CreateSolidColorBrush(D2D1::ColorF(color), &pBrush);
 
 	Gizmo* pResult = new RectGizmo(pos, size, anchor, weight, pBrush);
+	mVecGizmo.push_back(pResult);
+	return pResult;
+}
+
+Gizmo* RenderManager::RenderLine(Vector2 startPos, Vector2 endPos, float width, D2D1::ColorF color)
+{
+	ID2D1SolidColorBrush* pBrush = nullptr;
+	mpD2DContext->CreateSolidColorBrush(D2D1::ColorF(color), &pBrush);
+
+	Gizmo* pResult = new LineGizmo(startPos, endPos, width, pBrush);
 	mVecGizmo.push_back(pResult);
 	return pResult;
 }
@@ -247,6 +258,8 @@ void RenderManager::InitBitmap()
 	mMapBitmap[eBitmapTag::UNIT_MARINE_R] = CreateBitmap((LPWSTR)TEXT("Images/Units/Marine/MarineR.png"));
 	mMapBitmap[eBitmapTag::UNIT_BATTLE_L] = CreateBitmap((LPWSTR)TEXT("Images/Units/Battlecruiser/BattlecruiserL.png"));
 	mMapBitmap[eBitmapTag::UNIT_BATTLE_R] = CreateBitmap((LPWSTR)TEXT("Images/Units/Battlecruiser/BattlecruiserR.png"));
+
+	mMapBitmap[eBitmapTag::TILE_PALETTE] = CreateBitmap((LPWSTR)TEXT("Images/Tile/TilePalette.png"));
 }
 
 void RenderManager::ReleaseDirect2D()

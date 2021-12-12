@@ -42,9 +42,6 @@ private:
 
 	vector<Gizmo*> mVecGizmo;
 
-	Vector2 mCameraPosition;
-	float mCameraZoom = 0.0f;
-
 public:
 	void Init();
 	void Release();
@@ -56,14 +53,7 @@ public:
 	void AddRenderer(float posY, RendererComponent* pComponent);
 	Gizmo* RenderText(wstring text, Vector2 pos, Vector2 size, int fontSize = 14, D2D1::ColorF color = D2D1::ColorF(D2D1::ColorF::Black), eTextAlign align = eTextAlign::Center);
 	Gizmo* RenderRect(Vector2 pos, Vector2 size, float weight = 1.0f, D2D1::ColorF color = D2D1::ColorF(D2D1::ColorF::Black), Vector2 anchor = Vector2(0.5f, 0.5f));
-
-	Vector2 GetCameraPosition() { return mCameraPosition; }
-	void SetCameraPosition(Vector2 pos) { mCameraPosition = pos; }
-	void AddCameraPosition(Vector2 add) { mCameraPosition += add; }
-
-	void SetCameraZoom(float zoom) { mCameraZoom = zoom; }
-	void AddCameraZoom(float zoom) { mCameraZoom += zoom; }
-	float GetCameraZoom() { return mCameraZoom; }
+	Gizmo* RenderLine(Vector2 startPos, Vector2 endPos, float width = 1.0f, D2D1::ColorF color = D2D1::ColorF(D2D1::ColorF::Black));
 
 private:
 	void InitDirect2D();

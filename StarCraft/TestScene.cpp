@@ -39,10 +39,10 @@ void TestScene::Update()
 		pUnit->SetRotation(RAD2DEG(atan2(static_cast<float>(y * (Fix)-1), static_cast<float>(x))));
 	}
 
-	if (INPUT->IsStayKeyDown(VK_LEFT)) { RENDER->AddCameraPosition(Vector2::Right() * 100 * DELTA_TIME); }
-	if (INPUT->IsStayKeyDown(VK_RIGHT)) { RENDER->AddCameraPosition(Vector2::Left() * 100 * DELTA_TIME); }
-	if (INPUT->IsStayKeyDown(VK_UP)) { RENDER->AddCameraPosition(Vector2::Down() * 100 * DELTA_TIME); }
-	if (INPUT->IsStayKeyDown(VK_DOWN)) { RENDER->AddCameraPosition(Vector2::Up() * 100 * DELTA_TIME); }
+	if (INPUT->IsStayKeyDown(VK_LEFT)) { CAMERA->AddPosition(Vector2::Right() * 100 * DELTA_TIME); }
+	if (INPUT->IsStayKeyDown(VK_RIGHT)) { CAMERA->AddPosition(Vector2::Left() * 100 * DELTA_TIME); }
+	if (INPUT->IsStayKeyDown(VK_UP)) { CAMERA->AddPosition(Vector2::Down() * 100 * DELTA_TIME); }
+	if (INPUT->IsStayKeyDown(VK_DOWN)) { CAMERA->AddPosition(Vector2::Up() * 100 * DELTA_TIME); }
 
 	if (INPUT->IsOnceKeyDown('Q')) { pUnit->ChangeUnitColor(EFFECT_COLOR_RED); }
 	if (INPUT->IsOnceKeyDown('W')) { pUnit->ChangeUnitColor(EFFECT_COLOR_GREEN); }

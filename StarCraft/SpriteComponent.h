@@ -34,12 +34,13 @@ public:
 	inline int GetOrder() { return mOrder; }
 	inline void SetOrder(int order) { mOrder = order; }
 
-	inline float GetAnchorX() { return mSize.width * mAnchor.x - mSize.width; }
-	inline float GetAnchorY() { return  mSize.height * mAnchor.y - mSize.height; }
+	inline float GetAnchorX() { return -mSize.width * mAnchor.x; }
+	inline float GetAnchorY() { return -mSize.height * mAnchor.y; }
 	inline float GetOffsetX() { return mOffset.x; }
 	inline float GetOffsetY() { return mOffset.y; }
 	inline float GetSizeWidth() { return mSize.width; }
 	inline float GetSizeHeight() { return mSize.height; }
+	inline D2D_SIZE_F GetD2DSize() { return mSize; }
 	inline D2D_RECT_F GetSourceRect() { return D2D_RECT_F{ mOffset.x, mOffset.y, mOffset.x + mSize.width, mOffset.y + mSize.height }; }
 
 	inline ID2D1Bitmap* GetBitmap() { return mpBitmap; }

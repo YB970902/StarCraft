@@ -27,6 +27,7 @@ bool TimeManager::IsUpdateTime()
 
 	if (mDeltaTime >= mFrameTime)
 	{
+		cout << mDeltaTime << endl;
 		mDeltaTime = 0;
 		return true;
 	}

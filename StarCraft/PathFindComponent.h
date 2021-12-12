@@ -53,8 +53,6 @@ public:
 	void SetPause();
 
 	void FindPath(Vector2 targetPos);
-
-	inline void SetUnitSize(eUnitTileSize unitSize) { mUnitSize = unitSize; }
 private:
 	void KeepFinding();
 
