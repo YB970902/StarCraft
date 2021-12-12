@@ -4,6 +4,7 @@
 
 void GameRoot::Init()
 {
+	CAMERA->Init();
 	RENDER->Init();
 	SCENE->Init();
 

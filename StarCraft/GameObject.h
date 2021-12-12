@@ -20,9 +20,9 @@ private:
 	void release();
 	void update();
 protected:
-	virtual void Init() {}
-	virtual void Release() {}
-	virtual void Update() {}
+	virtual void Init() {};
+	virtual void Release() {};
+	virtual void Update() {};
 public:
 
 	GameObject();

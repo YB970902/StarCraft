@@ -21,11 +21,11 @@ void Scene::release()
 
 void Scene::update()
 {
+	Update();
 	for (int i = 0; i < mVecGameObject.size(); ++i)
 	{
 		mVecGameObject[i]->update();
 	}
-	Update();
 }
 
 GameObject* Scene::AddGameObject(GameObject* pGameObject)

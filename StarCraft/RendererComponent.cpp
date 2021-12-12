@@ -6,6 +6,15 @@
 #include "SpriteComponent.h"
 #include "EffectComponent.h"
 
+RendererComponent::RendererComponent()
+{
+	mOrder = 10;
+}
+
+RendererComponent::~RendererComponent()
+{
+}
+
 void RendererComponent::Init(GameObject* pObject)
 {
 	mpGameObject = pObject;
@@ -18,8 +27,10 @@ void RendererComponent::Release()
 
 void RendererComponent::Update()
 {
-	// 렌더가 가능한 순간이라면
-	RENDER->AddRenderer(mpTransform->GetPosition().y, this);
+	if (CAMERA->IsInCamera(GetRectPosition()))
+	{
+		RENDER->AddRenderer(mpTransform->GetPosition().y, this);
+	}
 }
 
 void RendererComponent::Render(ID2D1DeviceContext2* pContext)

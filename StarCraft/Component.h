@@ -5,6 +5,7 @@ class Component abstract
 {
 protected:
 	GameObject* mpGameObject = nullptr;
+	unsigned int mOrder = 0;
 
 public:
 	Component() = default;
@@ -14,6 +15,8 @@ public:
 	virtual void Update() = 0;
 
 	virtual void LinkComponent(Component* pOther) { }
+
+	inline unsigned int GetOrder() const { return mOrder; }
 
 	virtual eComponentTag GetTag() = 0;
 };

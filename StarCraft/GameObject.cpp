@@ -58,6 +58,11 @@ GameObject::~GameObject()
 Component* GameObject::AddComponent(Component* pComponent)
 {
 	mVecComponent.push_back(pComponent);
+	sort(mVecComponent.begin(), mVecComponent.end(),
+		[](const Component* lhs, const Component* rhs)
+		{
+			return lhs->GetOrder() > rhs->GetOrder();
+		});
 	pComponent->Init(this);
 	return pComponent;
 }
