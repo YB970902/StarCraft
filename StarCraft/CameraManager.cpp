@@ -8,14 +8,15 @@ void CameraManager::Init()
 	GetClientRect(g_hWnd, &rc);
 	mSize.width = rc.right - rc.left;
 	mSize.height = rc.bottom - rc.top;
-	PHYSICS->ProcessCameraMove(RECT{ (long)mPosition.x, (long)mPosition.y, (long)mPosition.x + (long)mSize.width, (long)mPosition.y + (long)mSize.height }, mLeftTop, mRightBottom, true);
+	mCameraRect = RECT{ (long)-mPosition.x, (long)-mPosition.y, (long)-mPosition.x + (long)mSize.width, (long)-mPosition.y + (long)mSize.height };
+	PHYSICS->ProcessCameraMove(mCameraRect, mLeftTop, mRightBottom, true);
 }
 
 void CameraManager::Update()
 {
 	if (mbIsMoved)
 	{
-		PHYSICS->ProcessCameraMove(RECT{ (long)mPosition.x, (long)mPosition.y, (long)mPosition.x + (long)mSize.width, (long)mPosition.y + (long)mSize.height }, mLeftTop, mRightBottom);
+		mCameraRect = RECT{ (long)-mPosition.x, (long)-mPosition.y, (long)-mPosition.x + (long)mSize.width, (long)-mPosition.y + (long)mSize.height };
 		mbIsMoved = false;
 	}
 }

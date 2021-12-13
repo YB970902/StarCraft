@@ -14,8 +14,8 @@ Tile::~Tile()
 
 void Tile::Init()
 {
+	mpRenderer->SetUnitLayer(eUnitLayer::Terrain);
 	mpSprite = static_cast<SpriteComponent*>(AddComponent(new SpriteComponent(eBitmapTag::TILE_PALETTE, 14, 76, D2D1::Point2F(0.0f, 0.0f))));
-	AddComponent(new ColliderComponent(mpSprite->GetSizeWidth()));
 }
 
 void Tile::Release()

@@ -13,7 +13,11 @@ private:
 	EffectComponent* mpEffect = nullptr;
 	TransformComponent* mpTransform = nullptr;
 
-	bool mbIsRender = false;
+	D2D_RECT_F mRect = {};
+
+	Vector2 mPrevPosition;
+
+	bool mbIsRender = true;
 
 public:
 	RendererComponent();
@@ -23,14 +27,15 @@ public:
 	virtual void Update() override;
 	void Render(ID2D1DeviceContext2* pContext);
 
-	D2D_RECT_F GetRectPosition();
+	inline D2D_RECT_F GetRectPosition() { return mRect; }
 	D2D_POINT_2F GetPosition();
 
 	virtual void LinkComponent(Component* pOther) override;
 
 	inline virtual eComponentTag GetTag() override { return eComponentTag::Renderer; }
-	inline eUnitLayer GetUnitLayer() { return mUnitLayer; }
-	inline void SetUnitLayer(eUnitLayer layer) { mUnitLayer = layer; }
+	inline eUnitLayer GetUnitLayer() const { return mUnitLayer; }
+	void SetUnitLayer(eUnitLayer layer);
+	int GetUnitY() const;
 
 	inline void SetIsRender(bool set) { mbIsRender = set; }
 	inline bool IsRender() { return mbIsRender; }

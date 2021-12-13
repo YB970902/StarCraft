@@ -18,6 +18,9 @@ private:
 	vector<Component*> mVecComponent;
 	vector<GameObject*> mVecChild;
 
+	size_t mComponentSize = 0;
+	size_t mChildSize = 0;
+
 	void init();
 	void release();
 	void update();

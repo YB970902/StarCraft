@@ -38,8 +38,8 @@ private:
 	LineGizmo* mpLineRT = nullptr;
 	LineGizmo* mpLineRB = nullptr;
 
-	int mMapWidth = 128;
-	int mMapHeight = 128;
+	int mMapWidth = 100;
+	int mMapHeight = 100;
 
 	vector<Tile*> mVecTile;
 public:

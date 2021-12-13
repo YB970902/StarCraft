@@ -3,7 +3,7 @@
 
 TransformComponent::TransformComponent()
 {
-	mOrder = -1;
+	mOrder = 20;
 }
 
 TransformComponent::~TransformComponent()

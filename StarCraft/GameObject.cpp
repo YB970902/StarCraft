@@ -34,12 +34,12 @@ void GameObject::update()
 {
 	Update();
 
-	for (int i = 0; i < mVecComponent.size(); ++i)
+	for (int i = 0; i < mComponentSize; ++i)
 	{
 		mVecComponent[i]->Update();
 	}
 
-	for (int i = 0; i < mVecChild.size(); ++i)
+	for (int i = 0; i < mChildSize; ++i)
 	{
 		mVecChild[i]->update();
 	}
@@ -57,6 +57,7 @@ GameObject::~GameObject()
 
 Component* GameObject::AddComponent(Component* pComponent)
 {
+	++mComponentSize;
 	mVecComponent.push_back(pComponent);
 	sort(mVecComponent.begin(), mVecComponent.end(),
 		[](const Component* lhs, const Component* rhs)

@@ -19,40 +19,44 @@ void RendererComponent::Init(GameObject* pObject)
 {
 	mpGameObject = pObject;
 	mpTransform = (TransformComponent*)mpGameObject->GetComponent(eComponentTag::Transform);
+	mPrevPosition = mpTransform->GetPosition();
+	RENDER->AddRenderer(mPrevPosition, this);
 }
 
 void RendererComponent::Release()
 {
+	RENDER->EraseRenderer(mPrevPosition, this);
 }
 
 void RendererComponent::Update()
 {
-	if (mbIsRender)
+	if (mpTransform->IsMoved())
 	{
-		RENDER->AddRenderer(mpTransform->GetPosition().y, this);
+		RENDER->RendererMoved(this, mPrevPosition, mpTransform->GetPosition());
+		mPrevPosition = mpTransform->GetPosition();
+
+		mRect = D2D_RECT_F{
+		(float)mpTransform->GetPosition().x + mpSprite->GetAnchorX(),
+		(float)mpTransform->GetPosition().y + mpSprite->GetAnchorY(),
+		(float)mpTransform->GetPosition().x + mpSprite->GetAnchorX() + mpSprite->GetSizeWidth(),
+		(float)mpTransform->GetPosition().y + mpSprite->GetAnchorY() + mpSprite->GetSizeHeight()
+		};
 	}
 }
 
 void RendererComponent::Render(ID2D1DeviceContext2* pContext)
 {
-	if (mpEffect)
+	if (mbIsRender)
 	{
-		pContext->DrawImage(mpEffect->GetEffect(), GetPosition(), mpSprite->GetSourceRect());
+		if (mpEffect)
+		{
+			pContext->DrawImage(mpEffect->GetEffect(), GetPosition(), mpSprite->GetSourceRect());
+		}
+		else if (mpSprite)
+		{
+			pContext->DrawBitmap(mpSprite->GetBitmap(), GetRectPosition(), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, mpSprite->GetSourceRect());
+		}
 	}
-	else if (mpSprite)
-	{
-		pContext->DrawBitmap(mpSprite->GetBitmap(), GetRectPosition(), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, mpSprite->GetSourceRect());
-	}
-}
-
-D2D_RECT_F RendererComponent::GetRectPosition()
-{
-	return D2D_RECT_F{
-		(float)mpTransform->GetPosition().x + mpSprite->GetAnchorX(),
-		(float)mpTransform->GetPosition().y + mpSprite->GetAnchorY(),
-		(float)mpTransform->GetPosition().x + mpSprite->GetAnchorX() + mpSprite->GetSizeWidth(),
-		(float)mpTransform->GetPosition().y + mpSprite->GetAnchorY() + mpSprite->GetSizeHeight()
-	};
 }
 
 D2D_POINT_2F RendererComponent::GetPosition()
@@ -75,4 +79,17 @@ void RendererComponent::LinkComponent(Component* pOther)
 		mpEffect = (EffectComponent*)pOther;
 		break;
 	}
+}
+
+void RendererComponent::SetUnitLayer(eUnitLayer layer)
+{
+	RENDER->EraseRenderer(mPrevPosition, this);
+	mUnitLayer = layer;
+	mPrevPosition = mpTransform->GetPosition();
+	RENDER->AddRenderer(mPrevPosition, this);
+}
+
+int RendererComponent::GetUnitY() const
+{
+	return mpTransform->GetPosition().y;
 }

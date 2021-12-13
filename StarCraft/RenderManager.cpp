@@ -24,6 +24,7 @@ void RenderManager::Release()
 
 void RenderManager::Render()
 {
+	if (mbIsInitLayer == false) { return; }
 	mpD2DContext->BeginDraw();
 	mpD2DContext->Clear(D2D1::ColorF(D2D1::ColorF::White));
 
@@ -31,22 +32,44 @@ void RenderManager::Render()
 	//mpD2DContext->SetTransform(D2D1::Matrix3x2F::Scale(D2D1::SizeF(mCameraZoom, mCameraZoom)) * D2D1::Matrix3x2F::Translation(mCameraPosition.x, mCameraPosition.y));
 	mpD2DContext->SetTransform(D2D1::Matrix3x2F::Translation(CAMERA->GetD2DPosition()));
 
-	while (mQueTerrain.empty() == false)
-	{
-		mQueTerrain.top().second->Render(mpD2DContext);
-		mQueTerrain.pop();
-	}
+	POINT leftTop = GetDetailIndexByPoint(POINT{ CAMERA->GetCameraRect().left, CAMERA->GetCameraRect().top });
+	leftTop.x -= CULLING_EXTRA_SIZE;
+	leftTop.y -= CULLING_EXTRA_SIZE;
+	if (leftTop.x < 0) leftTop.x = 0;
+	if (leftTop.y < 0) leftTop.y = 0;
+	POINT rightBottom = GetDetailIndexByPoint(POINT{ CAMERA->GetCameraRect().right, CAMERA->GetCameraRect().bottom });
+	rightBottom.x += CULLING_EXTRA_SIZE;
+	rightBottom.y += CULLING_EXTRA_SIZE;
+	if (rightBottom.x >= mLayerWidth) rightBottom.x = mLayerWidth - 1;
+	if (rightBottom.y >= mLayerHeight) rightBottom.y = mLayerHeight - 1;
 
-	while (mQueGround.empty() == false)
-	{
-		mQueGround.top().second->Render(mpD2DContext);
-		mQueGround.pop();
-	}
+	int width = rightBottom.x - leftTop.x + 1;
+	int height = rightBottom.y - leftTop.y + 1;
 
-	while (mQueSky.empty() == false)
+	int size = 0;
+
+	for (int y = 0; y < height; ++y)
 	{
-		mQueSky.top().second->Render(mpD2DContext);
-		mQueSky.pop();
+		for (int x = 0; x < width; ++x)
+		{
+			size = mLayerTerrain[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth].size();
+			for (int i = 0; i < size; ++i)
+			{
+				mLayerTerrain[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth][i]->Render(mpD2DContext);
+			}
+
+			size = mLayerGround[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth].size();
+			for (int i = 0; i < size; ++i)
+			{
+				mLayerGround[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth][i]->Render(mpD2DContext);
+			}
+
+			size = mLayerSky[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth].size();
+			for (int i = 0; i < size; ++i)
+			{
+				mLayerSky[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth][i]->Render(mpD2DContext);
+			}
+		}
 	}
 
 	for (int i = 0; i < mVecGizmo.size(); ++i)
@@ -57,6 +80,18 @@ void RenderManager::Render()
 	mpD2DContext->EndDraw();
 
 	mpSwapChain->Present(1, 0);
+}
+
+void RenderManager::InitLayerSize(int width, int height)
+{
+	mbIsInitLayer = true;
+
+	mLayerWidth = width / DETAIL_GRID_SIZE;
+	mLayerHeight = height / DETAIL_GRID_SIZE;
+
+	mLayerTerrain.resize(mLayerWidth * mLayerHeight);
+	mLayerGround.resize(mLayerWidth * mLayerHeight);
+	mLayerSky.resize(mLayerWidth * mLayerHeight);
 }
 
 ID2D1Bitmap* RenderManager::GetBitmap(eBitmapTag tag)
@@ -76,19 +111,49 @@ ID2D1Effect* RenderManager::CreateEffect(eEffectTag tag)
 	return nullptr;
 }
 
-void RenderManager::AddRenderer(float posY, RendererComponent* pComponent)
+void RenderManager::AddRenderer(const Vector2& pos, RendererComponent* pComponent)
 {
+	POINT index = GetDetailIndex(pos);
 	switch (pComponent->GetUnitLayer())
 	{
 	case eUnitLayer::Terrain:
-		mQueTerrain.emplace(posY, pComponent);
+		mLayerTerrain[index.x + index.y * mLayerWidth].push_back(pComponent);
 		break;
 	case eUnitLayer::Ground:
-		mQueGround.emplace(posY, pComponent);
+		mLayerGround[index.x + index.y * mLayerWidth].push_back(pComponent);
 		break;
 	case eUnitLayer::Sky:
-		mQueSky.emplace(posY, pComponent);
+		mLayerSky[index.x + index.y * mLayerWidth].push_back(pComponent);
 		break;
+	}
+}
+
+void RenderManager::EraseRenderer(const Vector2& pos, RendererComponent* pComponent)
+{
+	POINT index = GetDetailIndex(pos);
+	switch (pComponent->GetUnitLayer())
+	{
+	case eUnitLayer::Terrain:
+		mLayerTerrain[index.x + index.y * mLayerWidth].erase(find(mLayerTerrain[index.x + index.y * mLayerWidth].begin(), mLayerTerrain[index.x + index.y * mLayerWidth].end(), pComponent));
+		break;
+	case eUnitLayer::Ground:
+		mLayerGround[index.x + index.y * mLayerWidth].erase(find(mLayerGround[index.x + index.y * mLayerWidth].begin(), mLayerGround[index.x + index.y * mLayerWidth].end(), pComponent));
+		break;
+	case eUnitLayer::Sky:
+		mLayerSky[index.x + index.y * mLayerWidth].erase(find(mLayerSky[index.x + index.y * mLayerWidth].begin(), mLayerSky[index.x + index.y * mLayerWidth].end(), pComponent));
+		break;
+	}
+}
+
+void RenderManager::RendererMoved(RendererComponent* pComponent, const Vector2& prevPos, const Vector2& curPos)
+{
+	POINT prev = GetDetailIndex(prevPos);
+	POINT cur = GetDetailIndex(curPos);
+
+	if (prev.x != cur.x || prev.y != cur.y)
+	{
+		EraseRenderer(prevPos, pComponent);
+		AddRenderer(curPos, pComponent);
 	}
 }
 
@@ -339,4 +404,14 @@ ID2D1Effect* RenderManager::CreateShadowEffect()
 	ID2D1Effect* pResult = nullptr;
 	mpD2DContext->CreateEffect(GUID_ShadowPixelShader, &pResult);
 	return pResult;
+}
+
+POINT RenderManager::GetDetailIndex(const Vector2& pos)
+{
+	return POINT{ (long)pos.x / DETAIL_GRID_SIZE, (long)pos.y / DETAIL_GRID_SIZE };
+}
+
+POINT RenderManager::GetDetailIndexByPoint(const POINT& pos)
+{
+	return POINT{ pos.x / DETAIL_GRID_SIZE, pos.y / DETAIL_GRID_SIZE };
 }

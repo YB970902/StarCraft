@@ -7,6 +7,7 @@
 ColliderComponent::ColliderComponent(int size)
 	: mSize{ size }
 {
+	mOrder = 1;
 }
 
 void ColliderComponent::Init(GameObject* pObject)

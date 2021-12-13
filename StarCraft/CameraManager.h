@@ -10,6 +10,9 @@ private:
 
 	POINT mLeftTop;
 	POINT mRightBottom;
+
+	RECT mCameraRect;
+
 	bool mbIsMoved = false;
 public:
 	void Init();
@@ -25,6 +28,8 @@ public:
 	inline void SetZoom(float zoom) { mZoom = zoom; }
 	inline void AddZoom(float zoom) { mZoom += zoom; }
 	inline float GetZoom() { return mZoom; }
+
+	inline RECT GetCameraRect() { return mCameraRect; }
 
 	inline D2D1_SIZE_F GetSize() { return mSize; }
 };

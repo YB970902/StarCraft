@@ -11,6 +11,9 @@ void MapToolScene::Enter()
 {
 	RANDOM->SetSeed(time_t(NULL));
 
+	RENDER->InitLayerSize(mMapWidth * Tile::TILE_SIZE, mMapHeight * Tile::TILE_SIZE);
+	PHYSICS->InitLayerSize(mMapWidth * Tile::TILE_SIZE, mMapHeight * Tile::TILE_SIZE);
+
 	mpUIBackground = (RectGizmo*)RENDER->RenderRect(Vector2(0, 0), Vector2(UI_WIDTH / 2, CAMERA->GetSize().height - UI_WIDTH / 2), UI_WIDTH, D2D1::ColorF(0, 0, 0, 0.5f), Vector2(0, 0));
 
 	mpBtnGroundTile = (RectGizmo*)RENDER->RenderRect(Vector2(GROUND_BTN_X, GROUND_BTN_Y), Vector2(TILE_BTN_WIDTH / 2, TILE_BTN_HEIGHT / 2), TILE_BTN_WIDTH / 2, D2D1::ColorF(1, 1, 1, 1));

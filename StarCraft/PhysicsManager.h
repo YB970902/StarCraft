@@ -12,7 +12,14 @@ public:
 	void Init();
 	void Release();
 
+	void InitLayerSize(int width, int height);
+
 	void ProcessObjectMove(GameObject* pObject, const D2D_RECT_F& rect, POINT& leftTop, POINT& rightBottom, bool isInit = false);
 	void ProcessCameraMove(const RECT& rect, POINT& leftTop, POINT& rightBottom, bool isInit = false);
+private:
+	void EraseObject(GameObject* pObject, const POINT& leftTop, const POINT& rightBottom);
+	void AddObject(GameObject* pObject, const POINT& leftTop, const POINT& rightBottom);
+
+	void SetObjectRender(const POINT& leftTop, const POINT& rightBottom, bool isSet);
 };
 
