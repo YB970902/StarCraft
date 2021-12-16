@@ -13,6 +13,8 @@ private:
 
 	RECT mCameraRect;
 
+	POINT mMaxMovingSize = {};
+
 	bool mbIsMoved = false;
 public:
 	void Init();
@@ -20,10 +22,12 @@ public:
 
 	bool IsInCamera(D2D_RECT_F rect);
 
+	inline void SetMovingSize(POINT movingSize) { mMaxMovingSize = movingSize; }
+
 	inline Vector2 GetPosition() { return mPosition; }
 	inline D2D1_SIZE_F GetD2DPosition() { return D2D1_SIZE_F{ mPosition.x, mPosition.y }; }
-	inline void SetPosition(Vector2 pos) { mPosition = pos; mbIsMoved = true; }
-	inline void AddPosition(Vector2 add) { mPosition += add; mbIsMoved = true; }
+	void SetPosition(Vector2 pos);
+	void AddPosition(Vector2 add);
 
 	inline void SetZoom(float zoom) { mZoom = zoom; }
 	inline void AddZoom(float zoom) { mZoom += zoom; }
