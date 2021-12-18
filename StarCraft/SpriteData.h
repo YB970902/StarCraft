@@ -17,4 +17,7 @@ public:
 
 	static const int SINGLE_FRAME_X = 1;
 	static const int SINGLE_FRAME_Y = 1;
+
+	static const int UI_CURSOR_X = 14;
+	static const int UI_CURSOR_Y = 7;
 };

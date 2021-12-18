@@ -22,6 +22,8 @@ enum class eBitmapTag
 	ICON_BARRACK,
 	ICON_FACTORY,
 
+	UI_CURSOR,
+
 	SELECTED_CIRCLE_SMALL,
 	SELECTED_CIRCLE_MIDIUM,
 	SELECTED_CIRCLE_BIG,
@@ -73,6 +75,25 @@ enum class eBuildingTag
 	Factory,
 	Group1StartLocation,
 	Group2StartLocation,
+};
+
+enum class eCursorState
+{
+	Idle,
+	Drag,
+	OnGreen,
+	OnRed,
+	OutDown,
+	OutLeftDown,
+	OutRightDown,
+	OutLeft,
+	OutRight,
+	OutUp,
+	OutUpLeft,
+	OutUpRight,
+	PrepairGreen,
+	PrepairRed,
+	PrepairYellow,
 };
 
 const float EFFECT_COLOR_RED[] = { 1.0f, 0.0f, 0.0f };

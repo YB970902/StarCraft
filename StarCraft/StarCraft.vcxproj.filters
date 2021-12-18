@@ -142,6 +142,12 @@
     <Filter Include="GameObject\Unit\UnitModel">
       <UniqueIdentifier>{c07d5efe-727b-4191-9aee-ad2bdf8f57df}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Manager\UIManager">
+      <UniqueIdentifier>{a0cf76bf-8d13-4a05-83af-3aed226af0b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\UIObject">
+      <UniqueIdentifier>{d08950a3-7734-41e4-8326-85058e012ec9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -281,6 +287,18 @@
     </ClCompile>
     <ClCompile Include="UnitModel.cpp">
       <Filter>GameObject\Unit\UnitModel</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>Manager\UIManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UICursor.cpp">
+      <Filter>GameObject\UIObject</Filter>
+    </ClCompile>
+    <ClCompile Include="UIRendererComponent.cpp">
+      <Filter>Component\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="UIGameObject.cpp">
+      <Filter>GameObject\UIObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -451,6 +469,18 @@
     </ClInclude>
     <ClInclude Include="UnitModel.h">
       <Filter>GameObject\Unit\UnitModel</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>Manager\UIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UICursor.h">
+      <Filter>GameObject\UIObject</Filter>
+    </ClInclude>
+    <ClInclude Include="UIRendererComponent.h">
+      <Filter>Component\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="UIGameObject.h">
+      <Filter>GameObject\UIObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

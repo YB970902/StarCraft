@@ -6,7 +6,7 @@ class EffectComponent;
 class TransformComponent;
 class RendererComponent : public Component
 {
-private:
+protected:
 	eUnitLayer mUnitLayer = eUnitLayer::Ground;
 
 	SpriteComponent* mpSprite = nullptr;

@@ -85,6 +85,12 @@ void RenderManager::Render()
 		}
 	}
 
+	size = mLayerUI.size();
+	for (int i = 0; i < size; ++i)
+	{
+		mLayerUI[i]->render(mpD2DContext);
+	}
+
 	for (int i = 0; i < mVecGizmo.size(); ++i)
 	{
 		mVecGizmo[i]->Render(mpD2DContext);
@@ -139,6 +145,11 @@ void RenderManager::AddRenderer(const Vector2& pos, RendererComponent* pComponen
 		mLayerSky[index.x + index.y * mLayerWidth].push_back(pComponent->GetGameObject());
 		break;
 	}
+}
+
+void RenderManager::AddUIRenderer(RendererComponent* pComponent)
+{
+	mLayerUI.push_back(pComponent->GetGameObject());
 }
 
 void RenderManager::EraseRenderer(const Vector2& pos, RendererComponent* pComponent)
@@ -357,6 +368,8 @@ void RenderManager::InitBitmap()
 
 	mMapBitmap[eBitmapTag::ICON_BARRACK] = CreateBitmap((LPWSTR)TEXT("Images/Icon/Building/Barrack.png"));
 	mMapBitmap[eBitmapTag::ICON_FACTORY] = CreateBitmap((LPWSTR)TEXT("Images/Icon/Building/Factory.png"));
+
+	mMapBitmap[eBitmapTag::UI_CURSOR] = CreateBitmap((LPWSTR)TEXT("Images/UI/Cursor.png"));
 
 	mMapBitmap[eBitmapTag::SELECTED_CIRCLE_SMALL] = CreateBitmap((LPWSTR)TEXT("Images/Units/Selected/Selected22.png"));
 	mMapBitmap[eBitmapTag::SELECTED_CIRCLE_MIDIUM] = CreateBitmap((LPWSTR)TEXT("Images/Units/Selected/Selected48.png"));

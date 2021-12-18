@@ -191,6 +191,10 @@
     <ClCompile Include="TileManager.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
+    <ClCompile Include="UICursor.cpp" />
+    <ClCompile Include="UIGameObject.cpp" />
+    <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="UIRendererComponent.cpp" />
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="UnitModel.cpp" />
     <ClCompile Include="Vector2.cpp" />
@@ -249,6 +253,10 @@
     <ClInclude Include="TileManager.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="TransformComponent.h" />
+    <ClInclude Include="UICursor.h" />
+    <ClInclude Include="UIGameObject.h" />
+    <ClInclude Include="UIManager.h" />
+    <ClInclude Include="UIRendererComponent.h" />
     <ClInclude Include="Unit.h" />
     <ClInclude Include="UnitModel.h" />
     <ClInclude Include="Vector2.h" />

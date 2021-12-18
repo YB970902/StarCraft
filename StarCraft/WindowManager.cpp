@@ -60,8 +60,9 @@ void WindowManager::CreateWindowClass()
 	wndClass.lpszClassName = mpTitle;
 	wndClass.lpszMenuName = mpTitle;
 	wndClass.style = CS_VREDRAW | CS_HREDRAW;
-
 	RegisterClass(&wndClass);
+
+	ShowCursor(false);
 
 	g_hWnd = CreateWindowEx(
 		WS_EX_APPWINDOW,

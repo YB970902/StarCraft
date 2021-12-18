@@ -2,19 +2,20 @@
 
 enum class eSingleClipDirection
 {
-	Up,
 	Down,
-	Left,
 	Right,
 };
 
 struct SingleAnimationClip
 {
-	eSingleClipDirection Direction = eSingleClipDirection::Left;
-	int StartFraemX = 0;
+	SingleAnimationClip(eSingleClipDirection dir, int startX, int startY, int length, bool bIsLoop, Fix animTime)
+		: Direction{ dir }, StartFrameX{ startX }, StartFrameY{ startY }, Length{ length }, IsLoop{ bIsLoop }, AnimationTime{ animTime } {}
+	eSingleClipDirection Direction = eSingleClipDirection::Right;
+	int StartFrameX = 0;
 	int StartFrameY = 0;
 	int Length = 0;
 	bool IsLoop = false;
+	Fix AnimationTime = 0;
 };
 
 enum class eMultipleClipDirection

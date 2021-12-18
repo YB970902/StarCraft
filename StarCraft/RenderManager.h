@@ -43,6 +43,7 @@ private:
 	QueueZOrder mLayerTerrain;
 	QueueZOrder mLayerGround;
 	QueueZOrder mLayerSky;
+	vector<GameObject*> mLayerUI;
 	bool mbIsInitLayer = false;
 	int mLayerWidth = 0;
 	int mLayerHeight = 0;
@@ -62,6 +63,7 @@ public:
 	ID2D1Effect* CreateEffect(eEffectTag tag);
 
 	void AddRenderer(const Vector2& pos, RendererComponent* pComponent);
+	void AddUIRenderer(RendererComponent* pComponent);
 	void EraseRenderer(const Vector2& pos, RendererComponent* pComponent);
 	void RendererMoved(RendererComponent* pComponent, const Vector2& prevPos, const Vector2& curPos);
 

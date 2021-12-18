@@ -3,6 +3,7 @@
 #include "Component.h"
 #include "SpriteComponent.h"
 #include "RendererComponent.h"
+#include "UIRendererComponent.h"
 #include "PairSpriteComponent.h"
 #include "TransformComponent.h"
 #include "EffectComponent.h"
@@ -12,10 +13,14 @@
 
 class Scene;
 class RenderManager;
+class UIManager;
+class UIGameObject;
 class GameObject
 {
 	friend Scene;
 	friend RenderManager;
+	friend UIManager;
+	friend UIGameObject;
 private:
 	vector<Component*> mVecComponent;
 	vector<pair<int, GameObject*>> mVecChild;
@@ -23,7 +28,7 @@ private:
 	size_t mComponentSize = 0;
 	size_t mChildSize = 0;
 
-	void init();
+	virtual void init();
 	void release();
 	void update();
 	void render(ID2D1DeviceContext2* pContext);

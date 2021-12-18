@@ -72,7 +72,7 @@ void AnimatorComponent::LinkComponent(Component* pComponent)
 void AnimatorComponent::AddSingleAnimation(int animTag, SingleAnimation* pAnimation)
 {
 	mMapAnimation[animTag] = (AnimationBase*)pAnimation;
-	//pAnimation->Init();
+	pAnimation->Init(mpSprite->GetBitmap());
 }
 
 void AnimatorComponent::AddMultipleAnimation(int animTag, MultipleAnimation* pAnimation)
