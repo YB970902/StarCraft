@@ -14,9 +14,10 @@ class SpriteComponent;
 class ColorReplaceEffect;
 class ShadowEffect;
 class RendererComponent;
+class GameObject;
 class Gizmo;
 
-typedef vector<vector<RendererComponent*>> QueueZOrder;
+typedef vector<vector<GameObject*>> QueueZOrder;
 class RenderManager : public Singleton<RenderManager>
 {
 private:

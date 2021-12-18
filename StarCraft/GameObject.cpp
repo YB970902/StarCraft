@@ -13,12 +13,11 @@ void GameObject::release()
 {
 	Release();
 
-	GameObject* pObj = nullptr;
 	for (auto it = mVecChild.begin(); it != mVecChild.end();)
 	{
-		pObj = (*it);
+		it->second->release();
+		delete it->second;
 		it = mVecChild.erase(it);
-		delete pObj;
 	}
 
 	Component* pCom = nullptr;
@@ -41,7 +40,19 @@ void GameObject::update()
 
 	for (int i = 0; i < mChildSize; ++i)
 	{
-		mVecChild[i]->update();
+		mVecChild[i].second->update();
+	}
+}
+
+void GameObject::render(ID2D1DeviceContext2* pContext)
+{
+	if (!mpRenderer->IsRender()) return;
+
+	mpRenderer->Render(pContext);
+
+	for (int i = 0; i < mChildSize; ++i)
+	{
+		mVecChild[i].second->render(pContext);
 	}
 }
 
@@ -78,5 +89,18 @@ Component* GameObject::GetComponent(eComponentTag tag)
 		}
 	}
 
+	return nullptr;
+}
+
+GameObject* GameObject::AddChild(GameObject* pObject, int order)
+{
+	++mChildSize;
+	pObject->GetTransform()->SetParent(mpTransform);
+	mVecChild.push_back(make_pair(order, pObject));
+	sort(mVecChild.begin(), mVecChild.end(),
+		[](const pair<int, GameObject*>& lhs, const pair<int, GameObject*>& rhs)
+		{
+			return lhs.first < rhs.first;
+		});
 	return nullptr;
 }

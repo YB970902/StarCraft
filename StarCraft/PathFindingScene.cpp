@@ -13,10 +13,10 @@ void PathFindingScene::Enter()
 
 	RANDOM->SetSeed(time(nullptr));
 
-	mpFirstUnit = static_cast<Unit*>(AddGameObject(new Unit()));
+	mpFirstUnit = static_cast<Unit*>(AddGameObject(new Unit(eTeamTag::RED_TEAM)));
 	mpFirstUnit->SetPosition(25, 25);
 
-	mpSecondUnit = new Unit();
+	mpSecondUnit = new Unit(eTeamTag::RED_TEAM);
 	AddGameObject(mpSecondUnit);
 	mpSecondUnit->SetPosition(55, 25);
 
@@ -33,6 +33,15 @@ void PathFindingScene::Update()
 	if (INPUT->IsOnceKeyDown(VK_RBUTTON))
 	{
 		mpCurUnit->FindPath(INPUT->GetMousePosition());
+	}
+
+	if (INPUT->IsOnceKeyDown(VK_LBUTTON))
+	{
+		Unit* pUnit = nullptr;
+		if (PHYSICS->GetUnit(eTeamTag::RED_TEAM, INPUT->GetMousePosition(), &pUnit))
+		{
+			pUnit->ChangeCircleColor(EFFECT_COLOR_RED);
+		}
 	}
 
 	if (INPUT->IsOnceKeyDown('1'))

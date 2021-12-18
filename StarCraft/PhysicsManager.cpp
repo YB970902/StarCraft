@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "PhysicsManager.h"
 #include "GameObject.h"
+#include "Unit.h"
+#include "ColliderComponent.h"
 #include "RendererComponent.h"
 #include "TransformComponent.h"
 
@@ -14,38 +16,97 @@ void PhysicsManager::Release()
 
 void PhysicsManager::InitLayerSize(int width, int height)
 {
+	div_t dv = div(width, GRID_SIZE);
+	if (dv.rem) { dv.quot++; }
+	mGridWidth = dv.quot;
+	dv = div(height, GRID_SIZE);
+	if (dv.rem) { dv.quot++; }
+	mGridHeight = dv.quot;
+
+	mVecRedTeamObjectGrid.resize(mGridWidth * mGridHeight);
+	mVecBlueTeamObjectGrid.resize(mGridWidth * mGridHeight);
 }
 
-void PhysicsManager::ProcessObjectMove(GameObject* pObject, const D2D_RECT_F& rect, POINT& leftTop, POINT& rightBottom, bool isInit)
+void PhysicsManager::AddCollider(ColliderComponent* pCollider, const Vector2& pos, const Vector2& size)
 {
-	//if (isInit)
-	//{
-	//	leftTop.x = rect.left / GRID_SIZE;
-	//	leftTop.y = rect.top / GRID_SIZE;
+	vector<vector<ColliderComponent*>>* pCurGrid = nullptr;
+
+	switch (pCollider->GetTeamTag())
+	{
+	case eTeamTag::RED_TEAM:
+		pCurGrid = &mVecRedTeamObjectGrid;
+		break;
+	case eTeamTag::BLUE_TEAM:
+		pCurGrid = &mVecBlueTeamObjectGrid;
+		break;
+	default:
+		return;
+	}
+
+	POINT leftTop = POINT{ (int)(pos.x - size.x) / GRID_SIZE, (int)(pos.y - size.y) / GRID_SIZE };
+	POINT rightBottom = POINT{ (int)(pos.x + size.x) / GRID_SIZE, (int)(pos.y + size.y) / GRID_SIZE };
+
+	AddColliderByIndex(pCollider, leftTop, rightBottom);
+}
+
+void PhysicsManager::RemoveCollider(ColliderComponent* pCollider, const Vector2& pos, const Vector2& size)
+{
+	vector<vector<ColliderComponent*>>* pCurGrid = nullptr;
+
+	switch (pCollider->GetTeamTag())
+	{
+	case eTeamTag::RED_TEAM:
+		pCurGrid = &mVecRedTeamObjectGrid;
+		break;
+	case eTeamTag::BLUE_TEAM:
+		pCurGrid = &mVecBlueTeamObjectGrid;
+		break;
+	default:
+		return;
+	}
+
+	POINT leftTop = POINT{ (int)(pos.x - size.x) / GRID_SIZE, (int)(pos.y - size.y) / GRID_SIZE };
+	POINT rightBottom = POINT{ (int)(pos.x + size.x) / GRID_SIZE, (int)(pos.y + size.y) / GRID_SIZE };
+
+	RemoveColliderByIndex(pCollider, leftTop, rightBottom);
+}
+
+void PhysicsManager::ProcessObjectMove(ColliderComponent* pCollider, const Vector2& prevPos, const Vector2& size)
+{	
+	POINT prevLeftTop = POINT{ (int)(prevPos.x - size.x) / GRID_SIZE, (int)(prevPos.y - size.y) / GRID_SIZE };
+	POINT prevRightBottom = POINT{ (int)(prevPos.x + size.x) / GRID_SIZE, (int)(prevPos.y + size.y) / GRID_SIZE };
+
+	//if (prevLeftTop.x < 0) { prevLeftTop.x = 0; }
+	//if (prevLeftTop.y < 0) { prevLeftTop.y = 0; }
 	//
-	//	rightBottom.x = rect.right / GRID_SIZE;
-	//	rightBottom.y = rect.bottom / GRID_SIZE;
+	//if (prevRightBottom.x >= mGridWidth) { prevRightBottom.x = mGridWidth - 1; }
+	//if (prevRightBottom.y >= mGridHeight) { prevRightBottom.y = mGridHeight - 1; }
+
+	Vector2 pos = pCollider->GetColliderPosition();
+	POINT leftTop = POINT{ (int)(pos.x - size.x) / GRID_SIZE, (int)(pos.y - size.y) / GRID_SIZE };
+	POINT rightBottom = POINT{ (int)(pos.x + size.x) / GRID_SIZE, (int)(pos.y + size.y) / GRID_SIZE };
+
+	//if (leftTop.x < 0) { leftTop.x = 0; }
+	//if (leftTop.y < 0) { leftTop.y = 0; }
 	//
-	//	AddObject(pObject, leftTop, rightBottom);
-	//
-	//	return;
-	//}
-	//
-	//POINT prevLeftTop = leftTop;
-	//POINT prevRightBottom = rightBottom;
-	//
-	//leftTop.x = rect.left / GRID_SIZE;
-	//leftTop.y = rect.top / GRID_SIZE;
-	//
-	//rightBottom.x = rect.right / GRID_SIZE;
-	//rightBottom.y = rect.bottom / GRID_SIZE;
+	//if (rightBottom.x >= mGridWidth) { rightBottom.x = mGridWidth - 1; }
+	//if (rightBottom.y >= mGridHeight) { rightBottom.y = mGridHeight - 1; }
+
+	if (prevLeftTop.x == leftTop.x && prevLeftTop.y == leftTop.y &&
+		prevRightBottom.x == rightBottom.x && prevRightBottom.y == rightBottom.y)
+	{
+		return;
+	}
+
+	RemoveCollider(pCollider, prevPos, size);
+	AddCollider(pCollider, pos, size);
 	//
 	//// 너무 많이 이동한 경우
 	//if (prevLeftTop.x > rightBottom.x || prevRightBottom.x < leftTop.x ||
 	//	prevLeftTop.y > rightBottom.y || prevRightBottom.y < leftTop.y)
 	//{
-	//	EraseObject(pObject, prevLeftTop, prevRightBottom);
-	//	AddObject(pObject, leftTop, rightBottom);
+	//	RemoveColliderByIndex(pCollider, prevLeftTop, prevRightBottom);
+	//	AddColliderByIndex(pCollider, leftTop, rightBottom);
 	//
 	//	return;
 	//}
@@ -54,120 +115,96 @@ void PhysicsManager::ProcessObjectMove(GameObject* pObject, const D2D_RECT_F& re
 	//
 	//if (leftTop.x > prevLeftTop.x)
 	//{
-	//	EraseObject(pObject, POINT{ prevLeftTop.x, prevLeftTop.y }, POINT{ leftTop.x - 1, prevRightBottom.y });
+	//	RemoveColliderByIndex(pCollider, POINT{ prevLeftTop.x, prevLeftTop.y }, POINT{ leftTop.x - 1, prevRightBottom.y });
 	//}
 	//else if (leftTop.x < prevLeftTop.x)
 	//{
-	//	AddObject(pObject, POINT{ leftTop.x, leftTop.y }, POINT{ prevLeftTop.x - 1, rightBottom.y });
+	//	AddColliderByIndex(pCollider, POINT{ leftTop.x, leftTop.y }, POINT{ prevLeftTop.x - 1, rightBottom.y });
 	//}
 	//
 	//if (rightBottom.x > prevRightBottom.x)
 	//{
-	//	AddObject(pObject, POINT{ prevRightBottom.x + 1, leftTop.y }, POINT{ rightBottom.x, rightBottom.y });
+	//	AddColliderByIndex(pCollider, POINT{ prevRightBottom.x + 1, leftTop.y }, POINT{ rightBottom.x, rightBottom.y });
 	//}
 	//else if (rightBottom.x < prevRightBottom.x)
 	//{
-	//	EraseObject(pObject, POINT{ rightBottom.x + 1, prevLeftTop.x }, POINT{ prevRightBottom.x, prevRightBottom.y });
+	//	RemoveColliderByIndex(pCollider, POINT{ rightBottom.x + 1, prevLeftTop.x }, POINT{ prevRightBottom.x, prevRightBottom.y });
 	//}
 	//
 	//// Y축 이동 처리
 	//
 	//if (leftTop.y > prevLeftTop.y)
 	//{
-	//	EraseObject(pObject, POINT{ prevLeftTop.x, prevLeftTop.y }, POINT{ prevRightBottom.x, leftTop.y - 1 });
+	//	RemoveColliderByIndex(pCollider, POINT{ prevLeftTop.x, prevLeftTop.y }, POINT{ prevRightBottom.x, leftTop.y - 1 });
 	//}
 	//else if (leftTop.y < prevLeftTop.y)
 	//{
-	//	AddObject(pObject, POINT{ leftTop.x, leftTop.y }, POINT{ rightBottom.x, prevLeftTop.y - 1 });
+	//	AddColliderByIndex(pCollider, POINT{ leftTop.x, leftTop.y }, POINT{ rightBottom.x, prevLeftTop.y - 1 });
 	//}
 	//
 	//if (rightBottom.y > prevRightBottom.y)
 	//{
-	//	AddObject(pObject, POINT{ leftTop.x, prevRightBottom.y + 1 }, POINT{ rightBottom.x, rightBottom.y });
+	//	AddColliderByIndex(pCollider, POINT{ leftTop.x, prevRightBottom.y + 1 }, POINT{ rightBottom.x, rightBottom.y });
 	//}
 	//else if (rightBottom.y < prevRightBottom.y)
 	//{
-	//	EraseObject(pObject, POINT{ prevLeftTop.x, rightBottom.y + 1 }, POINT{ prevRightBottom.x, prevRightBottom.y });
+	//	RemoveColliderByIndex(pCollider, POINT{ prevLeftTop.x, rightBottom.y + 1 }, POINT{ prevRightBottom.x, prevRightBottom.y });
 	//}
 }
 
-void PhysicsManager::ProcessCameraMove(const RECT& rect, POINT& leftTop, POINT& rightBottom, bool isInit)
+bool PhysicsManager::GetUnit(eTeamTag teamTag, const POINT& pos, Unit** ppUnit)
 {
-	//if (isInit)
-	//{
-	//	leftTop.x = rect.left / GRID_SIZE;
-	//	leftTop.y = rect.top / GRID_SIZE;
-	//
-	//	rightBottom.x = rect.right / GRID_SIZE;
-	//	rightBottom.y = rect.bottom / GRID_SIZE;
-	//
-	//	SetObjectRender(leftTop, rightBottom, true);
-	//
-	//	return;
-	//}
-	//
-	//POINT prevLeftTop = leftTop;
-	//POINT prevRightBottom = rightBottom;
-	//
-	//leftTop.x = rect.left / GRID_SIZE;
-	//leftTop.y = rect.top / GRID_SIZE;
-	//
-	//rightBottom.x = rect.right / GRID_SIZE;
-	//rightBottom.y = rect.bottom / GRID_SIZE;
-	//
-	//// 너무 많이 이동한 경우
-	//if (prevLeftTop.x > rightBottom.x || prevRightBottom.x < leftTop.x ||
-	//	prevLeftTop.y > rightBottom.y || prevRightBottom.y < leftTop.y)
-	//{
-	//	SetObjectRender(prevLeftTop, prevRightBottom, false);
-	//	SetObjectRender(leftTop, rightBottom, true);
-	//
-	//	return;
-	//}
-	//
-	//// X축 이동 처리
-	//
-	//if (leftTop.x > prevLeftTop.x)
-	//{
-	//	SetObjectRender(POINT{ prevLeftTop.x, prevLeftTop.y }, POINT{ leftTop.x - 1, prevRightBottom.y }, false);
-	//}
-	//else if (leftTop.x < prevLeftTop.x)
-	//{
-	//	SetObjectRender(POINT{ leftTop.x, leftTop.y }, POINT{ prevLeftTop.x - 1, rightBottom.y }, true);
-	//}
-	//
-	//if (rightBottom.x > prevRightBottom.x)
-	//{
-	//	SetObjectRender(POINT{ prevRightBottom.x + 1, leftTop.y }, POINT{ rightBottom.x, rightBottom.y }, true);
-	//}
-	//else if (rightBottom.x < prevRightBottom.x)
-	//{
-	//	SetObjectRender(POINT{ rightBottom.x + 1, prevLeftTop.x }, POINT{ prevRightBottom.x, prevRightBottom.y }, false);
-	//}
-	//
-	//// Y축 이동 처리
-	//
-	//if (leftTop.y > prevLeftTop.y)
-	//{
-	//	SetObjectRender(POINT{ prevLeftTop.x, prevLeftTop.y }, POINT{ prevRightBottom.x, leftTop.y - 1 }, false);
-	//}
-	//else if (leftTop.y < prevLeftTop.y)
-	//{
-	//	SetObjectRender(POINT{ leftTop.x, leftTop.y }, POINT{ rightBottom.x, prevLeftTop.y - 1 }, true);
-	//}
-	//
-	//if (rightBottom.y > prevRightBottom.y)
-	//{
-	//	SetObjectRender(POINT{ leftTop.x, prevRightBottom.y + 1 }, POINT{ rightBottom.x, rightBottom.y }, true);
-	//}
-	//else if (rightBottom.y < prevRightBottom.y)
-	//{
-	//	SetObjectRender(POINT{ prevLeftTop.x, rightBottom.y + 1 }, POINT{ prevRightBottom.x, prevRightBottom.y }, false);
-	//}
+	POINT index = { pos.x / GRID_SIZE, pos.y / GRID_SIZE };
+
+	vector<ColliderComponent*>* pVecUnit = nullptr;
+
+	switch (teamTag)
+	{
+	case eTeamTag::RED_TEAM:
+		pVecUnit = &mVecRedTeamObjectGrid[index.x + index.y * mGridWidth];
+		break;
+	case eTeamTag::BLUE_TEAM:
+		pVecUnit = &mVecRedTeamObjectGrid[index.x + index.y * mGridWidth];
+		break;
+	default:
+		return false;
+	}
+
+	size_t size = pVecUnit->size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		if ((*pVecUnit)[i]->IsCollided(pos))
+		{
+			(*ppUnit) = (*pVecUnit)[i]->GetUnit();
+			return true;
+		}
+	}
+
+	return false;
 }
 
-void PhysicsManager::EraseObject(GameObject* pObject, const POINT& leftTop, const POINT& rightBottom)
+void PhysicsManager::AddColliderByIndex(ColliderComponent* pCollider, const POINT& leftTop, const POINT& rightBottom)
 {
+	if (leftTop.x < 0) { const_cast<POINT&>(leftTop).x = 0; }
+	if (leftTop.y < 0) { const_cast<POINT&>(leftTop).y = 0; }
+
+	if (rightBottom.x >= mGridWidth) { const_cast<POINT&>(rightBottom).x = mGridWidth - 1; }
+	if (rightBottom.y >= mGridHeight) { const_cast<POINT&>(rightBottom).y = mGridHeight - 1; }
+
+	vector<vector<ColliderComponent*>>* pCurGrid = nullptr;
+
+	switch (pCollider->GetTeamTag())
+	{
+	case eTeamTag::RED_TEAM:
+		pCurGrid = &mVecRedTeamObjectGrid;
+		break;
+	case eTeamTag::BLUE_TEAM:
+		pCurGrid = &mVecBlueTeamObjectGrid;
+		break;
+	default:
+		return;
+	}
+
 	int width = rightBottom.x - leftTop.x + 1;
 	int height = rightBottom.y - leftTop.y + 1;
 
@@ -175,40 +212,47 @@ void PhysicsManager::EraseObject(GameObject* pObject, const POINT& leftTop, cons
 	{
 		for (int y = 0; y < height; ++y)
 		{
-			set<GameObject*>& grid = mMapObjectGrid[leftTop.x + x][leftTop.y + y];
-			auto it = grid.find(pObject);
-			if (it != grid.end()) { grid.erase(it); }
+			(*pCurGrid)[(leftTop.x + x) + (leftTop.y + y) * mGridWidth].push_back(pCollider);
 		}
 	}
 }
 
-void PhysicsManager::AddObject(GameObject* pObject, const POINT& leftTop, const POINT& rightBottom)
+void PhysicsManager::RemoveColliderByIndex(ColliderComponent* pCollider, const POINT& leftTop, const POINT& rightBottom)
 {
-	int width = rightBottom.x - leftTop.x + 1;
-	int height = rightBottom.y - leftTop.y + 1;
+	if (leftTop.x < 0) { const_cast<POINT&>(leftTop).x = 0; }
+	if (leftTop.y < 0) { const_cast<POINT&>(leftTop).y = 0; }
 
-	for (int x = 0; x < width; ++x)
+	if (rightBottom.x >= mGridWidth) { const_cast<POINT&>(rightBottom).x = mGridWidth - 1; }
+	if (rightBottom.y >= mGridHeight) { const_cast<POINT&>(rightBottom).x = mGridHeight - 1; }
+
+	vector<vector<ColliderComponent*>>* pCurGrid = nullptr;
+
+	switch (pCollider->GetTeamTag())
 	{
-		for (int y = 0; y < height; ++y)
-		{
-			mMapObjectGrid[leftTop.x + x][leftTop.y + y].insert(pObject);
-		}
+	case eTeamTag::RED_TEAM:
+		pCurGrid = &mVecRedTeamObjectGrid;
+		break;
+	case eTeamTag::BLUE_TEAM:
+		pCurGrid = &mVecBlueTeamObjectGrid;
+		break;
+	default:
+		return;
 	}
-}
 
-void PhysicsManager::SetObjectRender(const POINT& leftTop, const POINT& rightBottom, bool isSet)
-{
 	int width = rightBottom.x - leftTop.x + 1;
 	int height = rightBottom.y - leftTop.y + 1;
+
+	vector<ColliderComponent*>* pVecUnit = nullptr;
 
 	for (int x = 0; x < width; ++x)
 	{
 		for (int y = 0; y < height; ++y)
 		{
-			set<GameObject*>& grid = mMapObjectGrid[leftTop.x + x][leftTop.y + y];
-			for (auto it : mMapObjectGrid[leftTop.x + x][leftTop.y + y])
+			pVecUnit = &(*pCurGrid)[(leftTop.x + x) + (leftTop.y + y) * mGridWidth];
+			auto it = find(pVecUnit->begin(), pVecUnit->end(), pCollider);
+			if (it != pVecUnit->end())
 			{
-				it->GetRenderer()->SetIsRender(isSet);
+				pVecUnit->erase(it);
 			}
 		}
 	}

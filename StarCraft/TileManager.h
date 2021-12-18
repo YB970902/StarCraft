@@ -22,7 +22,7 @@ private:
 		bool IsOccupied() { return (OccupiedCount > 0); }
 	};
 
-	static const int MAX_FINDING_COUNT = 20;
+	static const int MAX_FINDING_COUNT = 100;
 
 	static const int DIR_UP = 0;
 	static const int DIR_UP_RIGHT = 1;

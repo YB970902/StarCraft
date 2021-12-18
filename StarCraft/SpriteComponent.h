@@ -45,7 +45,6 @@ public:
 	inline float GetSizeWidth() { return mSize.width; }
 	inline void SetSizeWidth(float width) { mSize.width = width; }
 	inline float GetSizeHeight() { return mSize.height; }
-	inline void SetSizeHeight(float height) { mSize.height = height; }
 	inline D2D_SIZE_F GetD2DSize() { return mSize; }
 	inline D2D_RECT_F GetSourceRect() { return D2D_RECT_F{ mOffset.x, mOffset.y, mOffset.x + mSize.width, mOffset.y + mSize.height }; }
 

@@ -139,6 +139,9 @@
     <Filter Include="GameObject\MapObject">
       <UniqueIdentifier>{6456c71f-5049-4c55-98d1-747ec7017bf2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObject\Unit\UnitModel">
+      <UniqueIdentifier>{c07d5efe-727b-4191-9aee-ad2bdf8f57df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -275,6 +278,9 @@
     </ClCompile>
     <ClCompile Include="MapObject.cpp">
       <Filter>GameObject\MapObject</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitModel.cpp">
+      <Filter>GameObject\Unit\UnitModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -442,6 +448,9 @@
     </ClInclude>
     <ClInclude Include="MapObject.h">
       <Filter>GameObject\MapObject</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitModel.h">
+      <Filter>GameObject\Unit\UnitModel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

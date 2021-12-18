@@ -11,12 +11,14 @@
 #include "ColliderComponent.h"
 
 class Scene;
+class RenderManager;
 class GameObject
 {
 	friend Scene;
+	friend RenderManager;
 private:
 	vector<Component*> mVecComponent;
-	vector<GameObject*> mVecChild;
+	vector<pair<int, GameObject*>> mVecChild;
 
 	size_t mComponentSize = 0;
 	size_t mChildSize = 0;
@@ -24,6 +26,7 @@ private:
 	void init();
 	void release();
 	void update();
+	void render(ID2D1DeviceContext2* pContext);
 protected:
 	TransformComponent* mpTransform = nullptr;
 	RendererComponent* mpRenderer = nullptr;
@@ -38,6 +41,8 @@ public:
 
 	Component* AddComponent(Component* pComponent);
 	Component* GetComponent(eComponentTag tag);
+
+	GameObject* AddChild(GameObject* pObject, int order);
 
 	inline TransformComponent* GetTransform() { return mpTransform; }
 	inline RendererComponent* GetRenderer() { return mpRenderer; }

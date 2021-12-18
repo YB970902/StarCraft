@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "RenderManager.h"
+#include "GameObject.h"
 #include "ColorReplaceEffect.h"
 #include "ShadowEffect.h"
 #include "SpriteComponent.h"
@@ -55,7 +56,7 @@ void RenderManager::Render()
 			size = mLayerTerrain[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth].size();
 			for (int i = 0; i < size; ++i)
 			{
-				mLayerTerrain[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth][i]->Render(mpD2DContext);
+				mLayerTerrain[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth][i]->render(mpD2DContext);
 			}
 		}
 	}
@@ -67,7 +68,7 @@ void RenderManager::Render()
 			size = mLayerGround[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth].size();
 			for (int i = 0; i < size; ++i)
 			{
-				mLayerGround[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth][i]->Render(mpD2DContext);
+				mLayerGround[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth][i]->render(mpD2DContext);
 			}
 		}
 	}
@@ -79,7 +80,7 @@ void RenderManager::Render()
 			size = mLayerSky[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth].size();
 			for (int i = 0; i < size; ++i)
 			{
-				mLayerSky[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth][i]->Render(mpD2DContext);
+				mLayerSky[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth][i]->render(mpD2DContext);
 			}
 		}
 	}
@@ -129,13 +130,13 @@ void RenderManager::AddRenderer(const Vector2& pos, RendererComponent* pComponen
 	switch (pComponent->GetUnitLayer())
 	{
 	case eUnitLayer::Terrain:
-		mLayerTerrain[index.x + index.y * mLayerWidth].push_back(pComponent);
+		mLayerTerrain[index.x + index.y * mLayerWidth].push_back(pComponent->GetGameObject());
 		break;
 	case eUnitLayer::Ground:
-		mLayerGround[index.x + index.y * mLayerWidth].push_back(pComponent);
+		mLayerGround[index.x + index.y * mLayerWidth].push_back(pComponent->GetGameObject());
 		break;
 	case eUnitLayer::Sky:
-		mLayerSky[index.x + index.y * mLayerWidth].push_back(pComponent);
+		mLayerSky[index.x + index.y * mLayerWidth].push_back(pComponent->GetGameObject());
 		break;
 	}
 }
@@ -146,13 +147,25 @@ void RenderManager::EraseRenderer(const Vector2& pos, RendererComponent* pCompon
 	switch (pComponent->GetUnitLayer())
 	{
 	case eUnitLayer::Terrain:
-		mLayerTerrain[index.x + index.y * mLayerWidth].erase(find(mLayerTerrain[index.x + index.y * mLayerWidth].begin(), mLayerTerrain[index.x + index.y * mLayerWidth].end(), pComponent));
+		mLayerTerrain[index.x + index.y * mLayerWidth].erase(
+			find(mLayerTerrain[index.x + index.y * mLayerWidth].begin(),
+				mLayerTerrain[index.x + index.y * mLayerWidth].end(),
+				pComponent->GetGameObject()
+			));
 		break;
 	case eUnitLayer::Ground:
-		mLayerGround[index.x + index.y * mLayerWidth].erase(find(mLayerGround[index.x + index.y * mLayerWidth].begin(), mLayerGround[index.x + index.y * mLayerWidth].end(), pComponent));
+		mLayerGround[index.x + index.y * mLayerWidth].erase(
+			find(mLayerGround[index.x + index.y * mLayerWidth].begin(),
+				mLayerGround[index.x + index.y * mLayerWidth].end(),
+				pComponent->GetGameObject()
+			));
 		break;
 	case eUnitLayer::Sky:
-		mLayerSky[index.x + index.y * mLayerWidth].erase(find(mLayerSky[index.x + index.y * mLayerWidth].begin(), mLayerSky[index.x + index.y * mLayerWidth].end(), pComponent));
+		mLayerSky[index.x + index.y * mLayerWidth].erase(
+			find(mLayerSky[index.x + index.y * mLayerWidth].begin(),
+				mLayerSky[index.x + index.y * mLayerWidth].end(),
+				pComponent->GetGameObject()
+			));
 		break;
 	}
 }
@@ -344,6 +357,10 @@ void RenderManager::InitBitmap()
 
 	mMapBitmap[eBitmapTag::ICON_BARRACK] = CreateBitmap((LPWSTR)TEXT("Images/Icon/Building/Barrack.png"));
 	mMapBitmap[eBitmapTag::ICON_FACTORY] = CreateBitmap((LPWSTR)TEXT("Images/Icon/Building/Factory.png"));
+
+	mMapBitmap[eBitmapTag::SELECTED_CIRCLE_SMALL] = CreateBitmap((LPWSTR)TEXT("Images/Units/Selected/Selected22.png"));
+	mMapBitmap[eBitmapTag::SELECTED_CIRCLE_MIDIUM] = CreateBitmap((LPWSTR)TEXT("Images/Units/Selected/Selected48.png"));
+	mMapBitmap[eBitmapTag::SELECTED_CIRCLE_BIG] = CreateBitmap((LPWSTR)TEXT("Images/Units/Selected/Selected122.png"));
 }
 
 void RenderManager::ReleaseDirect2D()

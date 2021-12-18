@@ -4,8 +4,10 @@
 class TransformComponent : public Component
 {
 private:
-	Vector2 mPosition = { 0, 0 };
-	Fix mRotation = 0;
+	TransformComponent* mpParent = nullptr;
+
+	Vector2 mLocalPosition = { 0, 0 };
+	Fix mLocalRotation = 0;
 	bool mbIsMoved = false;
 public:
 	TransformComponent();
@@ -15,14 +17,19 @@ public:
 	virtual void Release() override;
 	virtual void Update() override;
 
-	inline void SetPosition(const Fix& x, const Fix& y) { mPosition.x = x; mPosition.y = y; mbIsMoved = true; }
-	inline void SetPosition(const POINT& pos) { mPosition.x = pos.x, mPosition.y = pos.y; mbIsMoved = true; }
-	inline void SetPosition(const Vector2& pos) { mPosition.x = pos.x; mPosition.y = pos.y; mbIsMoved = true; }
-	inline void AddPosition(const Vector2& add) { mPosition += add; mbIsMoved = true; }
-	inline Vector2 GetPosition() { return mPosition; }
-	inline D2D_POINT_2F GetPointPosition() { return D2D_POINT_2F{ mPosition.x, mPosition.y }; }
-	inline Fix GetRotation() { return mRotation; }
-	inline void SetRotation(const Fix& rot) { mRotation = rot; }
+	inline void SetParent(TransformComponent* pParent) { mpParent = pParent; }
+
+	void SetPosition(const Fix& x, const Fix& y);
+	void SetPosition(const POINT& pos);
+	void SetPosition(const Vector2& pos);
+	void AddPosition(const Vector2& add);
+	Vector2 GetPosition();
+
+	Vector2 GetLocalPosition() { return mLocalPosition; }
+	void SetLocalPosition(const Vector2& pos) { mLocalPosition = pos; }
+
+	Fix GetRotation();
+	void SetRotation(const Fix& rot);
 
 	inline bool IsMoved() { return mbIsMoved; }
 

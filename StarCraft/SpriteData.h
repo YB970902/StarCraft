@@ -14,4 +14,7 @@ public:
 
 	static const int START_FRAME_X = 1;
 	static const int START_FRAME_Y = 1;
+
+	static const int SINGLE_FRAME_X = 1;
+	static const int SINGLE_FRAME_Y = 1;
 };

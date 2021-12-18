@@ -5,7 +5,7 @@
 
 void TestScene::Enter()
 {
-	pUnit = static_cast<Unit*>(AddGameObject(new Unit()));
+	pUnit = static_cast<Unit*>(AddGameObject(new Unit(eTeamTag::RED_TEAM)));
 
 	RENDER->RenderText(TEXT("Text Test"), Vector2(100, 100), Vector2(100, 50));
 	RENDER->RenderText(TEXT("텍스트 테스트"), Vector2(100, 150), Vector2(100, 50));
@@ -44,12 +44,12 @@ void TestScene::Update()
 	if (INPUT->IsStayKeyDown(VK_UP)) { CAMERA->AddPosition(Vector2::Down() * 100 * DELTA_TIME); }
 	if (INPUT->IsStayKeyDown(VK_DOWN)) { CAMERA->AddPosition(Vector2::Up() * 100 * DELTA_TIME); }
 
-	if (INPUT->IsOnceKeyDown('Q')) { pUnit->ChangeUnitColor(EFFECT_COLOR_RED); }
-	if (INPUT->IsOnceKeyDown('W')) { pUnit->ChangeUnitColor(EFFECT_COLOR_GREEN); }
-	if (INPUT->IsOnceKeyDown('E')) { pUnit->ChangeUnitColor(EFFECT_COLOR_BLUE); }
-	if (INPUT->IsOnceKeyDown('R')) { pUnit->ChangeUnitColor(EFFECT_COLOR_YELLOW); }
-	if (INPUT->IsOnceKeyDown('A')) { pUnit->ChangeUnitColor(EFFECT_COLOR_EMERALD); }
-	if (INPUT->IsOnceKeyDown('S')) { pUnit->ChangeUnitColor(EFFECT_COLOR_PURPLE); }
-	if (INPUT->IsOnceKeyDown('D')) { pUnit->ChangeUnitColor(EFFECT_COLOR_WHITE); }
-	if (INPUT->IsOnceKeyDown('F')) { pUnit->ChangeUnitColor(EFFECT_COLOR_BLACK); }
+	//if (INPUT->IsOnceKeyDown('Q')) { pUnit->ChangeUnitColor(EFFECT_COLOR_RED); }
+	//if (INPUT->IsOnceKeyDown('W')) { pUnit->ChangeUnitColor(EFFECT_COLOR_GREEN); }
+	//if (INPUT->IsOnceKeyDown('E')) { pUnit->ChangeUnitColor(EFFECT_COLOR_BLUE); }
+	//if (INPUT->IsOnceKeyDown('R')) { pUnit->ChangeUnitColor(EFFECT_COLOR_YELLOW); }
+	//if (INPUT->IsOnceKeyDown('A')) { pUnit->ChangeUnitColor(EFFECT_COLOR_EMERALD); }
+	//if (INPUT->IsOnceKeyDown('S')) { pUnit->ChangeUnitColor(EFFECT_COLOR_PURPLE); }
+	//if (INPUT->IsOnceKeyDown('D')) { pUnit->ChangeUnitColor(EFFECT_COLOR_WHITE); }
+	//if (INPUT->IsOnceKeyDown('F')) { pUnit->ChangeUnitColor(EFFECT_COLOR_BLACK); }
 }

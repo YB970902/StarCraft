@@ -19,4 +19,6 @@ public:
 	inline unsigned int GetOrder() const { return mOrder; }
 
 	virtual eComponentTag GetTag() = 0;
+
+	GameObject* GetGameObject() { return mpGameObject; }
 };

@@ -1,5 +1,11 @@
 #pragma once
 
+enum class eTeamTag
+{
+	RED_TEAM,
+	BLUE_TEAM,
+};
+
 enum class eBitmapTag
 {
 	NONE,
@@ -15,6 +21,10 @@ enum class eBitmapTag
 
 	ICON_BARRACK,
 	ICON_FACTORY,
+
+	SELECTED_CIRCLE_SMALL,
+	SELECTED_CIRCLE_MIDIUM,
+	SELECTED_CIRCLE_BIG,
 };
 
 enum class eEffectTag
