@@ -57,13 +57,25 @@ void RenderManager::Render()
 			{
 				mLayerTerrain[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth][i]->Render(mpD2DContext);
 			}
+		}
+	}
 
+	for (int y = 0; y < height; ++y)
+	{
+		for (int x = 0; x < width; ++x)
+		{
 			size = mLayerGround[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth].size();
 			for (int i = 0; i < size; ++i)
 			{
 				mLayerGround[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth][i]->Render(mpD2DContext);
 			}
+		}
+	}
 
+	for (int y = 0; y < height; ++y)
+	{
+		for (int x = 0; x < width; ++x)
+		{
 			size = mLayerSky[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth].size();
 			for (int i = 0; i < size; ++i)
 			{
@@ -319,12 +331,19 @@ void RenderManager::InitDirect2D()
 
 void RenderManager::InitBitmap()
 {
+	mMapBitmap[eBitmapTag::NONE] = CreateBitmap((LPWSTR)TEXT("Images/void.png"));
+
 	mMapBitmap[eBitmapTag::UNIT_MARINE_L] = CreateBitmap((LPWSTR)TEXT("Images/Units/Marine/MarineL.png"));
 	mMapBitmap[eBitmapTag::UNIT_MARINE_R] = CreateBitmap((LPWSTR)TEXT("Images/Units/Marine/MarineR.png"));
-	mMapBitmap[eBitmapTag::UNIT_BATTLE_L] = CreateBitmap((LPWSTR)TEXT("Images/Units/Battlecruiser/BattlecruiserL.png"));
-	mMapBitmap[eBitmapTag::UNIT_BATTLE_R] = CreateBitmap((LPWSTR)TEXT("Images/Units/Battlecruiser/BattlecruiserR.png"));
+
+	mMapBitmap[eBitmapTag::BUILDING_BARRACK] = CreateBitmap((LPWSTR)TEXT("Images/Buildings/Barrack/Barrack.png"));
+	mMapBitmap[eBitmapTag::BUILDING_FACTORY] = CreateBitmap((LPWSTR)TEXT("Images/Buildings/Factory/Factory.png"));
+	mMapBitmap[eBitmapTag::BUILDING_START] = CreateBitmap((LPWSTR)TEXT("Images/Buildings/StartLocation/StartLocation.png"));
 
 	mMapBitmap[eBitmapTag::TILE_PALETTE] = CreateBitmap((LPWSTR)TEXT("Images/Tile/TilePalette.png"));
+
+	mMapBitmap[eBitmapTag::ICON_BARRACK] = CreateBitmap((LPWSTR)TEXT("Images/Icon/Building/Barrack.png"));
+	mMapBitmap[eBitmapTag::ICON_FACTORY] = CreateBitmap((LPWSTR)TEXT("Images/Icon/Building/Factory.png"));
 }
 
 void RenderManager::ReleaseDirect2D()

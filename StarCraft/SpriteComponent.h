@@ -30,6 +30,10 @@ public:
 	void SetCurFrameY(int y);
 	void SetCurFrame(int x, int y);
 
+	inline int GetMaxFrameX() { return mMaxFrameX; }
+	inline int GetMaxFrameY() { return mMaxFrameY; }
+	void SetMaxFrame(int x, int y);
+
 	inline void SetAnchor(D2D1_POINT_2F anchor) { mAnchor = anchor; }
 	inline int GetOrder() { return mOrder; }
 	inline void SetOrder(int order) { mOrder = order; }
@@ -39,12 +43,16 @@ public:
 	inline float GetOffsetX() { return mOffset.x; }
 	inline float GetOffsetY() { return mOffset.y; }
 	inline float GetSizeWidth() { return mSize.width; }
+	inline void SetSizeWidth(float width) { mSize.width = width; }
 	inline float GetSizeHeight() { return mSize.height; }
+	inline void SetSizeHeight(float height) { mSize.height = height; }
 	inline D2D_SIZE_F GetD2DSize() { return mSize; }
 	inline D2D_RECT_F GetSourceRect() { return D2D_RECT_F{ mOffset.x, mOffset.y, mOffset.x + mSize.width, mOffset.y + mSize.height }; }
 
 	inline ID2D1Bitmap* GetBitmap() { return mpBitmap; }
 	inline void SetBitmap(ID2D1Bitmap* pBitmap) { mpBitmap = pBitmap; }
+
+	void ChangeBitmap(eBitmapTag tag);
 
 	virtual eComponentTag GetTag() override { return eComponentTag::Sprite; }
 };

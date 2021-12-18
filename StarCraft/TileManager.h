@@ -4,9 +4,12 @@
 
 #define TILE TileManager::GetInstance()
 
+//#define DEBUG_MODE
+
 class DetailMap;
 class BitArray;
 class RectGizmo;
+class Scene;
 class TileManager : public Singleton<TileManager>
 {
 private:
@@ -76,7 +79,7 @@ public:
 
 	void Init();
 	void Release();
-	void LoadTileMap();
+	void LoadTileMap(Scene* pLoadedScene, LPCWSTR path);
 
 	DetailMap* GetTileMap(eUnitTileSize unitSize);
 	bool GetEndPosition(const Vector2& startPos, const Vector2& targetPos, const eUnitTileSize& unitSize, TileCoord* pEndPoint);
@@ -101,6 +104,8 @@ public:
 	inline int GetTileWidth() { return mTileWidth; }
 	inline int GetTileHeight() { return mTileHeight; }
 private:
+	void InitTileState();
+
 	bool IsPassable(const TileCoord& coord);
 	bool IsPassable(const TileCoord& coord, const int dir);
 

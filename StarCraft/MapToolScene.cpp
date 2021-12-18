@@ -1,15 +1,16 @@
 #include "stdafx.h"
 #include "MapToolScene.h"
 #include "RenderManager.h"
+#include "PhysicsManager.h"
 #include "RectGizmo.h"
 #include "TextGizmo.h"
 #include "LineGizmo.h"
 #include "Tile.h"
-#include "PhysicsManager.h"
+#include "MapObject.h"
 
 void MapToolScene::Enter()
 {
-	RANDOM->SetSeed(time_t(NULL));
+	RANDOM->SetSeed(time(nullptr));
 
 	CAMERA->SetMovingSize(POINT{ mMapWidth * Tile::TILE_SIZE, mMapHeight * Tile::TILE_SIZE });
 	RENDER->InitLayerSize(mMapWidth * Tile::TILE_SIZE, mMapHeight * Tile::TILE_SIZE);
@@ -26,10 +27,15 @@ void MapToolScene::Enter()
 		for (int y = 0; y < mMapHeight; ++y)
 		{
 			mVecTile[x + y * mMapWidth] = static_cast<Tile*>(AddGameObject(new Tile));
-			mVecTile[x + y * mMapWidth]->SetPosition((Fix)(x * Tile::TILE_SIZE), (Fix)(y * Tile::TILE_SIZE));
+			mVecTile[x + y * mMapWidth]->SetPosition(x * Tile::TILE_SIZE, y * Tile::TILE_SIZE);
 			mVecTile[x + y * mMapWidth]->SetTileSprite((int)Tile::eTileTag::Dirt, RANDOM->GetValue(0, Tile::GROUND_MAX_COL - 1), 0);
 		}
 	}
+
+	mVecBuildingTag.resize(mMapWidth * mMapHeight);
+	mVecDetectTag.resize(mMapWidth * mMapHeight);
+
+	mpCurObject = static_cast<MapObject*>(AddGameObject(new MapObject(eBitmapTag::NONE)));
 
 	mCurTag = (int)Tile::eTileTag::Dirt;
 
@@ -46,22 +52,41 @@ void MapToolScene::Update()
 	if (INPUT->IsOnceKeyDown('1'))
 	{
 		mCurTag = (int)Tile::eTileTag::Dirt;
+		ChangeToNone();
 	}
 	if (INPUT->IsOnceKeyDown('2'))
 	{
 		mCurTag = (int)Tile::eTileTag::HeightDirt;
+		ChangeToNone();
+	}
+	if (INPUT->IsOnceKeyDown('3'))
+	{
+		ChangeToBarrack();
+	}
+	if (INPUT->IsOnceKeyDown('4'))
+	{
+		ChangeToFactory();
+	}
+	if (INPUT->IsOnceKeyDown('5'))
+	{
+		ChangeToGroup1StartLocation();
+	}
+	if (INPUT->IsOnceKeyDown('6'))
+	{
+		ChangeToGroup2StartLocation();
+	}
+	if (INPUT->IsOnceKeyDown(VK_RETURN))
+	{
+		SaveMap(TEXT("MapData/Test.txt"));
 	}
 
-	ProcessMousePosition();
-
-	if (INPUT->IsStayKeyDown(VK_LBUTTON))
+	if (mbIsDrawTerrain)
 	{
-		if (INPUT->IsOnceKeyDown(VK_LBUTTON) ||
-			(mPrevMouseCenter.x != mCurMouseCenter.x || mPrevMouseCenter.y != mCurMouseCenter.y))
-		{
-			DrawTile();
-		}
-
+		ProcessTerrain();
+	}
+	else
+	{
+		ProcessBuilding();
 	}
 
 	if (INPUT->IsStayKeyDown(VK_LSHIFT))
@@ -80,7 +105,7 @@ void MapToolScene::Update()
 	}
 }
 
-void MapToolScene::ProcessMousePosition()
+void MapToolScene::ProcessTerrain()
 {
 	POINT mousePos = INPUT->GetMousePosition();
 	POINT mouseIndex = { mousePos.x / Tile::TILE_SIZE / 2 , mousePos.y / Tile::TILE_SIZE };
@@ -120,6 +145,82 @@ void MapToolScene::ProcessMousePosition()
 		{
 			SetDiamondPosition(diaIndex2);
 		}
+	}
+
+	if (INPUT->IsStayKeyDown(VK_LBUTTON))
+	{
+		if (INPUT->IsOnceKeyDown(VK_LBUTTON) ||
+			(mPrevMouseCenter.x != mCurMouseCenter.x || mPrevMouseCenter.y != mCurMouseCenter.y))
+		{
+			DrawTile();
+		}
+	}
+}
+
+void MapToolScene::ProcessBuilding()
+{
+	POINT mousePos = INPUT->GetMousePosition();
+	POINT mouseIndex = { mousePos.x / Tile::TILE_SIZE , mousePos.y / Tile::TILE_SIZE };
+	mpCurObject->SetPosition(Vector2(mouseIndex.x * Tile::TILE_SIZE, mouseIndex.y * Tile::TILE_SIZE));
+
+	float halfObjectWidth = mpCurObject->GetWidth() * 0.5f;
+	float halfObjectHeight = mpCurObject->GetHeight() * 0.5f;
+	POINT LT = { mousePos.x / Tile::TILE_SIZE - BUILDING_HALF_WIDTH, mousePos.y / Tile::TILE_SIZE - BUILDING_HALF_HEIGHT };
+	POINT LB = { mousePos.x / Tile::TILE_SIZE - BUILDING_HALF_WIDTH, mousePos.y / Tile::TILE_SIZE + BUILDING_HALF_HEIGHT };
+	POINT RT = { mousePos.x / Tile::TILE_SIZE + (BUILDING_HALF_WIDTH - 1), mousePos.y / Tile::TILE_SIZE - BUILDING_HALF_HEIGHT };
+	POINT RB = { mousePos.x / Tile::TILE_SIZE + (BUILDING_HALF_WIDTH - 1), mousePos.y / Tile::TILE_SIZE + BUILDING_HALF_HEIGHT };
+
+	int width = RB.x - LT.x + 1;
+	int height = RB.y - LT.y + 1;
+
+	if (LT.x < 0 || LT.y < 0 || RB.x >= mMapWidth || RB.y >= mMapHeight)
+	{
+		mpCurObject->ChangeColor(EFFECT_COLOR_BLACK);
+	}
+	else if (mVecDetectTag[LT.x + LT.y * mMapWidth] == eBitmapTag::NONE &&
+		mVecDetectTag[LB.x + LB.y * mMapWidth] == eBitmapTag::NONE &&
+		mVecDetectTag[RT.x + RT.y * mMapWidth] == eBitmapTag::NONE &&
+		mVecDetectTag[RB.x + RB.y * mMapWidth] == eBitmapTag::NONE)
+	{
+		for (int x = 0; x < width; ++x)
+		{
+			for (int y = 0; y < height; ++y)
+			{
+				int row = mVecTile[(LT.x + x) + (LT.y + y) * mMapWidth]->GetCurrentRow();
+				if (row == Tile::DIRT || row == Tile::HEIGHT_DIRT)
+				{
+					mpCurObject->ChangeColor(EFFECT_COLOR_GREEN);
+				}
+				else
+				{
+					mpCurObject->ChangeColor(EFFECT_COLOR_BLACK);
+					return;
+				}
+			}
+		}
+	}
+	else
+	{
+		mpCurObject->ChangeColor(EFFECT_COLOR_BLACK);
+	}
+
+	if (INPUT->IsOnceKeyDown(VK_LBUTTON))
+	{
+
+		for (int x = 0; x < width; ++x)
+		{
+			for (int y = 0; y < height; ++y)
+			{
+				mVecDetectTag[(LT.x + x) + (LT.y + y) * mMapWidth] = mpCurObject->GetBitmapTag();
+			}
+		}
+
+		MapObject* pObj = static_cast<MapObject*>(AddGameObject(new MapObject(mpCurObject->GetBitmapTag())));
+		pObj->SetMaxFrame(mpCurObject->GetMaxFrameX(), mpCurObject->GetMaxFrameY());
+		pObj->SetPosition(Vector2(mouseIndex.x * Tile::TILE_SIZE, mouseIndex.y * Tile::TILE_SIZE));
+		pObj->ChangeColor(mArrCurObjectColor);
+
+		mVecBuildingTag[mouseIndex.x + mouseIndex.y * mMapWidth] = mCurBuildingTag;
 	}
 }
 
@@ -728,12 +829,14 @@ void MapToolScene::DrawWallTop(const POINT& lt, const POINT& rb, int col)
 							DrawWallCenter(POINT{ index.x + deltaDirection[i] * 2, index.y }, POINT{ index.x, index.y + 1 });
 							DrawWallLeft(POINT{ index.x + deltaDirection[i] * 2, index.y }, POINT{ index.x, index.y + 1 });
 							DrawWallBottom(POINT{ index.x + deltaDirection[i] * 2, index.y }, POINT{ index.x, index.y + 1 });
+							DrawWallBottomExtra(POINT{ index.x + deltaDirection[i] * 2, index.y }, POINT{ index.x, index.y + 1 });
 						}
 						else
 						{
 							DrawWallCenter(index, POINT{ index.x + deltaDirection[i] * 2, index.y + 1 });
 							DrawWallRight(index, POINT{ index.x + deltaDirection[i] * 2, index.y + 1 });
 							DrawWallBottom(index, POINT{ index.x + deltaDirection[i] * 2, index.y + 1 });
+							DrawWallBottomExtra(index, POINT{ index.x + deltaDirection[i] * 2, index.y + 1 });
 						}
 					}
 				}
@@ -924,6 +1027,7 @@ void MapToolScene::DrawWallBottom(const POINT& lt, const POINT& rb, int col)
 							if (IS_TAG_IN_BIT(deltaOtherSideColTag[i * 3 + 2], tempTag))
 							{
 								DrawWallBottom(POINT{ index.x + deltaDirection[i] * 2, index.y - 1 }, POINT{ index.x, index.y });
+								DrawWallBottomExtra(POINT{ index.x + deltaDirection[i] * 2, index.y - 1 }, POINT{ index.x, index.y });
 							}
 						}
 						else
@@ -935,6 +1039,7 @@ void MapToolScene::DrawWallBottom(const POINT& lt, const POINT& rb, int col)
 							if (IS_TAG_IN_BIT(deltaOtherSideColTag[i * 3 + 2], tempTag))
 							{
 								DrawWallBottom(POINT{ index.x, index.y - 1 }, POINT{ index.x + deltaDirection[i] * 2, index.y });
+								DrawWallBottomExtra(POINT{ index.x, index.y - 1 }, POINT{ index.x + deltaDirection[i] * 2, index.y });
 							}
 						}
 					}
@@ -1100,3 +1205,115 @@ void MapToolScene::ChangeTile(const POINT& index, int tag, int col, int offset)
 	mVecTile[index.x + index.y * mMapWidth]->SetTileSprite(tag, col, offset);
 }
 
+void MapToolScene::SetIsLineActive(bool set)
+{
+	mbIsDrawTerrain = set;
+	mpLineLT->SetIsActive(set);
+	mpLineLB->SetIsActive(set);
+	mpLineRT->SetIsActive(set);
+	mpLineRB->SetIsActive(set);
+}
+
+void MapToolScene::ChangeToNone()
+{
+	SetIsLineActive(true);
+	mpCurObject->ChangeSprite(eBitmapTag::NONE);
+	mpCurObject->SetMaxFrame(1, 1);
+}
+
+void MapToolScene::ChangeToBarrack()
+{
+	mCurBuildingTag = eBuildingTag::Barrack;
+	SetIsLineActive(false);
+	mpCurObject->ChangeSprite(eBitmapTag::BUILDING_BARRACK);
+	mpCurObject->SetMaxFrame(SpriteData::BARRACK_FRAME_X, SpriteData::BARRACK_FRAME_Y);
+	mpCurObject->ChangeColor(EFFECT_COLOR_RED);
+	mArrCurObjectColor = EFFECT_COLOR_RED;
+}
+
+void MapToolScene::ChangeToFactory()
+{
+	mCurBuildingTag = eBuildingTag::Factory;
+	SetIsLineActive(false);
+	mpCurObject->ChangeSprite(eBitmapTag::BUILDING_FACTORY);
+	mpCurObject->SetMaxFrame(SpriteData::FACTORY_FRAME_X, SpriteData::FACTORY_FRAME_Y);
+	mpCurObject->ChangeColor(EFFECT_COLOR_RED);
+	mArrCurObjectColor = EFFECT_COLOR_RED;
+}
+
+void MapToolScene::ChangeToGroup1StartLocation()
+{
+	mCurBuildingTag = eBuildingTag::Group1StartLocation;
+	SetIsLineActive(false);
+	mpCurObject->ChangeSprite(eBitmapTag::BUILDING_START);
+	mpCurObject->SetMaxFrame(SpriteData::START_FRAME_X, SpriteData::START_FRAME_Y);
+	mpCurObject->ChangeColor(EFFECT_COLOR_RED);
+	mArrCurObjectColor = EFFECT_COLOR_RED;
+}
+
+void MapToolScene::ChangeToGroup2StartLocation()
+{
+	mCurBuildingTag = eBuildingTag::Group2StartLocation;
+	SetIsLineActive(false);
+	mpCurObject->ChangeSprite(eBitmapTag::BUILDING_START);
+	mpCurObject->SetMaxFrame(SpriteData::START_FRAME_X, SpriteData::START_FRAME_Y);
+	mpCurObject->ChangeColor(EFFECT_COLOR_BLUE);
+	mArrCurObjectColor = EFFECT_COLOR_BLUE;
+}
+
+void MapToolScene::SaveMap(LPCWSTR path)
+{
+	static const int ARR_GROUND_TILE[] = {
+		0, 1,
+		6, 11,
+		24, 31,
+	};
+	static const int arrSize = 6;
+	ofstream fout(path);
+
+	fout << mMapWidth << endl;
+	fout << mMapHeight << endl;
+
+	Tile* pTile = nullptr;
+
+	for (int y = 0; y < mMapHeight; ++y)
+	{
+		for (int x = 0; x < mMapWidth; ++x)
+		{
+			pTile = mVecTile[x + y * mMapWidth];
+			fout << ((int)pTile->GetPosition().x / Tile::TILE_SIZE) << ' ' <<
+				((int)pTile->GetPosition().y / Tile::TILE_SIZE) << ' ' <<
+				pTile->GetCurrentRow() << ' ' << pTile->GetCurrentColumn();
+			bool bIsObstacle = true;
+			for (int i = 0; i < arrSize; ++i)
+			{
+				if (pTile->GetCurrentRow() == ARR_GROUND_TILE[i])
+				{
+					bIsObstacle = false;
+					break;
+				}
+			}
+			if (bIsObstacle)
+			{
+				fout << ' ' << true << endl;
+			}
+			else
+			{
+				fout << ' ' << false << endl;
+			}
+		}
+	}
+
+	for (int y = 0; y < mMapHeight; ++y)
+	{
+		for (int x = 0; x < mMapWidth; ++x)
+		{
+			if (mVecBuildingTag[x + y * mMapWidth] != eBuildingTag::None)
+			{
+				fout << x << ' ' << y << ' ' << (int)mVecBuildingTag[x + y * mMapWidth] << endl;
+			}
+		}
+	}
+
+	fout.close();
+}

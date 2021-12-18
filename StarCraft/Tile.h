@@ -40,11 +40,14 @@ public:
 	};
 
 
-	static const int TILE_SIZE = 31;
+	static const int TILE_SIZE = 30;
 
 	//static const int GROUND_MAX_COL = 14;
 	static const int GROUND_MAX_COL = 12;
 	static const int WALL_MAX_COL = 12;
+
+	static const int DIRT = 0;
+	static const int HEIGHT_DIRT = 2;
 
 private:
 	SpriteComponent* mpSprite = nullptr;
@@ -62,8 +65,10 @@ public:
 	virtual void Update() override;
 
 	void SetTileSprite(int tag, int col, int offset);
+	void SetTileRowCol(int row, int col);
 
 	void SetPosition(Fix x, Fix y);
+	Vector2 GetPosition() { if (mpTransform) { return mpTransform->GetPosition(); } return Vector2::Zero(); }
 
 	inline int GetCurrentTag() { return (int)mCurTag; }
 	inline int GetCurrentRow() { return mCurRow; }

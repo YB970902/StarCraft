@@ -4,6 +4,10 @@
 #include "DetailMap.h"
 #include "RectGizmo.h"
 #include "RenderManager.h"
+#include "PhysicsManager.h"
+#include "Scene.h"
+#include "Tile.h"
+#include <boost/lexical_cast.hpp>
 
 void TileManager::Init()
 {
@@ -19,13 +23,24 @@ void TileManager::Release()
 	SAFE_RELEASE(mpBigUnitMap);
 }
 
-void TileManager::LoadTileMap()
+void TileManager::LoadTileMap(Scene* pLoadedScene, LPCWSTR path)
 {
 	// 이미 저장된 맵을 받아야 함
 	// 
 	// 임의값 지정
-	mTileWidth = 100;
-	mTileHeight = 100;
+	ifstream fin(path);
+	string str;
+	fin >> str;
+	int width = boost::lexical_cast<int>(str);
+	fin >> str;
+	int height = boost::lexical_cast<int>(str);
+	mTileWidth = width * 3;
+	mTileHeight = height * 3;
+
+	CAMERA->SetMovingSize(POINT{ width * Tile::TILE_SIZE, height * Tile::TILE_SIZE });
+	RENDER->InitLayerSize(width * Tile::TILE_SIZE, height * Tile::TILE_SIZE);
+	PHYSICS->InitLayerSize(width * Tile::TILE_SIZE, height * Tile::TILE_SIZE);
+
 	mVecPathChecker.resize(mTileWidth * mTileHeight);
 	mpTerrainMap->Init(mTileWidth, mTileHeight);
 	mpSmallUnitMap->Init(mTileWidth, mTileHeight);
@@ -33,13 +48,9 @@ void TileManager::LoadTileMap()
 	mVecNormalTileState.resize(mTileWidth * mTileHeight);
 	mVecSmallTileState.resize(mTileWidth * mTileHeight);
 	mVecBigTileState.resize(mTileWidth * mTileHeight);
+
+#ifdef  DEBUG_MODE
 	mVecGizmo.resize(mTileWidth * mTileHeight);
-
-	// 임의로 장애물 생성
-	srand(0);
-
-	mpCurDetailMap = mpBigUnitMap;
-
 	for (int x = 0; x < mTileWidth; ++x)
 	{
 		for (int y = 0; y < mTileHeight; ++y)
@@ -47,36 +58,67 @@ void TileManager::LoadTileMap()
 			mVecGizmo[x + y * mTileWidth] = (RectGizmo*)RENDER->RenderRect(Vector2(x * TILE_SIZE, y * TILE_SIZE), Vector2(TILE_SIZE - 1, TILE_SIZE - 1), 1.0f, TILE_DEFAULT);
 		}
 	}
+#endif //  DEBUG_MODE
 
-	for (int x = 0; x < mTileWidth; ++x)
+	Tile* pTile = nullptr;
+
+	int x = 0;
+	int y = 0;
+
+	int row = 0;
+	int col = 0;
+
+	bool bIsObstacle = false;
+
+	for (int y = 0; y < height; ++y)
 	{
-		for (int y = 0; y < mTileHeight; ++y)
+		for (int x = 0; x < width; ++x)
 		{
-			// 시작위치는 장애물이 생성되지 않도록 설정
-			if (x == 0 && y == 0) { continue; }
-			if (rand() % 50 == 0)
+			pTile = static_cast<Tile*>(pLoadedScene->AddGameObject(new Tile()));
+			fin >> str;
+			x = boost::lexical_cast<int>(str);
+			fin >> str;
+			y = boost::lexical_cast<int>(str);
+			fin >> str;
+			row = boost::lexical_cast<int>(str);
+			fin >> str;
+			col = boost::lexical_cast<int>(str);
+			pTile->SetPosition(x * Tile::TILE_SIZE, y * Tile::TILE_SIZE);
+			pTile->SetTileRowCol(row, col);
+			fin >> str;
+			bIsObstacle = boost::lexical_cast<bool>(str);
+			if (bIsObstacle)
 			{
-				mpTerrainMap->SetAt(x, y);
-				for (int i = 0; i < SMALL_UNIT_TILE_SIZE; ++i)
+				for (int i = 0; i < 3; ++i)
 				{
-					for (int j = 0; j < SMALL_UNIT_TILE_SIZE; ++j)
+					for (int j = 0; j < 3; ++j)
 					{
-						mpSmallUnitMap->SetAt(x - i, y - j);
-						SetGizmoColor(x - i + 1, y - j + 1, TILE_OBSTACLE);
+						mpTerrainMap->SetAt(x * 3 + i, y * 3 + j);
+						++mVecNormalTileState[(x * 3 + i) + (y * 3 + j) * mTileWidth].ObstacleCount;
 					}
 				}
-				for (int i = 0; i < BIG_UNIT_TILE_SIZE; ++i)
-				{
-					for (int j = 0; j < BIG_UNIT_TILE_SIZE; ++j)
-					{
-						mpBigUnitMap->SetAt(x - i + 1, y - j + 1);
-					}
-				}
-				++mVecNormalTileState[x + y * mTileWidth].ObstacleCount;
-				//SetGizmoColor(x, y, TILE_OBSTACLE);
 			}
 		}
 	}
+
+	// 테두리만 충돌처리하기
+	for (int y = 0; y < mTileHeight; ++y)
+	{
+		mpTerrainMap->SetAt(0, y);
+		++mVecNormalTileState[y * mTileWidth].ObstacleCount;
+		mpTerrainMap->SetAt(mTileWidth - 1, y);
+		++mVecNormalTileState[(mTileWidth - 1) + y * mTileWidth].ObstacleCount;
+	}
+
+	for (int x = 0; x < mTileWidth; ++x)
+	{
+		mpTerrainMap->SetAt(x, 0);
+		++mVecNormalTileState[x].ObstacleCount;
+		mpTerrainMap->SetAt(x, mTileHeight - 1);
+		++mVecNormalTileState[x + (mTileHeight - 1) * mTileWidth].ObstacleCount;
+	}
+
+	InitTileState();
 
 	for (int x = 0; x < mTileWidth; ++x)
 	{
@@ -168,7 +210,9 @@ bool TileManager::BeginSearch(Vector2 startPos, TileCoord* pEndPoint, const eUni
 	default:
 		return false;
 	}
+#ifdef  DEBUG_MODE
 	InitGizmoColor();
+#endif // DEBUG_MODE
 
 	int width = pDetailMap->GetWidth();
 	int height = pDetailMap->GetHeight();
@@ -281,7 +325,7 @@ void TileManager::ConnectPath(vector<TileCoord>& passedPath, list<TileCoord>& co
 
 	TileCoord prevCoord = correctPath.front();
 
-	for(int i = 0; i < passedPath.size(); ++i)
+	for (int i = 0; i < passedPath.size(); ++i)
 	{
 		mVecPathChecker[passedPath[i].GetX() + passedPath[i].GetY() * mTileWidth] = prevCoord.GetX() + prevCoord.GetY() * mTileWidth;
 		prevCoord = passedPath[i];
@@ -375,6 +419,36 @@ void TileManager::InitGizmoColor()
 			else
 			{
 				mVecGizmo[x + y * mTileWidth]->SetColor(TILE_DEFAULT);
+			}
+		}
+	}
+}
+
+void TileManager::InitTileState()
+{
+	for (int y = mTileHeight - 1; y >= 0; --y)
+	{
+		for (int x = mTileWidth - 1; x >= 0; --x)
+		{
+			if (mpTerrainMap->IsCollision(x, y))
+			{
+				for (int i = 0; i < SMALL_UNIT_TILE_SIZE; ++i)
+				{
+					for (int j = 0; j < SMALL_UNIT_TILE_SIZE; ++j)
+					{
+						mpSmallUnitMap->SetAt(x - i, y - j);
+#ifdef  DEBUG_MODE
+						SetGizmoColor(x - i + 1, y - j + 1, TILE_OBSTACLE);
+#endif // DEBUG_MODE
+					}
+				}
+				for (int i = 0; i < BIG_UNIT_TILE_SIZE; ++i)
+				{
+					for (int j = 0; j < BIG_UNIT_TILE_SIZE; ++j)
+					{
+						mpBigUnitMap->SetAt(x - i + 1, y - j + 1);
+					}
+				}
 			}
 		}
 	}
@@ -986,6 +1060,7 @@ void TileManager::SetTileState(const Vector2& pos, const eUnitTileSize& unitSize
 			}
 		}
 	}
-
+#ifdef  DEBUG_MODE
 	InitGizmoColor();
+#endif // DEBUG_MODE
 }

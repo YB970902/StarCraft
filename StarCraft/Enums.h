@@ -2,12 +2,19 @@
 
 enum class eBitmapTag
 {
+	NONE,
+
 	UNIT_MARINE_L,
 	UNIT_MARINE_R,
-	UNIT_BATTLE_L,
-	UNIT_BATTLE_R,
+
+	BUILDING_BARRACK,
+	BUILDING_FACTORY,
+	BUILDING_START,
 
 	TILE_PALETTE,
+
+	ICON_BARRACK,
+	ICON_FACTORY,
 };
 
 enum class eEffectTag
@@ -40,6 +47,22 @@ enum class eUnitTileSize
 {
 	Small = 2,
 	Big = 4,
+};
+
+enum class eUnitTag
+{
+	None,
+	Marrine,
+	Goliaht,
+};
+
+enum class eBuildingTag
+{
+	None,
+	Barrack,
+	Factory,
+	Group1StartLocation,
+	Group2StartLocation,
 };
 
 const float EFFECT_COLOR_RED[] = { 1.0f, 0.0f, 0.0f };

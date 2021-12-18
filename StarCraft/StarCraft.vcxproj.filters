@@ -136,6 +136,9 @@
     <Filter Include="Component\Collider">
       <UniqueIdentifier>{1cd8fa9a-903c-4be2-b3f0-3c3fbeae1216}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObject\MapObject">
+      <UniqueIdentifier>{6456c71f-5049-4c55-98d1-747ec7017bf2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -269,6 +272,9 @@
     </ClCompile>
     <ClCompile Include="ColliderComponent.cpp">
       <Filter>Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="MapObject.cpp">
+      <Filter>GameObject\MapObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -433,6 +439,9 @@
     </ClInclude>
     <ClInclude Include="ColliderComponent.h">
       <Filter>Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="MapObject.h">
+      <Filter>GameObject\MapObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

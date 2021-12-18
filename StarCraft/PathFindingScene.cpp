@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PathFindingScene.h"
 #include "RenderManager.h"
+#include "PhysicsManager.h"
 #include "Unit.h"
 #include "PathFinder.h"
 #include "TileManager.h"
@@ -8,15 +9,16 @@
 void PathFindingScene::Enter()
 {
 	TILE->Init();
-	TILE->LoadTileMap();
+	TILE->LoadTileMap(this, TEXT("MapData/Test.txt"));
 
-	mpFirstUnit = new Unit();
-	AddGameObject(mpFirstUnit);
-	mpFirstUnit->SetPosition(5, 5);
+	RANDOM->SetSeed(time(nullptr));
+
+	mpFirstUnit = static_cast<Unit*>(AddGameObject(new Unit()));
+	mpFirstUnit->SetPosition(25, 25);
 
 	mpSecondUnit = new Unit();
 	AddGameObject(mpSecondUnit);
-	mpSecondUnit->SetPosition(55, 5);
+	mpSecondUnit->SetPosition(55, 25);
 
 	mpCurUnit = mpFirstUnit;
 }

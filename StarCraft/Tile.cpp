@@ -16,6 +16,7 @@ void Tile::Init()
 {
 	mpRenderer->SetUnitLayer(eUnitLayer::Terrain);
 	mpSprite = static_cast<SpriteComponent*>(AddComponent(new SpriteComponent(eBitmapTag::TILE_PALETTE, 14, 76, D2D1::Point2F(0.0f, 0.0f))));
+	mCurRow = (int)eTileTag::Dirt;
 }
 
 void Tile::Release()
@@ -108,6 +109,11 @@ void Tile::SetTileSprite(int tag, int col, int offset)
 			return;
 		}
 	}
+}
+
+void Tile::SetTileRowCol(int row, int col)
+{
+	mpSprite->SetCurFrame(col, row);
 }
 
 void Tile::SetPosition(Fix x, Fix y)

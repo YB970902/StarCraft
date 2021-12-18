@@ -55,3 +55,22 @@ void SpriteComponent::SetCurFrame(int x, int y)
 	SetCurFrameX(x);
 	SetCurFrameY(y);
 }
+
+void SpriteComponent::SetMaxFrame(int x, int y)
+{
+	mMaxFrameX = x;
+	mMaxFrameY = y;
+	mSize.width = mpBitmap->GetSize().width / mMaxFrameX;
+	mSize.height = mpBitmap->GetSize().height / mMaxFrameY;
+	SetCurFrame(0, 0);
+	RendererComponent* pRenderer = static_cast<RendererComponent*>(mpGameObject->GetComponent(eComponentTag::Renderer));
+	pRenderer->SetUnitLayer(pRenderer->GetUnitLayer());
+}
+
+void SpriteComponent::ChangeBitmap(eBitmapTag tag)
+{
+	mpBitmap = RENDER->GetBitmap(tag);
+	mSize.width = mpBitmap->GetSize().width / mMaxFrameX;
+	mSize.height = mpBitmap->GetSize().height / mMaxFrameY;
+	SetCurFrame(0, 0);
+}

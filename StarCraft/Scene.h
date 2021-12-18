@@ -11,11 +11,10 @@ private:
 	void init();
 	void release();
 	void update();
-protected:
+public:
 	GameObject* AddGameObject(GameObject* pGameObject);
 	void RemoveGameObject(GameObject* pGameObject);
 
-public:
 	virtual ~Scene() = default;
 
 	virtual void Enter() = 0;

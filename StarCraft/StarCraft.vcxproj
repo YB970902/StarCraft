@@ -163,6 +163,7 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="JPS.cpp" />
     <ClCompile Include="LineGizmo.cpp" />
+    <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="MapToolScene.cpp" />
     <ClCompile Include="PathFindComponent.cpp" />
     <ClCompile Include="PathFinder.cpp" />
@@ -220,6 +221,7 @@
     <ClInclude Include="GameRoot.h" />
     <ClInclude Include="JPS.h" />
     <ClInclude Include="LineGizmo.h" />
+    <ClInclude Include="MapObject.h" />
     <ClInclude Include="MapToolScene.h" />
     <ClInclude Include="PathFindComponent.h" />
     <ClInclude Include="PathFinder.h" />

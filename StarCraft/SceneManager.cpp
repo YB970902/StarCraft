@@ -10,7 +10,7 @@ void SceneManager::Init()
 	AddScene(eSceneTag::PathFindingScene, new PathFindingScene());
 	AddScene(eSceneTag::MapToolScene, new MapToolScene());
 
-	ChangeScene(eSceneTag::MapToolScene);
+	ChangeScene(eSceneTag::PathFindingScene);
 }
 
 void SceneManager::Release()
