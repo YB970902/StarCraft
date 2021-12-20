@@ -163,6 +163,9 @@
     <Filter Include="Pattern\Observer">
       <UniqueIdentifier>{2ead7c73-93a4-4411-a5ed-772f21f705a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\StateMachine">
+      <UniqueIdentifier>{d392dcdc-2c8e-48d7-914a-6cd36efd3d66}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -326,6 +329,9 @@
     </ClCompile>
     <ClCompile Include="Subject.cpp">
       <Filter>Pattern\Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="StateMachineComponent.cpp">
+      <Filter>Component\StateMachine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -520,6 +526,9 @@
     </ClInclude>
     <ClInclude Include="Subject.h">
       <Filter>Pattern\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachineComponent.h">
+      <Filter>Component\StateMachine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

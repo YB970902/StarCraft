@@ -12,15 +12,21 @@ private:
 	SpriteComponent* mpSprite = nullptr;
 	ID2D1Effect* mpEffect = nullptr;
 	PathFindComponent* mpPathFind = nullptr;
+	StateMachineComponent* mpState = nullptr;
 
 	UnitModel* mpModel = nullptr;
 
-	bool mbIsMoving = false;
-
 protected:
-	int mAttackRange = 0;
-	int mVisionRange = 0;
+	int mMaxHealth = 10;
+	int mCurHealth = 10;
+	int mAttack = 1;
+	int mAttackRange = 200;
+	int mVisionRange = 300;
+	Fix mAttackSpeed = 0.25f;
 	UnitID mTargetID = UNIT_ID_NONE;
+
+	bool mbIsHaveDestination = false;
+	POINT mDestination;
 
 public:
 	Unit(eTeamTag teamTag, UnitID ID);
@@ -37,12 +43,32 @@ public:
 
 	inline eTeamTag GetTeamTag() { return mTeamTag; }
 	inline UnitID GetUnitID() { return mID; }
+	inline void SetTargetID(UnitID ID) { mTargetID = ID; }
 
-	void Move(POINT pos);
-	void Attack(POINT pos);
+	void Move(const POINT& pos);
+	void MoveAlertly(const POINT& pos);
+	void ChaseTarget(UnitID ID);
 	void Stop();
 
-	bool IsHaveTarget() { return (mTargetID != UNIT_ID_NONE); }
-	int GetAttackRange() { return mAttackRange; }
-	int GetVisionRange() { return mVisionRange; }
+	void UpdateAngle();
+	void LookAtTarget();
+	void FindPath(const POINT& pos);
+	void StopFindPath();
+
+	bool FindCloserEnemy();
+	inline bool IsHaveTarget() { return (mTargetID != UNIT_ID_NONE); }
+	inline int GetAttackRange() { return mAttackRange; }
+	inline int GetVisionRange() { return mVisionRange; }
+	inline Fix GetAttackSpeed() { return mAttackSpeed; }
+	POINT GetTargetPosition();
+	int GetDistanceToTarget();
+
+	inline bool IsHaveDestination() { return mbIsHaveDestination; }
+	inline void SetIsHaveDestination(bool set) { mbIsHaveDestination = set; }
+	inline POINT GetDestination() { return mDestination; }
+
+	bool IsMoving();
+	bool IsArrived();
+
+	void ChangeAnimation(eAnimationTag animTag);
 };

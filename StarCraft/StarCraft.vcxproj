@@ -183,6 +183,7 @@
     <ClCompile Include="SingleAnimation.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
     <ClCompile Include="RenderManager.cpp" />
+    <ClCompile Include="StateMachineComponent.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
     </ClCompile>
@@ -251,6 +252,7 @@
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="SpriteData.h" />
+    <ClInclude Include="StateMachineComponent.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="TestScene.h" />

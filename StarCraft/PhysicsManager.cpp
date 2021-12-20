@@ -240,8 +240,10 @@ bool PhysicsManager::GetDragUnit(eTeamTag teamTag, const POINT& startPos, const 
 	return true;
 }
 
-bool PhysicsManager::GetNearEnemyUnit(eTeamTag teamTag, const POINT& pos, int range, UnitID* pUnitID)
+bool PhysicsManager::GetNearEnemyUnit(eTeamTag teamTag, const Vector2& pos, int range, UnitID* pUnitID)
 {
+	(*pUnitID) = UNIT_ID_NONE;
+
 	vector<vector<ColliderComponent*>>* pCurGrid = nullptr;
 
 	switch (teamTag)
@@ -259,14 +261,20 @@ bool PhysicsManager::GetNearEnemyUnit(eTeamTag teamTag, const POINT& pos, int ra
 	int halfRange = range / 2;
 
 	RECT rc = {
-		pos.x - halfRange,
-		pos.y - halfRange,
-		pos.x + halfRange,
-		pos.y + halfRange
+		(int)pos.x - halfRange,
+		(int)pos.y - halfRange,
+		(int)pos.x + halfRange,
+		(int)pos.y + halfRange
 	};
 
 	POINT leftTop = { rc.left / GRID_SIZE, rc.top / GRID_SIZE };
 	POINT rightBottom = { rc.right / GRID_SIZE, rc.bottom / GRID_SIZE };
+
+	if (leftTop.x < 0) { leftTop.x = 0; }
+	if (leftTop.y < 0) { leftTop.y = 0; }
+
+	if (rightBottom.x >= mGridWidth) { rightBottom.x = mGridWidth - 1; }
+	if (rightBottom.y >= mGridHeight) { rightBottom.y = mGridHeight - 1; }
 
 	int width = rightBottom.x - leftTop.x + 1;
 	int height = rightBottom.y - leftTop.y + 1;
@@ -305,6 +313,7 @@ bool PhysicsManager::GetNearEnemyUnit(eTeamTag teamTag, const POINT& pos, int ra
 	}
 	else
 	{
+		(*pUnitID) = UNIT_ID_NONE;
 		return false;
 	}
 }
@@ -320,9 +329,9 @@ int PhysicsManager::GetDistance(const POINT& pos1, const POINT& pos2)
 	return (maxDist - minDist) + (int)((Fix)minDist * (Fix)1.4f);
 }
 
-int PhysicsManager::GetDistance(const POINT& pos1, const Vector2& pos2)
+int PhysicsManager::GetDistance(const Vector2& pos1, const Vector2& pos2)
 {
-	return GetDistance(pos1, POINT{ pos2.x, pos2.y });
+	return GetDistance(POINT{ pos1.x, pos1.y }, POINT{ pos2.x, pos2.y });
 }
 
 int PhysicsManager::GetDistance(Unit* pUnit, const UnitID& targetUnitID)

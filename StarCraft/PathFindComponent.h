@@ -10,7 +10,7 @@ class PathFindComponent : public Component
 private:
 	const int ARRIVED_TILE_COUNT = 4;
 
-	const Fix MAX_WAITING_TIME = (Fix)1;
+	const Fix MAX_WAITING_TIME = (Fix)0.25f;
 	TransformComponent* mpTransform = nullptr;
 
 	BitArray* mpSearched = nullptr;
@@ -54,6 +54,7 @@ public:
 	void FindPath(Vector2 targetPos);
 
 	inline bool IsMoving() { return mbIsFollowPath; }
+	inline bool IsArrived() { return mbIsSearching == false && mbIsWaiting == false && mbIsFollowPath == false; }
 	inline void Stop() { SetObstacle(); mbIsBeginSearching = true; mbIsSearching = false; mbIsFollowPath = false; }
 	inline float GetAngle() { return mLookAngle; }
 

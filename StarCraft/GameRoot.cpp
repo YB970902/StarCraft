@@ -23,7 +23,7 @@ void GameRoot::Run()
 	{
 		INPUT->Update();
 
-		if (INPUT->IsOnceKeyDown(VK_ESCAPE)) { DestroyWindow(g_hWnd); }
+		if (INPUT->IsOnceKeyDown(VK_F1)) { DestroyWindow(g_hWnd); }
 
 		Update();
 		CAMERA->Update();

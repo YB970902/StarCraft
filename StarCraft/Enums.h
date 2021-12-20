@@ -46,6 +46,7 @@ enum class eComponentTag
 	Animator,
 	PathFind,
 	Collider,
+	StateMachine,
 };
 
 enum class eUnitLayer
@@ -101,4 +102,13 @@ enum class eObserverMessage
 	 BeginChasing,
 	 EndChasing,
 	 Dead,
+};
+
+enum class eStateTag
+{
+	Idle,
+	Move,
+	Chase,
+	MoveAlertly,
+	Attack,
 };

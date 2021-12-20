@@ -902,12 +902,12 @@ void TileManager::CreateDetailPath(const TileNode::SharedPtr& pCurNode, const Ti
 					if (!bPassableLeft)
 					{
 						nextCoord = TileCoord::NextCoordinate(prevCoord, (curDir + DIR_UP_RIGHT) % DIR_COUNT);
-						//result.push_front(nextCoord);
+						result.push_front(nextCoord);
 					}
 					else if (!bPassableRight)
 					{
 						nextCoord = TileCoord::NextCoordinate(prevCoord, (curDir + DIR_UP_LEFT) % DIR_COUNT);
-						//result.push_front(nextCoord);
+						result.push_front(nextCoord);
 					}
 				}
 				prevCoord = TileCoord::NextCoordinate(prevCoord, curDir);
@@ -995,7 +995,14 @@ void TileManager::SetTileState(const Vector2& pos, const eUnitTileSize& unitSize
 	{
 		for (int y = 0; y < height; ++y)
 		{
-			mVecNormalTileState[(leftTop.GetX() + x) + (leftTop.GetY() + y) * mTileWidth].ObstacleCount += offset;
+			if (isObstacle)
+			{
+				mVecNormalTileState[(leftTop.GetX() + x) + (leftTop.GetY() + y) * mTileWidth].ObstacleCount += offset;
+			}
+			else
+			{
+				mVecNormalTileState[(leftTop.GetX() + x) + (leftTop.GetY() + y) * mTileWidth].OccupiedCount += offset;
+			}
 		}
 	}
 

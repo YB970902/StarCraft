@@ -10,6 +10,7 @@
 #include "AnimatorComponent.h"
 #include "PathFindComponent.h"
 #include "ColliderComponent.h"
+#include "StateMachineComponent.h"
 
 class Scene;
 class RenderManager;

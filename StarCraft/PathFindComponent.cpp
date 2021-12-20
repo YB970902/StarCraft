@@ -46,18 +46,21 @@ void PathFindComponent::Update()
 		mWaitingTime += DELTA_TIME;
 		if (mWaitingTime >= MAX_WAITING_TIME)
 		{
-			Vector2 dir = (mNextPath - mpTransform->GetPosition()).Normalize();
-			Vector2 nextPosition = mpTransform->GetPosition() + dir * 100 * DELTA_TIME;
-			TileManager::eTileState tileState;
-			if (TILE->IsTileOpen(nextPosition, mUnitSize, tileState))
-			{
-				mbIsWaiting = false;
-			}
-			else
-			{
-				FindPathAgain();
-			}
+			FindPath(mTargetPosition);
+			return;
 		}
+
+		Vector2 dir = (mNextPath - mpTransform->GetPosition()).Normalize();
+		Vector2 nextPosition = mpTransform->GetPosition() + dir * 100 * DELTA_TIME;
+		TileManager::eTileState tileState;
+
+		SetOpen();
+		if (TILE->IsTileOpen(nextPosition, mUnitSize, tileState))
+		{
+			mbIsWaiting = false;
+			mbIsFollowPath = true;
+		}
+		SetOccupy();
 	}
 	else if (mbIsFollowPath)
 	{
@@ -72,21 +75,20 @@ void PathFindComponent::Update()
 		if (TILE->IsTileOpen(nextPosition, mUnitSize, tileState))
 		{
 			mpTransform->SetPosition(nextPosition);
-			SetObstacle();
 		}
 		else
 		{
-			if (mPath.size() < ARRIVED_TILE_COUNT)
+			if ((mbIsCorrectPath && mPath.size() < ARRIVED_TILE_COUNT) ||
+				(mbIsCorrectPath == false && mTempPath.size() < ARRIVED_TILE_COUNT))
 			{
 				Stop();
-				return;
 			}
 			else
 			{
 				switch (tileState)
 				{
 				case TileManager::eTileState::Obstacle:
-					FindPathAgain();
+					FindPath(mTargetPosition);
 					return;
 				case TileManager::eTileState::Occupied:
 					WaitingStart();
@@ -107,7 +109,8 @@ void PathFindComponent::Update()
 			else
 			{
 				// 이동할 수 없는 경로인데 목적지와 가까우면 그냥 정지
-				if (mPath.size() < ARRIVED_TILE_COUNT)
+				if ((mbIsCorrectPath && mPath.size() < ARRIVED_TILE_COUNT) ||
+					(mbIsCorrectPath == false && mTempPath.size() < ARRIVED_TILE_COUNT))
 				{
 					Stop();
 				}
@@ -116,8 +119,7 @@ void PathFindComponent::Update()
 					switch (tileState)
 					{
 					case TileManager::eTileState::Obstacle:
-						FindPathAgain();
-						SetObstacle();
+						FindPath(mTargetPosition);
 						return;
 					case TileManager::eTileState::Occupied:
 						WaitingStart();
@@ -274,6 +276,7 @@ void PathFindComponent::WaitingStart()
 {
 	SetOccupy();
 	mbIsWaiting = true;
+	mbIsFollowPath = false;
 	mWaitingTime = 0;
 }
 

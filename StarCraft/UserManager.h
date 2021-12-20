@@ -18,6 +18,8 @@ private:
 	POINT mDragStartPos = { 0, 0 };
 	LineGizmo* mpArrLineGizmo[LINE_SIZE];
 
+	bool mbIsAttackMode = false;
+
 public:
 	void Init(eTeamTag teamTag);
 	void Release();
@@ -33,5 +35,11 @@ private:
 
 	void ChangeSelectUnit(UnitID ID);
 	void ChangeSelectDragUnit(const vector<UnitID>& vecUnit);
+
+	void UnitMove(const POINT& pos);
+	void ChaseTarget(UnitID ID);
+	void AttackGround(const POINT& pos);
+
+	void SetAttackMode(bool set);
 };
 

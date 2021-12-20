@@ -46,6 +46,22 @@ void UnitManager::RemoveUnit(UnitID ID)
 
 }
 
+void UnitManager::AttackUnit(UnitID ID, UnitID targetID)
+{
+	Unit* pUnit = mMapUnit[ID];
+	if (pUnit == nullptr) { return; }
+
+	pUnit->ChaseTarget(targetID);
+}
+
+void UnitManager::AttackGround(UnitID ID, const POINT& pos)
+{
+	Unit* pUnit = mMapUnit[ID];
+	if (pUnit == nullptr) { return; }
+
+	pUnit->MoveAlertly(pos);
+}
+
 void UnitManager::MoveUnit(UnitID ID, const POINT& pos)
 {
 	Unit* pUnit = mMapUnit[ID];
@@ -71,10 +87,20 @@ void UnitManager::SetSelectUnit(UnitID ID, bool set)
 	}
 }
 
+void UnitManager::SetTargetID(UnitID ID, UnitID targetID)
+{
+	auto it = mMapUnit.find(ID);
+	if (it != mMapUnit.end())
+	{
+		it->second->SetTargetID(targetID);
+	}
+}
+
 bool UnitManager::GetUnitPosition(UnitID ID, POINT& position)
 {
 	auto it = mMapUnit.find(ID);
-	if (it == mMapUnit.end()) return false;
+	if (it == mMapUnit.end()) { return false; }
 
 	position = POINT{ it->second->GetPosition().x, it->second->GetPosition().y };
+	return true;
 }

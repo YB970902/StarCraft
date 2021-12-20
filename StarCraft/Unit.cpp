@@ -3,6 +3,8 @@
 #include "UnitModel.h"
 #include "MultipleAnimation.h"
 #include "UserManager.h"
+#include "PhysicsManager.h"
+#include "UnitManager.h"
 
 Unit::Unit(eTeamTag teamTag, UnitID ID)
 	: GameObject::GameObject(), mTeamTag{ teamTag }, mID{ ID }
@@ -33,6 +35,7 @@ void Unit::Init()
 	SetIsSelected(false);
 	mpModel = static_cast<UnitModel*>(AddChild(new UnitModel(), 0));
 	mpModel->ChangeAnimation(eAnimationTag::Idle);
+	mpState = static_cast<StateMachineComponent*>(AddComponent(new StateMachineComponent()));
 }
 
 void Unit::Release()
@@ -41,45 +44,107 @@ void Unit::Release()
 
 void Unit::Update()
 {
-	if (mpPathFind->IsMoving())
-	{
-		if (mbIsMoving == false)
-		{
-			mbIsMoving = true;
-			mpModel->ChangeAnimation(eAnimationTag::Move);
-		}
-		mpTransform->SetRotation((Fix)mpPathFind->GetAngle());
-	}
-	else
-	{
-		if (mbIsMoving)
-		{
-			mbIsMoving = false;
-			mpModel->ChangeAnimation(eAnimationTag::Idle);
-		}
-	}
-
 	if (INPUT->IsOnceKeyDown('Q'))
 	{
 		mpSprite->ChangeBitmap(eBitmapTag::NONE);
 	}
 }
 
-void Unit::Move(POINT pos)
+void Unit::Move(const POINT& pos)
+{
+	mbIsHaveDestination = true;
+	mDestination = pos;
+	mpState->ChangeState(eStateTag::Move);
+}
+
+void Unit::ChaseTarget(UnitID ID)
+{
+	SetTargetID(ID);
+	mpState->ChangeState(eStateTag::Chase);
+}
+
+bool Unit::FindCloserEnemy()
+{
+	UnitID targetID = UNIT_ID_NONE;
+	if (PHYSICS->GetNearEnemyUnit(mTeamTag, GetPosition(), mVisionRange, &targetID))
+	{
+		SetTargetID(targetID);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void Unit::MoveAlertly(const POINT& pos)
+{
+	mbIsHaveDestination = true;
+	mDestination = pos;
+	mpState->ChangeState(eStateTag::MoveAlertly);
+}
+
+void Unit::UpdateAngle()
+{
+	mpTransform->SetRotation(mpPathFind->GetAngle());
+}
+
+void Unit::ChangeAnimation(eAnimationTag animTag)
+{
+	mpModel->ChangeAnimation(animTag);
+}
+
+void Unit::StopFindPath()
+{
+	mpPathFind->Stop();
+}
+
+void Unit::LookAtTarget()
+{
+	POINT targetPos;
+	if (UNIT->GetUnitPosition(mTargetID, targetPos))
+	{
+		float angle = atan2(-(targetPos.y - (int)GetPosition().y), targetPos.x - (int)GetPosition().x);
+		mpTransform->SetRotation(RAD2DEG(angle));
+	}
+}
+
+void Unit::FindPath(const POINT& pos)
 {
 	mpPathFind->FindPath(Vector2(pos.x, pos.y));
 }
 
-void Unit::Attack(POINT pos)
+bool Unit::IsMoving()
 {
+	return mpPathFind->IsMoving();
+}
+
+POINT Unit::GetTargetPosition()
+{
+	POINT result;
+	if (UNIT->GetUnitPosition(mTargetID, result))
+	{
+		return result;
+	}
+	else
+	{
+		POINT{ GetPosition().x, GetPosition().y };
+	}
+}
+
+bool Unit::IsArrived()
+{
+	return mpPathFind->IsArrived();
+}
+
+int Unit::GetDistanceToTarget()
+{
+	return PHYSICS->GetDistance(this, mTargetID);
 }
 
 void Unit::Stop()
 {
-	if (mpPathFind->IsMoving())
-	{
-		mpPathFind->Stop();
-	}
+	mpState->ChangeState(eStateTag::Idle);
 }
 
 void Unit::SetIsSelected(bool set)

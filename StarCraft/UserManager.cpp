@@ -52,81 +52,100 @@ void UserManager::Update()
 	}
 	else
 	{
+		if (INPUT->IsOnceKeyDown('A'))
+		{
+			SetAttackMode(true);
+		}
+
+		if (mbIsAttackMode && INPUT->IsOnceKeyDown(VK_ESCAPE))
+		{
+			SetAttackMode(false);
+		}
+		else if (mbIsAttackMode && INPUT->IsOnceKeyDown(VK_RBUTTON))
+		{
+			SetAttackMode(false);
+			UnitMove(INPUT->GetMousePosition());
+		}
+
 		if (PHYSICS->GetUnit(mTeamTag, INPUT->GetMousePosition(), &ID))
 		{
-			UI->ChangeCursorState(eCursorState::OnGreen);
-			if (INPUT->IsOnceKeyUp(VK_LBUTTON))
+			if (mbIsAttackMode)
 			{
-				ChangeSelectUnit(ID);
-			}
-		}
-		else if (PHYSICS->GetUnit(mEnemyTeamTag, INPUT->GetMousePosition(), &ID))
-		{
-			UI->ChangeCursorState(eCursorState::OnRed);
-			if (INPUT->IsOnceKeyUp(VK_LBUTTON))
-			{
-				ChangeSelectUnit(ID);
-			}
-		}
-		else
-		{
-			if (INPUT->IsStayKeyDown(VK_LBUTTON))
-			{
-				SetIsDrag(true);
-			}
-			else if (INPUT->IsOnceKeyDown(VK_RBUTTON))
-			{
-				if (!mVecSelectedUnit.empty())
+				UI->ChangeCursorState(eCursorState::PrepairGreen);
+				if (INPUT->IsOnceKeyUp(VK_LBUTTON))
 				{
-					if (mVecSelectedUnit.size() == 1)
-					{
-						UNIT->MoveUnit(mVecSelectedUnit[0], INPUT->GetMousePosition());
-					}
-					else
-					{
-						POINT leftTop;
-						POINT rightBottom;
-						vector<POINT> vecTargetPos;
-						vecTargetPos.resize(mVecSelectedUnit.size());
-						UNIT->GetUnitPosition(mVecSelectedUnit[0], vecTargetPos[0]);
-						leftTop = vecTargetPos[0];
-						rightBottom = vecTargetPos[0];
-
-						for (int i = 1; i < mVecSelectedUnit.size(); ++i)
-						{
-							UNIT->GetUnitPosition(mVecSelectedUnit[i], vecTargetPos[i]);
-							leftTop.x = min(leftTop.x, vecTargetPos[i].x);
-							leftTop.y = min(leftTop.y, vecTargetPos[i].y);
-							rightBottom.x = max(rightBottom.x, vecTargetPos[i].x);
-							rightBottom.y = max(rightBottom.y, vecTargetPos[i].y);
-						}
-
-						POINT center = { leftTop.x + (rightBottom.x - leftTop.x) / 2, leftTop.y + (rightBottom.y - leftTop.y) / 2 };
-
-						for (int i = 0; i < mVecSelectedUnit.size(); ++i)
-						{
-							UNIT->MoveUnit(mVecSelectedUnit[i], POINT {
-								INPUT->GetMousePosition().x + (vecTargetPos[i].x - center.x),
-								INPUT->GetMousePosition().y + (vecTargetPos[i].y - center.y)
-								}
-							);
-						}
-					}
-				}
-			}
-			else if (INPUT->IsOnceKeyDown('S'))
-			{
-				if (!mVecSelectedUnit.empty())
-				{
-					for (int i = 0; i < mVecSelectedUnit.size(); ++i)
-					{
-						UNIT->StopUnit(mVecSelectedUnit[i]);
-					}
+					ChaseTarget(ID);
+					SetAttackMode(false);
 				}
 			}
 			else
 			{
-				UI->ChangeCursorState(eCursorState::Idle);
+				UI->ChangeCursorState(eCursorState::OnGreen);
+				if (INPUT->IsOnceKeyUp(VK_LBUTTON))
+				{
+					ChangeSelectUnit(ID);
+				}
+			}
+		}
+		else if (PHYSICS->GetUnit(mEnemyTeamTag, INPUT->GetMousePosition(), &ID))
+		{
+			if (mbIsAttackMode)
+			{
+				UI->ChangeCursorState(eCursorState::PrepairRed);
+				if (INPUT->IsOnceKeyUp(VK_LBUTTON))
+				{
+					ChaseTarget(ID);
+					SetAttackMode(false);
+				}
+			}
+			else
+			{
+				UI->ChangeCursorState(eCursorState::OnRed);
+				if (INPUT->IsOnceKeyUp(VK_LBUTTON))
+				{
+					ChangeSelectUnit(ID);
+				}
+			}
+		}
+		else
+		{
+			if (mbIsAttackMode)
+			{
+				if (INPUT->IsOnceKeyDown(VK_LBUTTON))
+				{
+					AttackGround(INPUT->GetMousePosition());
+					SetAttackMode(false);
+				}
+				else
+				{
+					UI->ChangeCursorState(eCursorState::PrepairYellow);
+				}
+			}
+			else
+			{
+				if (INPUT->IsStayKeyDown(VK_LBUTTON))
+				{
+					SetIsDrag(true);
+				}
+				else
+				{
+					UI->ChangeCursorState(eCursorState::Idle);
+				}
+			}
+		}
+
+		if (INPUT->IsOnceKeyDown(VK_RBUTTON))
+		{
+			UnitMove(INPUT->GetMousePosition());
+		}
+		else if (INPUT->IsOnceKeyDown('S'))
+		{
+			if (!mVecSelectedUnit.empty())
+			{
+				for (int i = 0; i < mVecSelectedUnit.size(); ++i)
+				{
+					UNIT->StopUnit(mVecSelectedUnit[i]);
+				}
 			}
 		}
 	}
@@ -197,5 +216,75 @@ void UserManager::ChangeSelectDragUnit(const vector<UnitID>& vecUnit)
 	{
 		UNIT->SetSelectUnit(vecUnit[i], true);
 		mVecSelectedUnit.push_back(vecUnit[i]);
+	}
+}
+
+void UserManager::UnitMove(const POINT& pos)
+{
+	if (mVecSelectedUnit.empty()) { return; }
+
+	if (mVecSelectedUnit.size() == 1)
+	{
+		UNIT->MoveUnit(mVecSelectedUnit[0], INPUT->GetMousePosition());
+	}
+	else
+	{
+		POINT leftTop;
+		POINT rightBottom;
+		vector<POINT> vecTargetPos;
+		vecTargetPos.resize(mVecSelectedUnit.size());
+		UNIT->GetUnitPosition(mVecSelectedUnit[0], vecTargetPos[0]);
+		leftTop = vecTargetPos[0];
+		rightBottom = vecTargetPos[0];
+
+		for (int i = 1; i < mVecSelectedUnit.size(); ++i)
+		{
+			UNIT->GetUnitPosition(mVecSelectedUnit[i], vecTargetPos[i]);
+			leftTop.x = min(leftTop.x, vecTargetPos[i].x);
+			leftTop.y = min(leftTop.y, vecTargetPos[i].y);
+			rightBottom.x = max(rightBottom.x, vecTargetPos[i].x);
+			rightBottom.y = max(rightBottom.y, vecTargetPos[i].y);
+		}
+
+		POINT center = { leftTop.x + (rightBottom.x - leftTop.x) / 2, leftTop.y + (rightBottom.y - leftTop.y) / 2 };
+
+		for (int i = 0; i < mVecSelectedUnit.size(); ++i)
+		{
+			UNIT->MoveUnit(mVecSelectedUnit[i], POINT{
+				INPUT->GetMousePosition().x + (vecTargetPos[i].x - center.x),
+				INPUT->GetMousePosition().y + (vecTargetPos[i].y - center.y)
+				}
+			);
+		}
+	}
+}
+
+void UserManager::ChaseTarget(UnitID ID)
+{
+	for (int i = 0; i < mVecSelectedUnit.size(); ++i)
+	{
+		UNIT->AttackUnit(mVecSelectedUnit[i], ID);
+	}
+}
+
+void UserManager::AttackGround(const POINT& pos)
+{
+	for (int i = 0; i < mVecSelectedUnit.size(); ++i)
+	{
+		UNIT->AttackGround(mVecSelectedUnit[i], pos);
+	}
+}
+
+void UserManager::SetAttackMode(bool set)
+{
+	if (set)
+	{
+		mbIsAttackMode = true;
+		UI->ChangeCursorState(eCursorState::PrepairYellow);
+	}
+	else
+	{
+		mbIsAttackMode = false;
+		UI->ChangeCursorState(eCursorState::Idle);
 	}
 }
