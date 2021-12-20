@@ -8,9 +8,7 @@ class Unit;
 class PathFindingScene : public Scene
 {
 private:
-	Unit* mpFirstUnit = nullptr;
-	Unit* mpSecondUnit = nullptr;
-	Unit* mpCurUnit = nullptr;
+
 public:
 	virtual void Enter() override;
 	virtual void Exit() override;

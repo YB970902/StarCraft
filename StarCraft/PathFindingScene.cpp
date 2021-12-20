@@ -6,80 +6,56 @@
 #include "PathFinder.h"
 #include "TileManager.h"
 #include "UIManager.h"
+#include "UserManager.h"
+#include "UnitManager.h"
 
 void PathFindingScene::Enter()
 {
+	UNIT->Init(this);
+	USER->Init(eTeamTag::RED_TEAM);
+
+	UI->Init();
 	TILE->Init();
 	TILE->LoadTileMap(this, TEXT("MapData/Test.txt"));
-	UIManager::GetInstance()->Init();
 
 	RANDOM->SetSeed(time(nullptr));
 
-	mpFirstUnit = static_cast<Unit*>(AddGameObject(new Unit(eTeamTag::RED_TEAM)));
-	mpFirstUnit->SetPosition(25, 25);
+	for (int i = 1; i <= 12; ++i)
+	{
+		UNIT->CreateUnit(eTeamTag::RED_TEAM, eUnitTag::Marrine, 25, 25 * i, i);
+	}
 
-	mpSecondUnit = new Unit(eTeamTag::RED_TEAM);
-	AddGameObject(mpSecondUnit);
-	mpSecondUnit->SetPosition(55, 25);
-
-	mpCurUnit = mpFirstUnit;
+	UNIT->CreateUnit(eTeamTag::BLUE_TEAM, eUnitTag::Marrine, 55, 25, 13);
 }
 
 void PathFindingScene::Exit()
 {
 	TILE->Release();
-	UIManager::GetInstance()->Release();
+	UI->Release();
+	USER->Release();
+	UNIT->Release();
 }
 
 void PathFindingScene::Update()
 {
-	if (INPUT->IsOnceKeyDown(VK_RBUTTON))
-	{
-		mpCurUnit->FindPath(INPUT->GetMousePosition());
-	}
+	UNIT->Update();
+	USER->Update();
 
-	Unit* pUnit = nullptr;
-	if (PHYSICS->GetUnit(eTeamTag::RED_TEAM, INPUT->GetMousePosition(), &pUnit))
-	{
-		UIManager::GetInstance()->ChangeCursorState(eCursorState::OnGreen);
-		if (INPUT->IsOnceKeyDown('E'))
-		{
-			pUnit->ChangeCircleColor(EFFECT_COLOR_RED);
-		}
-		if (INPUT->IsOnceKeyDown('R'))
-		{
-			pUnit->ChangeCircleColor(EFFECT_COLOR_GREEN);
-		}
-	}
-	else
-	{
-		UIManager::GetInstance()->ChangeCursorState(eCursorState::Idle);
-	}
-
-
-
-	if (INPUT->IsOnceKeyDown('1'))
-	{
-		mpCurUnit = mpFirstUnit;
-	}
-	if (INPUT->IsOnceKeyDown('2'))
-	{
-		mpCurUnit = mpSecondUnit;
-	}
 	if (INPUT->IsStayKeyDown(VK_LSHIFT))
 	{
-		if (INPUT->IsStayKeyDown('A')) { CAMERA->AddPosition(Vector2::Right() * CAMERA_FAST_MOVING_SPEED * DELTA_TIME); }
-		if (INPUT->IsStayKeyDown('D')) { CAMERA->AddPosition(Vector2::Left() * CAMERA_FAST_MOVING_SPEED * DELTA_TIME); }
-		if (INPUT->IsStayKeyDown('W')) { CAMERA->AddPosition(Vector2::Down() * CAMERA_FAST_MOVING_SPEED * DELTA_TIME); }
-		if (INPUT->IsStayKeyDown('S')) { CAMERA->AddPosition(Vector2::Up() * CAMERA_FAST_MOVING_SPEED * DELTA_TIME); }
+		if (INPUT->IsStayKeyDown(VK_LEFT)) { CAMERA->AddPosition(Vector2::Right() * CAMERA_FAST_MOVING_SPEED * DELTA_TIME); }
+		if (INPUT->IsStayKeyDown(VK_RIGHT)) { CAMERA->AddPosition(Vector2::Left() * CAMERA_FAST_MOVING_SPEED * DELTA_TIME); }
+		if (INPUT->IsStayKeyDown(VK_UP)) { CAMERA->AddPosition(Vector2::Down() * CAMERA_FAST_MOVING_SPEED * DELTA_TIME); }
+		if (INPUT->IsStayKeyDown(VK_DOWN)) { CAMERA->AddPosition(Vector2::Up() * CAMERA_FAST_MOVING_SPEED * DELTA_TIME); }
 	}
 	else
 	{
-		if (INPUT->IsStayKeyDown('A')) { CAMERA->AddPosition(Vector2::Right() * CAMERA_MOVING_SPEED * DELTA_TIME); }
-		if (INPUT->IsStayKeyDown('D')) { CAMERA->AddPosition(Vector2::Left() * CAMERA_MOVING_SPEED * DELTA_TIME); }
-		if (INPUT->IsStayKeyDown('W')) { CAMERA->AddPosition(Vector2::Down() * CAMERA_MOVING_SPEED * DELTA_TIME); }
-		if (INPUT->IsStayKeyDown('S')) { CAMERA->AddPosition(Vector2::Up() * CAMERA_MOVING_SPEED * DELTA_TIME); }
+		if (INPUT->IsStayKeyDown(VK_LEFT)) { CAMERA->AddPosition(Vector2::Right() * CAMERA_MOVING_SPEED * DELTA_TIME); }
+		if (INPUT->IsStayKeyDown(VK_RIGHT)) { CAMERA->AddPosition(Vector2::Left() * CAMERA_MOVING_SPEED * DELTA_TIME); }
+		if (INPUT->IsStayKeyDown(VK_UP)) { CAMERA->AddPosition(Vector2::Down() * CAMERA_MOVING_SPEED * DELTA_TIME); }
+		if (INPUT->IsStayKeyDown(VK_DOWN)) { CAMERA->AddPosition(Vector2::Up() * CAMERA_MOVING_SPEED * DELTA_TIME); }
 	}
 
-	UIManager::GetInstance()->Update();
+	// GameRoot에서 Update와 Render사이에 둘 것
+	UI->Update();
 }

@@ -5,6 +5,8 @@
 #define SCENE SceneManager::GetInstance()
 #define CAMERA CameraManager::GetInstance()
 #define RANDOM RandomManager::GetInstance()
+#define UI UIManager::GetInstance()
+#define USER UserManager::GetInstance()
 
 #define DELTA_TIME TimeManager::GetInstance()->GetDeltaTime()
 
@@ -13,3 +15,4 @@
 
 typedef int64_t Bit;
 typedef uint64_t UBit;
+typedef unsigned int UnitID;

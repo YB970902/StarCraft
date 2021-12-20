@@ -3,7 +3,6 @@
 #include "SingleAnimation.h"
 
 UICursor::UICursor()
-	:UIGameObject()
 {
 	Init();
 }

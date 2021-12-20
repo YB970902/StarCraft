@@ -5,7 +5,6 @@
 void UIManager::Init()
 {
 	mpCursor = new UICursor();
-	mpCursor->GetRenderer()->SetUnitLayer(eUnitLayer::Sky);
 }
 
 void UIManager::Release()
@@ -15,8 +14,8 @@ void UIManager::Release()
 
 void UIManager::Update()
 {
+	mpCursor->GetTransform()->SetPosition(INPUT->GetMousePosition());
 	mpCursor->update();
-	mpCursor->GetTransform()->SetPosition(INPUT->GetLocalMousePosition());
 }
 
 void UIManager::ChangeCursorState(eCursorState state)

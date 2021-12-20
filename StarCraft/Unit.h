@@ -1,38 +1,48 @@
 #pragma once
 #include "GameObject.h"
 
+class UnitModel;
 class Unit : public GameObject
 {
 private:
+	UnitID mID = UNIT_ID_NONE;
+	eTeamTag mTeamTag;
+	const float* mArrColor;
+
 	SpriteComponent* mpSprite = nullptr;
 	ID2D1Effect* mpEffect = nullptr;
 	PathFindComponent* mpPathFind = nullptr;
 
-	Vector2 mTargetPos = {0, 0};
-	bool mbIsMove = false;
+	UnitModel* mpModel = nullptr;
 
-	eTeamTag mTeamTag;
+	bool mbIsMoving = false;
 
 protected:
-	Vector2 mColliderPos = { 0, 0 };
+	int mAttackRange = 0;
+	int mVisionRange = 0;
+	UnitID mTargetID = UNIT_ID_NONE;
 
 public:
-	Unit(eTeamTag teamTag);
+	Unit(eTeamTag teamTag, UnitID ID);
 	virtual ~Unit();
 	virtual void Init() override;
 	virtual void Release() override;
 	virtual void Update() override;
 
 	inline Vector2 GetPosition() { return mpTransform->GetPosition(); }
-	inline Vector2 GetColliderPosition() { return mpTransform->GetPosition() + mColliderPos; }
-	inline void SetPosition(Fix x, Fix y) { mpTransform->SetPosition(x, y); if (mpPathFind) { mpPathFind->SetStop(); } }
+	inline void SetPosition(Fix x, Fix y) { mpTransform->SetPosition(x, y); }
 	inline void SetRotation(Fix angle) { mpTransform->SetRotation(angle); }
 
-	inline void ChangeCircleColor(const float* color) { mpEffect->SetValue((int)EffectData::eColorReplaceProperty::GROUP_COLOR, D2D_VECTOR_3F{ color[0], color[1], color[2] }); }
-
-	void SetTargetPosition(POINT pos);
-
-	void FindPath(POINT pos);
+	void SetIsSelected(bool set);
 
 	inline eTeamTag GetTeamTag() { return mTeamTag; }
+	inline UnitID GetUnitID() { return mID; }
+
+	void Move(POINT pos);
+	void Attack(POINT pos);
+	void Stop();
+
+	bool IsHaveTarget() { return (mTargetID != UNIT_ID_NONE); }
+	int GetAttackRange() { return mAttackRange; }
+	int GetVisionRange() { return mVisionRange; }
 };

@@ -83,9 +83,9 @@ public:
 
 	DetailMap* GetTileMap(eUnitTileSize unitSize);
 	bool GetEndPosition(const Vector2& startPos, const Vector2& targetPos, const eUnitTileSize& unitSize, TileCoord* pEndPoint);
-	bool BeginSearch(Vector2 startPos, TileCoord* pEndPoint, const eUnitTileSize& unitSize, JumpPointHeap* pJumpPoint, BitArray* pSearched, list<TileCoord>& result, TileNode** ppNearNode);
-	bool KeepSearch(TileCoord* pEndPoint, const eUnitTileSize& unitSize, JumpPointHeap* pJumpPoint, BitArray* pSearched, list<TileCoord>& result, TileNode** ppNearNode);
-	void CreateDetailTempPath(TileNode* pNearNode, list<TileCoord>& result);
+	bool BeginSearch(Vector2 startPos, TileCoord* pEndPoint, const eUnitTileSize& unitSize, JumpPointHeap* pJumpPoint, BitArray* pSearched, list<TileCoord>& result, TileNode::SharedPtr* ppNearNode);
+	bool KeepSearch(TileCoord* pEndPoint, const eUnitTileSize& unitSize, JumpPointHeap* pJumpPoint, BitArray* pSearched, list<TileCoord>& result, TileNode::SharedPtr* ppNearNode);
+	void CreateDetailTempPath(TileNode::SharedPtr pNearNode, list<TileCoord>& result);
 	void ConnectPath(vector<TileCoord>& passedPath, list<TileCoord>& correctPath);
 
 	void SetOccupyTile(const Vector2& pos, const eUnitTileSize& unitSize, bool set);

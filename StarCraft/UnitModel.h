@@ -17,5 +17,6 @@ public:
 	virtual void Update() override;
 
 	inline void ChangeUnitColor(const float* color) { mpEffect->SetValue((int)EffectData::eColorReplaceProperty::GROUP_COLOR, D2D_VECTOR_3F{ color[0], color[1], color[2] }); }
+	void ChangeAnimation(eAnimationTag animTag);
 };
 

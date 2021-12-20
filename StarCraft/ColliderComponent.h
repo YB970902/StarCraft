@@ -30,4 +30,5 @@ public:
 	inline eTeamTag GetTeamTag() { return mTeamTag; }
 
 	bool IsCollided(const POINT& point);
+	bool IsCollided(const RECT& rc);
 };

@@ -148,6 +148,21 @@
     <Filter Include="GameObject\UIObject">
       <UniqueIdentifier>{d08950a3-7734-41e4-8326-85058e012ec9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\IngameScene">
+      <UniqueIdentifier>{d6cb213e-bcf6-4379-9791-efb7cdc202ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\UserManager">
+      <UniqueIdentifier>{503878c1-af44-461e-86b7-812770190f6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\UnitManager">
+      <UniqueIdentifier>{fceb1665-f608-4775-9474-7ff80cca6ff2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pattern">
+      <UniqueIdentifier>{c72656bd-9cf0-4e39-869f-8d55812eeaf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pattern\Observer">
+      <UniqueIdentifier>{2ead7c73-93a4-4411-a5ed-772f21f705a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -299,6 +314,18 @@
     </ClCompile>
     <ClCompile Include="UIGameObject.cpp">
       <Filter>GameObject\UIObject</Filter>
+    </ClCompile>
+    <ClCompile Include="UserManager.cpp">
+      <Filter>Manager\UserManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitManager.cpp">
+      <Filter>Manager\UnitManager</Filter>
+    </ClCompile>
+    <ClCompile Include="IObserver.cpp">
+      <Filter>Pattern\Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="Subject.cpp">
+      <Filter>Pattern\Observer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -481,6 +508,18 @@
     </ClInclude>
     <ClInclude Include="UIGameObject.h">
       <Filter>GameObject\UIObject</Filter>
+    </ClInclude>
+    <ClInclude Include="UserManager.h">
+      <Filter>Manager\UserManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitManager.h">
+      <Filter>Manager\UnitManager</Filter>
+    </ClInclude>
+    <ClInclude Include="IObserver.h">
+      <Filter>Pattern\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Pattern\Observer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

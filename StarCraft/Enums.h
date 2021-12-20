@@ -96,11 +96,9 @@ enum class eCursorState
 	PrepairYellow,
 };
 
-const float EFFECT_COLOR_RED[] = { 1.0f, 0.0f, 0.0f };
-const float EFFECT_COLOR_GREEN[] = { 0.0f, 1.0f, 0.0f };
-const float EFFECT_COLOR_BLUE[] = { 0.0f, 0.0f, 1.0f };
-const float EFFECT_COLOR_YELLOW[] = { 1.0f, 1.0f, 0.0f };
-const float EFFECT_COLOR_EMERALD[] = { 1.0f, 0.0f, 1.0f };
-const float EFFECT_COLOR_PURPLE[] = { 0.5f, 0.0f, 1.0f };
-const float EFFECT_COLOR_WHITE[] = { 1.0f, 1.0f, 1.0f };
-const float EFFECT_COLOR_BLACK[] = { 0.1f, 0.1f, 0.1f };
+enum class eObserverMessage
+{
+	 BeginChasing,
+	 EndChasing,
+	 Dead,
+};

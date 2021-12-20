@@ -2,11 +2,21 @@
 #include "Unit.h"
 #include "UnitModel.h"
 #include "MultipleAnimation.h"
+#include "UserManager.h"
 
-Unit::Unit(eTeamTag teamTag)
-	: GameObject::GameObject(), mTeamTag{ teamTag }
+Unit::Unit(eTeamTag teamTag, UnitID ID)
+	: GameObject::GameObject(), mTeamTag{ teamTag }, mID{ ID }
 {
 	Init();
+
+	if (USER->GetTeamTag() == teamTag)
+	{
+		mArrColor = EFFECT_COLOR_GREEN;
+	}
+	else
+	{
+		mArrColor = EFFECT_COLOR_RED;
+	}
 }
 
 Unit::~Unit()
@@ -18,10 +28,11 @@ void Unit::Init()
 	mpSprite = static_cast<SpriteComponent*>(AddComponent(new SpriteComponent(eBitmapTag::SELECTED_CIRCLE_SMALL, SpriteData::SINGLE_FRAME_X, SpriteData::SINGLE_FRAME_Y)));
 	mpEffect = static_cast<EffectComponent*>(AddComponent(new EffectComponent(eEffectTag::COLOR_REPLACE)))->GetEffect();
 	mpPathFind = static_cast<PathFindComponent*>(AddComponent(new PathFindComponent(eUnitTileSize::Small)));
-	AddComponent(new ColliderComponent(Vector2(0, -20), Vector2(32, 32), mTeamTag));
+	AddComponent(new ColliderComponent(Vector2(0, -10), Vector2(16, 16), mTeamTag));
 	mpEffect->SetInput(0, mpSprite->GetBitmap());
-	ChangeCircleColor(EFFECT_COLOR_GREEN);
-	AddChild(new UnitModel(), 0);
+	SetIsSelected(false);
+	mpModel = static_cast<UnitModel*>(AddChild(new UnitModel(), 0));
+	mpModel->ChangeAnimation(eAnimationTag::Idle);
 }
 
 void Unit::Release()
@@ -30,21 +41,21 @@ void Unit::Release()
 
 void Unit::Update()
 {
-	if (mbIsMove)
+	if (mpPathFind->IsMoving())
 	{
-		Vector2 dir = Vector2(mTargetPos - GetPosition()).Normalize();
-		Vector2 moved = dir * (Fix)100 * DELTA_TIME;
-
-		cout << "Moved X : " << moved.x << endl;
-		cout << "Moved Y : " << moved.y << endl;
-
-		mpTransform->SetPosition(GetPosition() + dir * (Fix)100 * DELTA_TIME);
-		if (Vector2::GetDistance(GetPosition(), mTargetPos) < (Fix)3)
+		if (mbIsMoving == false)
 		{
-			mpTransform->SetPosition(mTargetPos);
-			cout << "My X : " << GetPosition().x << ", My Y : " << GetPosition().y << endl;
-			cout << "Target X : " << mTargetPos.x << ", Target Y : " << mTargetPos.y << endl;
-			mbIsMove = false;
+			mbIsMoving = true;
+			mpModel->ChangeAnimation(eAnimationTag::Move);
+		}
+		mpTransform->SetRotation((Fix)mpPathFind->GetAngle());
+	}
+	else
+	{
+		if (mbIsMoving)
+		{
+			mbIsMoving = false;
+			mpModel->ChangeAnimation(eAnimationTag::Idle);
 		}
 	}
 
@@ -54,14 +65,32 @@ void Unit::Update()
 	}
 }
 
-void Unit::FindPath(POINT pos)
+void Unit::Move(POINT pos)
 {
 	mpPathFind->FindPath(Vector2(pos.x, pos.y));
 }
 
-void Unit::SetTargetPosition(POINT pos)
+void Unit::Attack(POINT pos)
 {
-	mTargetPos.x = pos.x;
-	mTargetPos.y = pos.y;
-	mbIsMove = true;
+}
+
+void Unit::Stop()
+{
+	if (mpPathFind->IsMoving())
+	{
+		mpPathFind->Stop();
+	}
+}
+
+void Unit::SetIsSelected(bool set)
+{
+	if (set)
+	{
+		mpSprite->ChangeBitmap(eBitmapTag::SELECTED_CIRCLE_SMALL);
+		mpEffect->SetValue((int)EffectData::eColorReplaceProperty::GROUP_COLOR, D2D_VECTOR_3F{ mArrColor[0], mArrColor[1], mArrColor[2] });
+	}
+	else
+	{
+		mpSprite->ChangeBitmap(eBitmapTag::NONE);
+	}
 }

@@ -6,6 +6,7 @@ void CameraManager::Init()
 {
 	RECT rc;
 	GetClientRect(g_hWnd, &rc);
+	ClipCursor(&rc);
 	mSize.width = rc.right - rc.left;
 	mSize.height = rc.bottom - rc.top;
 	mCameraRect = RECT{ (long)-mPosition.x, (long)-mPosition.y, (long)-mPosition.x + (long)mSize.width, (long)-mPosition.y + (long)mSize.height };

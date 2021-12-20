@@ -4,7 +4,8 @@
 
 class UIGameObject : public GameObject
 {
-private:
-	virtual void init();
+public:
+	UIGameObject();
+	virtual ~UIGameObject();
 };
 

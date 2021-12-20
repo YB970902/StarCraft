@@ -161,6 +161,7 @@
     <ClCompile Include="AnimationBase.cpp" />
     <ClCompile Include="Gizmo.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="IObserver.cpp" />
     <ClCompile Include="JPS.cpp" />
     <ClCompile Include="LineGizmo.cpp" />
     <ClCompile Include="MapObject.cpp" />
@@ -185,6 +186,7 @@
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Subject.cpp" />
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="TextGizmo.cpp" />
     <ClCompile Include="Tile.cpp" />
@@ -196,7 +198,9 @@
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="UIRendererComponent.cpp" />
     <ClCompile Include="Unit.cpp" />
+    <ClCompile Include="UnitManager.cpp" />
     <ClCompile Include="UnitModel.cpp" />
+    <ClCompile Include="UserManager.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="WindowManager.cpp" />
   </ItemGroup>
@@ -224,6 +228,7 @@
     <ClInclude Include="Headers.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="GameRoot.h" />
+    <ClInclude Include="IObserver.h" />
     <ClInclude Include="JPS.h" />
     <ClInclude Include="LineGizmo.h" />
     <ClInclude Include="MapObject.h" />
@@ -247,6 +252,7 @@
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="SpriteData.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Subject.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="TextGizmo.h" />
     <ClInclude Include="Tile.h" />
@@ -258,7 +264,9 @@
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="UIRendererComponent.h" />
     <ClInclude Include="Unit.h" />
+    <ClInclude Include="UnitManager.h" />
     <ClInclude Include="UnitModel.h" />
+    <ClInclude Include="UserManager.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>

@@ -28,9 +28,6 @@ void RenderManager::Render()
 	if (mbIsInitLayer == false) { return; }
 	mpD2DContext->BeginDraw();
 	mpD2DContext->Clear(D2D1::ColorF(D2D1::ColorF::White));
-
-	// 줌을 적용시킨 코드
-	//mpD2DContext->SetTransform(D2D1::Matrix3x2F::Scale(D2D1::SizeF(mCameraZoom, mCameraZoom)) * D2D1::Matrix3x2F::Translation(mCameraPosition.x, mCameraPosition.y));
 	mpD2DContext->SetTransform(D2D1::Matrix3x2F::Translation(CAMERA->GetD2DPosition()));
 
 	POINT leftTop = GetDetailIndexByPoint(POINT{ CAMERA->GetCameraRect().left, CAMERA->GetCameraRect().top });
@@ -85,15 +82,15 @@ void RenderManager::Render()
 		}
 	}
 
+	for (int i = 0; i < mVecGizmo.size(); ++i)
+	{
+		mVecGizmo[i]->Render(mpD2DContext);
+	}
+
 	size = mLayerUI.size();
 	for (int i = 0; i < size; ++i)
 	{
 		mLayerUI[i]->render(mpD2DContext);
-	}
-
-	for (int i = 0; i < mVecGizmo.size(); ++i)
-	{
-		mVecGizmo[i]->Render(mpD2DContext);
 	}
 
 	mpD2DContext->EndDraw();
@@ -179,6 +176,16 @@ void RenderManager::EraseRenderer(const Vector2& pos, RendererComponent* pCompon
 			));
 		break;
 	}
+}
+
+void RenderManager::EraseUIRenderer(RendererComponent* pComponent)
+{
+	mLayerUI.erase(
+		find(mLayerUI.begin(),
+			mLayerUI.end(),
+			pComponent->GetGameObject()
+		)
+	);
 }
 
 void RenderManager::RendererMoved(RendererComponent* pComponent, const Vector2& prevPos, const Vector2& curPos)

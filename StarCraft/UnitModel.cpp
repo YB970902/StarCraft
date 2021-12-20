@@ -43,3 +43,8 @@ void UnitModel::Update()
 {
 	
 }
+
+void UnitModel::ChangeAnimation(eAnimationTag animTag)
+{
+	mpAnimator->ChangeAnimation((int)animTag);
+}

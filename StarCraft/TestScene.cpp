@@ -5,7 +5,7 @@
 
 void TestScene::Enter()
 {
-	pUnit = static_cast<Unit*>(AddGameObject(new Unit(eTeamTag::RED_TEAM)));
+	pUnit = static_cast<Unit*>(AddGameObject(new Unit(eTeamTag::RED_TEAM, 0)));
 
 	RENDER->RenderText(TEXT("Text Test"), Vector2(100, 100), Vector2(100, 50));
 	RENDER->RenderText(TEXT("텍스트 테스트"), Vector2(100, 150), Vector2(100, 50));
@@ -33,7 +33,6 @@ void TestScene::Update()
 
 	if (INPUT->IsOnceKeyDown('T'))
 	{
-		pUnit->SetTargetPosition(INPUT->GetMousePosition());
 		Fix x = (Fix)INPUT->GetMousePosition().x - pUnit->GetPosition().x;
 		Fix y = (Fix)INPUT->GetMousePosition().y - pUnit->GetPosition().y;
 		pUnit->SetRotation(RAD2DEG(atan2(static_cast<float>(y * (Fix)-1), static_cast<float>(x))));

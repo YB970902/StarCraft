@@ -65,6 +65,7 @@ public:
 	void AddRenderer(const Vector2& pos, RendererComponent* pComponent);
 	void AddUIRenderer(RendererComponent* pComponent);
 	void EraseRenderer(const Vector2& pos, RendererComponent* pComponent);
+	void EraseUIRenderer(RendererComponent* pComponent);
 	void RendererMoved(RendererComponent* pComponent, const Vector2& prevPos, const Vector2& curPos);
 
 	Gizmo* RenderText(wstring text, Vector2 pos, Vector2 size, int fontSize = 14, D2D1::ColorF color = D2D1::ColorF::Black, eTextAlign align = eTextAlign::Center);

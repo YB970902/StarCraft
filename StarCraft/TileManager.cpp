@@ -156,6 +156,11 @@ bool TileManager::GetEndPosition(const Vector2& startPos, const Vector2& targetP
 	GetTileCoordByPosition(startPos, startCoord);
 	GetTileCoordByPosition(targetPos, endCoord);
 
+	if (endCoord.GetX() <= 0) { endCoord.SetX(1); }
+	if (endCoord.GetX() >= mTileWidth - 1) { endCoord.SetX(mTileWidth - 2); }
+	if (endCoord.GetY() <= 0) { endCoord.SetY(1); }
+	if (endCoord.GetY() >= mTileHeight - 1) { endCoord.SetY(mTileWidth - 2); }
+
 	switch (unitSize)
 	{
 	case eUnitTileSize::Small:
@@ -196,7 +201,7 @@ bool TileManager::GetEndPosition(const Vector2& startPos, const Vector2& targetP
 	}
 }
 
-bool TileManager::BeginSearch(Vector2 startPos, TileCoord* pEndPoint, const eUnitTileSize& unitSize, JumpPointHeap* pJumpPoint, BitArray* pSearched, list<TileCoord>& result, TileNode** ppNearNode)
+bool TileManager::BeginSearch(Vector2 startPos, TileCoord* pEndPoint, const eUnitTileSize& unitSize, JumpPointHeap* pJumpPoint, BitArray* pSearched, list<TileCoord>& result, TileNode::SharedPtr* ppNearNode)
 {
 	DetailMap* pDetailMap = nullptr;
 	switch (unitSize)
@@ -236,12 +241,12 @@ bool TileManager::BeginSearch(Vector2 startPos, TileCoord* pEndPoint, const eUni
 	pJumpPoint->Push(startNode);
 	pSearched->SetAt(startNode->GetPositionX(), startNode->GetPositionY(), true);
 
-	(*ppNearNode) = startNode.get();
+	(*ppNearNode) = startNode;
 
 	return KeepSearch(pEndPoint, unitSize, pJumpPoint, pSearched, result, ppNearNode);
 }
 
-bool TileManager::KeepSearch(TileCoord* pEndPoint, const eUnitTileSize& unitSize, JumpPointHeap* pJumpPoint, BitArray* pSearched, list<TileCoord>& result, TileNode** ppNearNode)
+bool TileManager::KeepSearch(TileCoord* pEndPoint, const eUnitTileSize& unitSize, JumpPointHeap* pJumpPoint, BitArray* pSearched, list<TileCoord>& result, TileNode::SharedPtr* ppNearNode)
 {
 	mpCurEndPoint = pEndPoint;
 
@@ -267,7 +272,7 @@ bool TileManager::KeepSearch(TileCoord* pEndPoint, const eUnitTileSize& unitSize
 		TileNode::SharedPtr pCurNode = pJumpPoint->Pop();
 		if ((*ppNearNode) == nullptr || (*ppNearNode)->GetScore() < pCurNode->GetScore())
 		{
-			(*ppNearNode) = pCurNode.get();
+			(*ppNearNode) = pCurNode;
 		}
 		int direction = ForcedNeighbours(pCurNode->GetPosition(), pCurNode->GetDirection()) | NaturalNeighbours(pCurNode->GetDirection());
 
@@ -310,8 +315,12 @@ bool TileManager::KeepSearch(TileCoord* pEndPoint, const eUnitTileSize& unitSize
 	return false;
 }
 
-void TileManager::CreateDetailTempPath(TileNode* pNearNode, list<TileCoord>& result)
+void TileManager::CreateDetailTempPath(TileNode::SharedPtr pNearNode, list<TileCoord>& result)
 {
+	if (pNearNode == nullptr)
+	{
+		return;
+	}
 	TileNode::SharedPtr nearNode = make_shared<TileNode>();
 	nearNode->SetParent(pNearNode->GetParent());
 	nearNode->SetPosition(pNearNode->GetPosition());
@@ -893,12 +902,12 @@ void TileManager::CreateDetailPath(const TileNode::SharedPtr& pCurNode, const Ti
 					if (!bPassableLeft)
 					{
 						nextCoord = TileCoord::NextCoordinate(prevCoord, (curDir + DIR_UP_RIGHT) % DIR_COUNT);
-						result.push_front(nextCoord);
+						//result.push_front(nextCoord);
 					}
 					else if (!bPassableRight)
 					{
 						nextCoord = TileCoord::NextCoordinate(prevCoord, (curDir + DIR_UP_LEFT) % DIR_COUNT);
-						result.push_front(nextCoord);
+						//result.push_front(nextCoord);
 					}
 				}
 				prevCoord = TileCoord::NextCoordinate(prevCoord, curDir);

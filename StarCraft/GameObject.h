@@ -14,13 +14,11 @@
 class Scene;
 class RenderManager;
 class UIManager;
-class UIGameObject;
 class GameObject
 {
 	friend Scene;
 	friend RenderManager;
 	friend UIManager;
-	friend UIGameObject;
 private:
 	vector<Component*> mVecComponent;
 	vector<pair<int, GameObject*>> mVecChild;
@@ -28,7 +26,7 @@ private:
 	size_t mComponentSize = 0;
 	size_t mChildSize = 0;
 
-	virtual void init();
+	void init();
 	void release();
 	void update();
 	void render(ID2D1DeviceContext2* pContext);
@@ -38,6 +36,7 @@ protected:
 
 public:
 	GameObject();
+	GameObject(RendererComponent* pRenderer);
 	virtual ~GameObject();
 	
 	virtual void Init() {};

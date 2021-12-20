@@ -3,7 +3,6 @@
 #include "TileManager.h"
 #include "DetailMap.h"
 #include "BitArray.h"
-#include "JPS.h"
 #include "GameObject.h"
 #include "TransformComponent.h"
 
@@ -37,65 +36,50 @@ void PathFindComponent::Update()
 {
 	if (mbIsSearching)
 	{
+		SetOpen();
 		KeepFinding();
+		SetObstacle();
 	}
+
 	if (mbIsWaiting)
 	{
-		Vector2 dir = (mNextPath - mpTransform->GetPosition()).Normalize();
-		Vector2 nextPosition = mpTransform->GetPosition() + dir * 100 * DELTA_TIME;
-		TileManager::eTileState tileState;
-		if (TILE->IsTileOpen(nextPosition, mUnitSize, tileState))
+		mWaitingTime += DELTA_TIME;
+		if (mWaitingTime >= MAX_WAITING_TIME)
 		{
-			mbIsWaiting = false;
-		}
-		else
-		{
-			switch (tileState)
+			Vector2 dir = (mNextPath - mpTransform->GetPosition()).Normalize();
+			Vector2 nextPosition = mpTransform->GetPosition() + dir * 100 * DELTA_TIME;
+			TileManager::eTileState tileState;
+			if (TILE->IsTileOpen(nextPosition, mUnitSize, tileState))
 			{
-			case TileManager::eTileState::Obstacle:
+				mbIsWaiting = false;
+			}
+			else
+			{
 				FindPathAgain();
-				break;
-			case TileManager::eTileState::Occupied:
-				mWaitingTime += DELTA_TIME;
-				if (mWaitingTime >= MAX_WAITING_TIME)
-				{
-					FindPathAgain();
-				}
-				break;
 			}
 		}
 	}
 	else if (mbIsFollowPath)
 	{
-		Vector2 dir = (mNextPath - mpTransform->GetPosition()).Normalize();
+		Vector2 toNextPos = (mNextPath - mpTransform->GetPosition());
+		Vector2 dir = toNextPos.Normalize();
 		Vector2 nextPosition = mpTransform->GetPosition() + dir * 100 * DELTA_TIME;
 
+		mLookAngle = RAD2DEG(atan2f(-toNextPos.y, toNextPos.x));
+
 		TileManager::eTileState tileState;
-		SetMove();
+		SetOpen();
 		if (TILE->IsTileOpen(nextPosition, mUnitSize, tileState))
 		{
 			mpTransform->SetPosition(nextPosition);
+			SetObstacle();
 		}
 		else
 		{
-			switch (tileState)
+			if (mPath.size() < ARRIVED_TILE_COUNT)
 			{
-			case TileManager::eTileState::Obstacle:
-				FindPathAgain();
+				Stop();
 				return;
-			case TileManager::eTileState::Occupied:
-				WaitingStart();
-				return;
-			}
-		}
-		SetPause();
-
-		if (Vector2::GetDistance(mpTransform->GetPosition(), mNextPath) < (Fix)1)
-		{
-			SetMove();
-			if (TILE->IsTileOpen(mNextPath, mUnitSize, tileState))
-			{
-				mpTransform->SetPosition(mNextPath);
 			}
 			else
 			{
@@ -109,39 +93,51 @@ void PathFindComponent::Update()
 					return;
 				}
 			}
-			SetPause();
-			if (mbIsCorrectPath)
+		}
+		SetOccupy();
+
+		if (IsCloserAtNextPath())
+		{
+			SetOpen();
+			if (TILE->IsTileOpen(mNextPath, mUnitSize, tileState))
 			{
-				if (mPath.empty())
-				{
-					SetStop();
-					mbIsFollowPath = false;
-				}
-				else
-				{
-					TILE->GetPositionByTileCoord(mPath.front(), mNextPath);
-					mPath.pop_front();
-				}
+				mpTransform->SetPosition(mNextPath);
+				SetOccupy();
 			}
 			else
 			{
-				if (mTempPath.empty())
+				// 이동할 수 없는 경로인데 목적지와 가까우면 그냥 정지
+				if (mPath.size() < ARRIVED_TILE_COUNT)
 				{
-					SetStop();
-					mbIsFollowPath = false;
+					Stop();
 				}
 				else
 				{
-					TILE->GetPositionByTileCoord(mTempPath.front(), mNextPath);
-					mPassedPath.push_back(mTempPath.front());
-					mTempPath.pop_front();
+					switch (tileState)
+					{
+					case TileManager::eTileState::Obstacle:
+						FindPathAgain();
+						SetObstacle();
+						return;
+					case TileManager::eTileState::Occupied:
+						WaitingStart();
+						return;
+					}
 				}
+			}
+			if (GetNextPath(mNextPath))
+			{
+				SetOccupy();
+			}
+			else
+			{
+				SetObstacle();
 			}
 		}
 	}
 }
 
-void PathFindComponent::SetStop()
+void PathFindComponent::SetObstacle()
 {
 	if (!mbIsObstacle)
 	{
@@ -155,7 +151,7 @@ void PathFindComponent::SetStop()
 	}
 }
 
-void PathFindComponent::SetMove()
+void PathFindComponent::SetOpen()
 {
 	if (mbIsObstacle)
 	{
@@ -169,7 +165,7 @@ void PathFindComponent::SetMove()
 	}
 }
 
-void PathFindComponent::SetPause()
+void PathFindComponent::SetOccupy()
 {
 	if (mbIsObstacle)
 	{
@@ -185,12 +181,7 @@ void PathFindComponent::SetPause()
 
 void PathFindComponent::FindPath(Vector2 targetPos)
 {
-	TileCoord prevEndPos;
-	prevEndPos.SetX(mpEndPos->GetX());
-	prevEndPos.SetY(mpEndPos->GetY());
-
 	if (!TILE->GetEndPosition(mpTransform->GetPosition(), targetPos, mUnitSize, mpEndPos)) { return; }
-	if (prevEndPos == *mpEndPos) return;
 
 	mTargetPosition = targetPos;
 
@@ -217,13 +208,6 @@ void PathFindComponent::KeepFinding()
 		mbIsSearching = false;
 		mbIsCorrectPath = true;
 
-		// 모든 지형을 탐색했지만 목적지로 가는 경로를 못찾은 경우엔
-		// 탐색했던 경로들중 가장 목적지와 가까운 노드의 부모를 따라서 임시 경로를 만든다.
-		if (mPath.empty())
-		{
-			TILE->CreateDetailTempPath(mpNearTileNode, mPath);
-		}
-
 		// 임시 경로를 따라가고 있던경우엔
 		// 지금까지 따라갔던 경로와 탐색한 경로를 이어준다.
 		if (!mPassedPath.empty())
@@ -241,9 +225,23 @@ void PathFindComponent::KeepFinding()
 	}
 	else
 	{
-		if (mPassedPath.empty())
+		// 도착지로 가는 경로가 없음
+		if (mpJumpPoint->IsEmpty())
 		{
+			if (mTempPath.empty() == false)
+			{
+				mbIsCorrectPath = true;
+				mPath = mTempPath;
+				mTempPath.clear();
+				mPassedPath.clear();
+			}
+		}
+		// 도착지로 가는 경로는 있지만, 임시 경로가 없는경우
+		else if (mbIsHaveTempPath == false)
+		{
+			mbIsHaveTempPath = true;
 			mbIsFollowPath = true;
+			mbIsSearching = true;
 			TILE->CreateDetailTempPath(mpNearTileNode, mTempPath);
 			mPassedPath.reserve(mTempPath.size());
 			mTempPath.pop_front();
@@ -262,18 +260,57 @@ void PathFindComponent::FindPathAgain()
 	mPassedPath.clear();
 	mPath.clear();
 
-	SetMove();
+	SetObstacle();
 
 	mbIsWaiting = false;
 	mbIsCorrectPath = false;
 	mbIsFollowPath = false;
 	mbIsSearching = true;
 	mbIsBeginSearching = true;
+	mbIsHaveTempPath = false;
 }
 
 void PathFindComponent::WaitingStart()
 {
-	SetPause();
+	SetOccupy();
 	mbIsWaiting = true;
 	mWaitingTime = 0;
+}
+
+bool PathFindComponent::GetNextPath(Vector2& nextPath)
+{
+	if (mbIsCorrectPath)
+	{
+		if (mPath.empty())
+		{
+			mbIsFollowPath = false;
+			return false;
+		}
+		else
+		{
+			TILE->GetPositionByTileCoord(mPath.front(), nextPath);
+			mPath.pop_front();
+			return true;
+		}
+	}
+	else
+	{
+		if (mTempPath.empty())
+		{
+			mbIsFollowPath = false;
+			return false;
+		}
+		else
+		{
+			TILE->GetPositionByTileCoord(mTempPath.front(), nextPath);
+			mPassedPath.push_back(mTempPath.front());
+			mTempPath.pop_front();
+			return true;
+		}
+	}
+}
+
+bool PathFindComponent::IsCloserAtNextPath()
+{
+	return (Vector2::GetDistance(mpTransform->GetPosition(), mNextPath) < (Fix)1);
 }

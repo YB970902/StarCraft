@@ -61,6 +61,12 @@ GameObject::GameObject()
 	init();
 }
 
+GameObject::GameObject(RendererComponent* pRenderer)
+{
+	mpTransform = static_cast<TransformComponent*>(AddComponent(new TransformComponent()));
+	mpRenderer = static_cast<RendererComponent*>(AddComponent(pRenderer));
+}
+
 GameObject::~GameObject()
 {
 	release();
@@ -102,5 +108,5 @@ GameObject* GameObject::AddChild(GameObject* pObject, int order)
 		{
 			return lhs.first < rhs.first;
 		});
-	return nullptr;
+	return pObject;
 }
