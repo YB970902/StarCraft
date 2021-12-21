@@ -11,6 +11,7 @@
 
 void TileManager::Init()
 {
+	mbIsReleased = false;
 	mpTerrainMap = new DetailMap();
 	mpSmallUnitMap = new DetailMap;
 	mpBigUnitMap = new DetailMap;

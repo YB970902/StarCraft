@@ -172,8 +172,8 @@
     <Filter Include="GameObject\Particle">
       <UniqueIdentifier>{9886d77b-62a2-4043-93e7-980cf4f48140}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Particle\Remains">
-      <UniqueIdentifier>{bf52a925-6ee0-4add-8676-0d0bb3633094}</UniqueIdentifier>
+    <Filter Include="Manager\SoundManager">
+      <UniqueIdentifier>{083ae44a-0227-4303-8b4a-056563c46355}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -347,6 +347,9 @@
     </ClCompile>
     <ClCompile Include="Particle.cpp">
       <Filter>GameObject\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Manager\SoundManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -550,6 +553,9 @@
     </ClInclude>
     <ClInclude Include="Particle.h">
       <Filter>GameObject\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Manager\SoundManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

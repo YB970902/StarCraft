@@ -130,3 +130,10 @@ enum class eParticleTag
 
 	RemainsMarine,
 };
+
+enum class eSoundTag
+{
+	None,
+	MarineDead,
+	MarineAttack,
+};

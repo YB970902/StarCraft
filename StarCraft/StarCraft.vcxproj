@@ -75,6 +75,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(WindowsSDK_IncludePath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;C:\boost_1_77_0;$(IncludePath)</IncludePath>
     <ReferencePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(ReferencePath)</ReferencePath>
+    <LibraryPath>C:\Users\남궁영빈\Desktop\StarCraftPortfolio\StarCraft\fmod;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -183,6 +184,7 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="ShadowEffect.cpp" />
     <ClCompile Include="SingleAnimation.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="StateMachineComponent.cpp" />
@@ -253,6 +255,7 @@
     <ClInclude Include="ShadowEffect.h" />
     <ClInclude Include="SingleAnimation.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="SpriteData.h" />

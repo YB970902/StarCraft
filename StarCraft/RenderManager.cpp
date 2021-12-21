@@ -268,6 +268,7 @@ void RenderManager::RemoveGizmo(Gizmo* pGizmo)
 	auto it = find(mVecGizmo.begin(), mVecGizmo.end(), pGizmo);
 	if (it != mVecGizmo.end())
 	{
+		mVecGizmo.erase(it);
 		delete pGizmo;
 	}
 }

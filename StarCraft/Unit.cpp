@@ -6,6 +6,7 @@
 #include "PhysicsManager.h"
 #include "UnitManager.h"
 #include "ParticleManager.h"
+#include "SoundManager.h"
 
 Unit::Unit(eTeamTag teamTag, UnitID ID)
 	: GameObject::GameObject(), mTeamTag{ teamTag }, mID{ ID }
@@ -66,6 +67,7 @@ void Unit::SetTargetID(UnitID ID)
 bool Unit::AttackTarget()
 {
 	PARTICLE->CreateParticle(eParticleTag::ParticleAttack, Vector2(mTargetPos.x, mTargetPos.y));
+	SOUND->Play(eSoundTag::MarineAttack);
 	return UNIT->Attack(mID, mTargetID);
 }
 
@@ -188,6 +190,8 @@ bool Unit::OnDamaged(int attack)
 	if (mCurHealth <= 0)
 	{
 		PARTICLE->CreateParticle(eParticleTag::ParticleMarineDead, GetPosition());
+		SOUND->Play(eSoundTag::MarineDead);
+
 		SetTargetID(UNIT_ID_NONE);
 		UNIT->Dead(mID);
 		Notify(mID, eObserverMessage::Dead);
