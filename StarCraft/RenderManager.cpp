@@ -21,7 +21,6 @@ void RenderManager::Release()
 {
 	ReleaseDirect2D();
 	ReleaseGizmo();
-	//ReleaseLayer();
 }
 
 void RenderManager::Render()
@@ -411,6 +410,7 @@ void RenderManager::InitBitmap()
 	mMapBitmap[eBitmapTag::ICON_FACTORY] = CreateBitmap((LPWSTR)TEXT("Images/Icon/Building/Factory.png"));
 
 	mMapBitmap[eBitmapTag::UI_CURSOR] = CreateBitmap((LPWSTR)TEXT("Images/UI/Cursor.png"));
+	mMapBitmap[eBitmapTag::UI_CLICK_CIRCLE] = CreateBitmap((LPWSTR)TEXT("Images/UI/ClickCircle.png"));
 
 	mMapBitmap[eBitmapTag::PARTICLE_ATTACK] = CreateBitmap((LPWSTR)TEXT("Images/Particle/Attack.png"));
 	mMapBitmap[eBitmapTag::PARTICLE_EXPLOSION] = CreateBitmap((LPWSTR)TEXT("Images/Particle/Explosion.png"));

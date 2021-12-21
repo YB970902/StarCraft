@@ -8,8 +8,10 @@ protected:
 	AnimatorComponent* mpAnimator = nullptr;
 
 	eParticleTag mAfterParticleTag;
+
+	eParticleTag mParticleTag;
 public:
-	Particle(eUnitLayer layer, eBitmapTag bitmapTag, const SingleAnimationClip& animClip, eParticleTag afterParticle = eParticleTag::None);
+	Particle(eParticleTag particleTag, eUnitLayer layer, eBitmapTag bitmapTag, const SingleAnimationClip& animClip, eParticleTag afterParticle = eParticleTag::None);
 	virtual ~Particle();
 
 	virtual void Init() override;
@@ -17,5 +19,7 @@ public:
 	virtual void Update() override;
 
 	bool IsEnd();
+
+	inline eParticleTag GetParticleTag() { return mParticleTag; }
 };
 

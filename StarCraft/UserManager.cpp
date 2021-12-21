@@ -7,6 +7,7 @@
 #include "SoundManager.h"
 #include "LineGizmo.h"
 #include "Unit.h"
+#include "ParticleManager.h"
 
 void UserManager::Init(eTeamTag teamTag)
 {
@@ -225,6 +226,9 @@ void UserManager::ChangeSelectDragUnit(const vector<UnitID>& vecUnit)
 void UserManager::UnitMove(const POINT& pos)
 {
 	if (mVecSelectedUnit.empty()) { return; }
+
+	POINT mousePos = INPUT->GetMousePosition();
+	PARTICLE->CreateOnceParticle(eParticleTag::ClickCircle, Vector2(mousePos.x, mousePos.y));
 
 	SOUND->Play(eSoundTag::MarineMove);
 

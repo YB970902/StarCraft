@@ -23,6 +23,7 @@ enum class eBitmapTag
 	ICON_FACTORY,
 
 	UI_CURSOR,
+	UI_CLICK_CIRCLE,
 
 	SELECTED_CIRCLE_SMALL,
 	SELECTED_CIRCLE_MIDIUM,
@@ -123,6 +124,8 @@ enum class eStateTag
 enum class eParticleTag
 {
 	None,
+
+	ClickCircle,
 
 	ParticleMarineDead,
 	ParticleAttack,

@@ -3,7 +3,8 @@
 #include "SingleAnimation.h"
 #include "ParticleManager.h"
 
-Particle::Particle(eUnitLayer layer, eBitmapTag bitmapTag, const SingleAnimationClip& animClip, eParticleTag afterParticle)
+Particle::Particle(eParticleTag particleTag, eUnitLayer layer, eBitmapTag bitmapTag, const SingleAnimationClip& animClip, eParticleTag afterParticle)
+	:mParticleTag{ particleTag }
 {
 	mpRenderer->SetUnitLayer(layer);
 	mpSprite = static_cast<SpriteComponent*>(AddComponent(new SpriteComponent(bitmapTag, animClip.Length)));
