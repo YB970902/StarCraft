@@ -25,7 +25,10 @@ void PathFindingScene::Enter()
 		UNIT->CreateUnit(eTeamTag::RED_TEAM, eUnitTag::Marrine, 25, 25 * i, i);
 	}
 
-	UNIT->CreateUnit(eTeamTag::BLUE_TEAM, eUnitTag::Marrine, 55, 25, 13);
+	for (int i = 1; i <= 6; ++i)
+	{
+		UNIT->CreateUnit(eTeamTag::BLUE_TEAM, eUnitTag::Marrine, 500, 25 * i, 12 + i);
+	}
 }
 
 void PathFindingScene::Exit()

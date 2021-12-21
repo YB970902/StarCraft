@@ -26,6 +26,7 @@ void ColliderComponent::Init(GameObject* pObject)
 void ColliderComponent::Release()
 {
 	PHYSICS->RemoveCollider(this, mPrevPosition, mSize);
+	PHYSICS->RemoveCollider(this, mpUnit->GetPosition(), mSize);
 }
 
 void ColliderComponent::Update()
@@ -63,6 +64,7 @@ bool ColliderComponent::IsCollided(const POINT& point)
 
 bool ColliderComponent::IsCollided(const RECT& rc)
 {
+	if (mpUnit->IsDead()) { return false; }
 	Vector2 pos = GetColliderPosition();
 	Vector2 halfSize = mSize * 0.5f;
 	RECT myRc = { (long)(pos.x - halfSize.x), (long)(pos.y - halfSize.y), (long)(pos.x + halfSize.x), (long)(pos.y + halfSize.y) };

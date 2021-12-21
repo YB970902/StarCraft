@@ -3,6 +3,9 @@
 #include "Unit.h"
 #include "Scene.h"
 #include "UserManager.h"
+#include "PhysicsManager.h"
+#include "IObserver.h"
+#include "Subject.h"
 
 void UnitManager::Init(Scene* pScene)
 {
@@ -16,7 +19,11 @@ void UnitManager::Release()
 
 void UnitManager::Update()
 {
-
+	for (auto it = mVecRemovedUnit.begin(); it != mVecRemovedUnit.end();)
+	{
+		mpScene->RemoveGameObject((*it));
+		it = mVecRemovedUnit.erase(it);
+	}
 }
 
 void UnitManager::CreateUnit(eTeamTag teamTag, eUnitTag unitTag, Fix posX, Fix posY, UnitID ID)
@@ -46,34 +53,34 @@ void UnitManager::RemoveUnit(UnitID ID)
 
 }
 
-void UnitManager::AttackUnit(UnitID ID, UnitID targetID)
+void UnitManager::CommandAttackUnit(UnitID ID, UnitID targetID)
 {
 	Unit* pUnit = mMapUnit[ID];
-	if (pUnit == nullptr) { return; }
+	if (pUnit == nullptr || pUnit->GetTeamTag() != USER->GetTeamTag()) { return; }
 
 	pUnit->ChaseTarget(targetID);
 }
 
-void UnitManager::AttackGround(UnitID ID, const POINT& pos)
+void UnitManager::CommandAttackGround(UnitID ID, const POINT& pos)
 {
 	Unit* pUnit = mMapUnit[ID];
-	if (pUnit == nullptr) { return; }
+	if (pUnit == nullptr || pUnit->GetTeamTag() != USER->GetTeamTag()) { return; }
 
 	pUnit->MoveAlertly(pos);
 }
 
-void UnitManager::MoveUnit(UnitID ID, const POINT& pos)
+void UnitManager::CommandMoveUnit(UnitID ID, const POINT& pos)
 {
 	Unit* pUnit = mMapUnit[ID];
-	if (pUnit == nullptr) { return; }
-	
+	if (pUnit == nullptr || pUnit->GetTeamTag() != USER->GetTeamTag()) { return; }
+
 	pUnit->Move(pos);
 }
 
-void UnitManager::StopUnit(UnitID ID)
+void UnitManager::CommandStopUnit(UnitID ID)
 {
 	Unit* pUnit = mMapUnit[ID];
-	if (pUnit == nullptr) { return; }
+	if (pUnit == nullptr || pUnit->GetTeamTag() != USER->GetTeamTag()) { return; }
 
 	pUnit->Stop();
 }
@@ -87,15 +94,6 @@ void UnitManager::SetSelectUnit(UnitID ID, bool set)
 	}
 }
 
-void UnitManager::SetTargetID(UnitID ID, UnitID targetID)
-{
-	auto it = mMapUnit.find(ID);
-	if (it != mMapUnit.end())
-	{
-		it->second->SetTargetID(targetID);
-	}
-}
-
 bool UnitManager::GetUnitPosition(UnitID ID, POINT& position)
 {
 	auto it = mMapUnit.find(ID);
@@ -103,4 +101,65 @@ bool UnitManager::GetUnitPosition(UnitID ID, POINT& position)
 
 	position = POINT{ it->second->GetPosition().x, it->second->GetPosition().y };
 	return true;
+}
+
+bool UnitManager::SetTargetID(UnitID ID, UnitID targetID)
+{
+	auto it = mMapUnit.find(targetID);
+	if (it != mMapUnit.end())
+	{
+		mMapUnit[ID]->SetTargetID(targetID);
+		return true;
+	}
+	return false;
+}
+
+IObserver* UnitManager::GetObserver(UnitID ID)
+{
+	auto it = mMapUnit.find(ID);
+	if (it == mMapUnit.end()) { return nullptr; }
+
+	return static_cast<IObserver*>(it->second);
+}
+
+bool UnitManager::BeginChase(UnitID ID, UnitID TargetID)
+{
+	auto it = mMapUnit.find(TargetID);
+	if (it == mMapUnit.end())
+	{
+		return false;
+	}
+
+	it->second->OnNotify(ID, eObserverMessage::BeginChasing);
+	return true;
+}
+
+bool UnitManager::EndChase(UnitID ID, UnitID TargetID)
+{
+	auto it = mMapUnit.find(TargetID);
+	if (it == mMapUnit.end())
+	{
+		return false;
+	}
+
+	it->second->OnNotify(ID, eObserverMessage::EndChasing);
+	return true;
+}
+
+bool UnitManager::Attack(UnitID ID, UnitID TargetID)
+{
+	auto target = mMapUnit.find(TargetID);
+
+	if (target == mMapUnit.end()) { return false; }
+
+	target->second->OnDamaged(mMapUnit[ID]->GetAttack());
+	return true;
+}
+
+void UnitManager::Dead(UnitID ID)
+{
+	Unit* pUnit = mMapUnit[ID];
+	mMapUnit.erase(ID);
+
+	mVecRemovedUnit.push_back(pUnit);
 }

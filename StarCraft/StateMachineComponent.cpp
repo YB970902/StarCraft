@@ -32,6 +32,7 @@ void StateMachineComponent::Init(GameObject* pObject)
 
 void StateMachineComponent::Release()
 {
+	mpCurState = nullptr;
 	for (auto it = mMapState.begin(); it != mMapState.end(); )
 	{
 		delete it->second;
@@ -41,7 +42,7 @@ void StateMachineComponent::Release()
 
 void StateMachineComponent::Update()
 {
-	if (mpCurState)
+	if (mpCurState && mpUnit->IsAlive())
 	{
 		mpCurState->Update();
 	}
@@ -163,6 +164,22 @@ void AttackState::Enter()
 	mElapsedFlashTime = 0;
 	mCurFireCount = 0;
 	mpUnit->ChangeAnimation(eAnimationTag::WaitAttack);
+	if (mpUnit->AttackTarget() == false)
+	{
+		if (mpUnit->IsHaveDestination())
+		{
+			mpStateMachine->ChangeState(eStateTag::MoveAlertly);
+		}
+		else
+		{
+			mpStateMachine->ChangeState(eStateTag::Idle);
+		}
+		mpStateMachine->ChangeNextState();
+	}
+	else
+	{
+		mpUnit->LookAtTarget();
+	}
 }
 
 void AttackState::Exit()
@@ -200,14 +217,29 @@ void AttackState::Update()
 				}
 				else
 				{
-					if (mpUnit->GetDistanceToTarget() > mpUnit->GetAttackRange())
+					if (mpUnit->IsHaveTarget())
 					{
-						mpStateMachine->ChangeState(eStateTag::Chase);
-						mpStateMachine->ChangeNextState();
+						if (mpUnit->GetDistanceToTarget() > mpUnit->GetAttackRange())
+						{
+							mpStateMachine->ChangeState(eStateTag::Chase);
+							mpStateMachine->ChangeNextState();
+						}
+						else
+						{
+							Enter();
+						}
 					}
 					else
 					{
-						Enter();
+						if (mpUnit->IsHaveDestination())
+						{
+							mpStateMachine->ChangeState(eStateTag::MoveAlertly);
+						}
+						else
+						{
+							mpStateMachine->ChangeState(eStateTag::Idle);
+						}
+						mpStateMachine->ChangeNextState();
 					}
 				}
 			}
@@ -246,6 +278,19 @@ void ChaseState::Update()
 			mbIsMoving = false;
 			mpUnit->ChangeAnimation(eAnimationTag::Idle);
 		}
+	}
+
+	if (mpUnit->IsHaveTarget() == false)
+	{
+		if (mpUnit->IsHaveDestination())
+		{
+			mpStateMachine->ChangeState(eStateTag::MoveAlertly);
+		}
+		else
+		{
+			mpStateMachine->ChangeState(eStateTag::Idle);
+		}
+		return;
 	}
 
 	mElapsedFindPathTime += DELTA_TIME;

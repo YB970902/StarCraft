@@ -44,10 +44,26 @@ void Unit::Release()
 
 void Unit::Update()
 {
-	if (INPUT->IsOnceKeyDown('Q'))
+
+}
+
+void Unit::SetTargetID(UnitID ID)
+{
+	if (ID == UNIT_ID_NONE)
 	{
-		mpSprite->ChangeBitmap(eBitmapTag::NONE);
+		UNIT->EndChase(mID, mTargetID);
+		mTargetID = ID;
 	}
+	else
+	{
+		mTargetID = ID;
+		UNIT->BeginChase(mID, mTargetID);
+	}
+}
+
+bool Unit::AttackTarget()
+{
+	return UNIT->Attack(mID, mTargetID);
 }
 
 void Unit::Move(const POINT& pos)
@@ -73,6 +89,7 @@ bool Unit::FindCloserEnemy()
 	}
 	else
 	{
+		SetTargetID(UNIT_ID_NONE);
 		return false;
 	}
 }
@@ -157,5 +174,34 @@ void Unit::SetIsSelected(bool set)
 	else
 	{
 		mpSprite->ChangeBitmap(eBitmapTag::NONE);
+	}
+}
+
+void Unit::OnDamaged(int attack)
+{
+	mCurHealth -= attack;
+	if (mCurHealth <= 0)
+	{
+		SetTargetID(UNIT_ID_NONE);
+		UNIT->Dead(mID);
+		Notify(mID, eObserverMessage::Dead);
+		mbIsDead = true;
+	}
+}
+
+void Unit::OnNotify(const UnitID& ID, const eObserverMessage& message)
+{
+	switch (message)
+	{
+	case eObserverMessage::BeginChasing:
+		AddObserver(UNIT->GetObserver(ID));
+		break;
+	case eObserverMessage::EndChasing:
+		RemoveObserver(UNIT->GetObserver(ID));
+		break;
+	case eObserverMessage::Dead:
+		RemoveObserver(UNIT->GetObserver(ID));
+		SetTargetID(UNIT_ID_NONE);
+		break;
 	}
 }

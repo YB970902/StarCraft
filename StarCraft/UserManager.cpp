@@ -144,7 +144,7 @@ void UserManager::Update()
 			{
 				for (int i = 0; i < mVecSelectedUnit.size(); ++i)
 				{
-					UNIT->StopUnit(mVecSelectedUnit[i]);
+					UNIT->CommandStopUnit(mVecSelectedUnit[i]);
 				}
 			}
 		}
@@ -225,7 +225,7 @@ void UserManager::UnitMove(const POINT& pos)
 
 	if (mVecSelectedUnit.size() == 1)
 	{
-		UNIT->MoveUnit(mVecSelectedUnit[0], INPUT->GetMousePosition());
+		UNIT->CommandMoveUnit(mVecSelectedUnit[0], INPUT->GetMousePosition());
 	}
 	else
 	{
@@ -250,7 +250,7 @@ void UserManager::UnitMove(const POINT& pos)
 
 		for (int i = 0; i < mVecSelectedUnit.size(); ++i)
 		{
-			UNIT->MoveUnit(mVecSelectedUnit[i], POINT{
+			UNIT->CommandMoveUnit(mVecSelectedUnit[i], POINT{
 				INPUT->GetMousePosition().x + (vecTargetPos[i].x - center.x),
 				INPUT->GetMousePosition().y + (vecTargetPos[i].y - center.y)
 				}
@@ -263,7 +263,7 @@ void UserManager::ChaseTarget(UnitID ID)
 {
 	for (int i = 0; i < mVecSelectedUnit.size(); ++i)
 	{
-		UNIT->AttackUnit(mVecSelectedUnit[i], ID);
+		UNIT->CommandAttackUnit(mVecSelectedUnit[i], ID);
 	}
 }
 
@@ -271,7 +271,7 @@ void UserManager::AttackGround(const POINT& pos)
 {
 	for (int i = 0; i < mVecSelectedUnit.size(); ++i)
 	{
-		UNIT->AttackGround(mVecSelectedUnit[i], pos);
+		UNIT->CommandAttackGround(mVecSelectedUnit[i], pos);
 	}
 }
 

@@ -1,9 +1,13 @@
 #pragma once
 #include "GameObject.h"
+#include "IObserver.h"
+#include "Subject.h"
 
 class UnitModel;
-class Unit : public GameObject
+class UnitManager;
+class Unit : public GameObject, public IObserver, public Subject
 {
+	friend UnitManager;
 private:
 	UnitID mID = UNIT_ID_NONE;
 	eTeamTag mTeamTag;
@@ -21,9 +25,10 @@ protected:
 	int mCurHealth = 10;
 	int mAttack = 1;
 	int mAttackRange = 200;
-	int mVisionRange = 300;
+	int mVisionRange = 400;
 	Fix mAttackSpeed = 0.25f;
 	UnitID mTargetID = UNIT_ID_NONE;
+	bool mbIsDead = false;
 
 	bool mbIsHaveDestination = false;
 	POINT mDestination;
@@ -39,16 +44,11 @@ public:
 	inline void SetPosition(Fix x, Fix y) { mpTransform->SetPosition(x, y); }
 	inline void SetRotation(Fix angle) { mpTransform->SetRotation(angle); }
 
-	void SetIsSelected(bool set);
 
 	inline eTeamTag GetTeamTag() { return mTeamTag; }
 	inline UnitID GetUnitID() { return mID; }
-	inline void SetTargetID(UnitID ID) { mTargetID = ID; }
-
-	void Move(const POINT& pos);
-	void MoveAlertly(const POINT& pos);
-	void ChaseTarget(UnitID ID);
-	void Stop();
+	void SetTargetID(UnitID ID);
+	bool AttackTarget();
 
 	void UpdateAngle();
 	void LookAtTarget();
@@ -57,9 +57,12 @@ public:
 
 	bool FindCloserEnemy();
 	inline bool IsHaveTarget() { return (mTargetID != UNIT_ID_NONE); }
+	inline int GetAttack() { return mAttack; }
 	inline int GetAttackRange() { return mAttackRange; }
 	inline int GetVisionRange() { return mVisionRange; }
 	inline Fix GetAttackSpeed() { return mAttackSpeed; }
+	inline bool IsDead() { return mbIsDead; }
+	inline bool IsAlive() { return !mbIsDead; }
 	POINT GetTargetPosition();
 	int GetDistanceToTarget();
 
@@ -71,4 +74,17 @@ public:
 	bool IsArrived();
 
 	void ChangeAnimation(eAnimationTag animTag);
+
+protected:
+	void SetIsSelected(bool set);
+	void Move(const POINT& pos);
+	void MoveAlertly(const POINT& pos);
+	void ChaseTarget(UnitID ID);
+
+	void Stop();
+
+	void OnDamaged(int attack);
+
+	virtual void OnNotify(const UnitID& ID, const eObserverMessage& message) override;
+
 };
