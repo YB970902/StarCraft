@@ -5,6 +5,7 @@
 #include "UserManager.h"
 #include "PhysicsManager.h"
 #include "UnitManager.h"
+#include "ParticleManager.h"
 
 Unit::Unit(eTeamTag teamTag, UnitID ID)
 	: GameObject::GameObject(), mTeamTag{ teamTag }, mID{ ID }
@@ -44,17 +45,18 @@ void Unit::Release()
 
 void Unit::Update()
 {
-
+	if (IsHaveTarget())
+	{
+		UNIT->GetUnitPosition(mTargetID, mTargetPos);
+	}
 }
 
 void Unit::SetTargetID(UnitID ID)
 {
-	if (ID == UNIT_ID_NONE)
-	{
-		UNIT->EndChase(mID, mTargetID);
-		mTargetID = ID;
-	}
-	else
+	UNIT->EndChase(mID, mTargetID);
+	mTargetID = ID;
+
+	if (mTargetID != UNIT_ID_NONE)
 	{
 		mTargetID = ID;
 		UNIT->BeginChase(mID, mTargetID);
@@ -63,11 +65,13 @@ void Unit::SetTargetID(UnitID ID)
 
 bool Unit::AttackTarget()
 {
+	PARTICLE->CreateParticle(eParticleTag::ParticleAttack, Vector2(mTargetPos.x, mTargetPos.y));
 	return UNIT->Attack(mID, mTargetID);
 }
 
 void Unit::Move(const POINT& pos)
 {
+	SetTargetID(UNIT_ID_NONE);
 	mbIsHaveDestination = true;
 	mDestination = pos;
 	mpState->ChangeState(eStateTag::Move);
@@ -96,6 +100,7 @@ bool Unit::FindCloserEnemy()
 
 void Unit::MoveAlertly(const POINT& pos)
 {
+	SetTargetID(UNIT_ID_NONE);
 	mbIsHaveDestination = true;
 	mDestination = pos;
 	mpState->ChangeState(eStateTag::MoveAlertly);
@@ -177,16 +182,20 @@ void Unit::SetIsSelected(bool set)
 	}
 }
 
-void Unit::OnDamaged(int attack)
+bool Unit::OnDamaged(int attack)
 {
 	mCurHealth -= attack;
 	if (mCurHealth <= 0)
 	{
+		PARTICLE->CreateParticle(eParticleTag::ParticleMarineDead, GetPosition());
 		SetTargetID(UNIT_ID_NONE);
 		UNIT->Dead(mID);
 		Notify(mID, eObserverMessage::Dead);
 		mbIsDead = true;
+
+		return false;
 	}
+	return true;
 }
 
 void Unit::OnNotify(const UnitID& ID, const eObserverMessage& message)

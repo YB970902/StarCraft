@@ -41,8 +41,9 @@ private:
 	unordered_map<eBitmapTag, ID2D1Bitmap*> mMapBitmap;
 
 	QueueZOrder mLayerTerrain;
+	QueueZOrder mLayerRemains;
 	QueueZOrder mLayerGround;
-	QueueZOrder mLayerSky;
+	QueueZOrder mLayerParticle;
 	vector<GameObject*> mLayerUI;
 	bool mbIsInitLayer = false;
 	int mLayerWidth = 0;
@@ -71,6 +72,7 @@ public:
 	Gizmo* RenderText(wstring text, Vector2 pos, Vector2 size, int fontSize = 14, D2D1::ColorF color = D2D1::ColorF::Black, eTextAlign align = eTextAlign::Center);
 	Gizmo* RenderRect(Vector2 pos, Vector2 size, float weight = 1.0f, D2D1::ColorF color = D2D1::ColorF::Black, Vector2 anchor = Vector2(0.5f, 0.5f));
 	Gizmo* RenderLine(Vector2 startPos, Vector2 endPos, float width = 1.0f, D2D1::ColorF color = D2D1::ColorF::Black);
+	void RemoveGizmo(Gizmo* pGizmo);
 
 private:
 	void InitDirect2D();
@@ -78,6 +80,7 @@ private:
 
 	void ReleaseDirect2D();
 	void ReleaseGizmo();
+	void ReleaseLayer();
 
 	ID2D1Bitmap* CreateBitmap(LPWSTR fileName);
 	ID2D1Effect* CreateColorReplaceEffect();

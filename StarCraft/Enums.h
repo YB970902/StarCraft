@@ -27,6 +27,12 @@ enum class eBitmapTag
 	SELECTED_CIRCLE_SMALL,
 	SELECTED_CIRCLE_MIDIUM,
 	SELECTED_CIRCLE_BIG,
+
+	PARTICLE_ATTACK,
+	PARTICLE_EXPLOSION,
+	PARTICLE_MARINE_DEAD,
+
+	REMAINS_MARINE,
 };
 
 enum class eEffectTag
@@ -52,8 +58,9 @@ enum class eComponentTag
 enum class eUnitLayer
 {
 	Terrain,
+	Remains,
 	Ground,
-	Sky,
+	Particle,
 };
 
 enum class eUnitTileSize
@@ -111,4 +118,15 @@ enum class eStateTag
 	Chase,
 	MoveAlertly,
 	Attack,
+};
+
+enum class eParticleTag
+{
+	None,
+
+	ParticleMarineDead,
+	ParticleAttack,
+	ParticleExplosion,
+
+	RemainsMarine,
 };

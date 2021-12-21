@@ -27,6 +27,12 @@ const SingleAnimationClip CursorPrepairGreen = SingleAnimationClip(eSingleClipDi
 const SingleAnimationClip CursorPrepairRed = SingleAnimationClip(eSingleClipDirection::Right, 2, 6, 2, true, 1);
 const SingleAnimationClip CursorPrepairYellow = SingleAnimationClip(eSingleClipDirection::Right, 4, 6, 2, true, 1);
 
+const SingleAnimationClip ParticleAttack = SingleAnimationClip(eSingleClipDirection::Right, 0, 0, 15, false, 1);
+const SingleAnimationClip ParticleExplosion = SingleAnimationClip(eSingleClipDirection::Right, 0, 0, 9, false, 1);
+const SingleAnimationClip ParticleMarineDead = SingleAnimationClip(eSingleClipDirection::Right, 0, 0, 7, false, 0.5f);
+
+const SingleAnimationClip RemainsMarine = SingleAnimationClip(eSingleClipDirection::Right, 0, 0, 3, false, 5);
+
 const MultipleAnimationClip MarineIdle = MultipleAnimationClip(eMultipleClipDirection::Down, 0, 1, false, 0);
 const MultipleAnimationClip MarineMove = MultipleAnimationClip(eMultipleClipDirection::Down, 4, 9, true, 0.5f);
 const MultipleAnimationClip MarinePrepairAttack = MultipleAnimationClip(eMultipleClipDirection::Down, 0, 3, false, 0.2f);

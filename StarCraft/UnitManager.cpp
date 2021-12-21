@@ -14,6 +14,11 @@ void UnitManager::Init(Scene* pScene)
 
 void UnitManager::Release()
 {
+	for (auto it = mMapUnit.begin(); it != mMapUnit.end();)
+	{
+		mpScene->RemoveGameObject((it->second));
+		it = mMapUnit.erase(it);
+	}
 	mpScene = nullptr;
 }
 
@@ -152,8 +157,7 @@ bool UnitManager::Attack(UnitID ID, UnitID TargetID)
 
 	if (target == mMapUnit.end()) { return false; }
 
-	target->second->OnDamaged(mMapUnit[ID]->GetAttack());
-	return true;
+	return target->second->OnDamaged(mMapUnit[ID]->GetAttack());
 }
 
 void UnitManager::Dead(UnitID ID)
@@ -162,4 +166,5 @@ void UnitManager::Dead(UnitID ID)
 	mMapUnit.erase(ID);
 
 	mVecRemovedUnit.push_back(pUnit);
+	USER->OnUnitRemoved(ID);
 }

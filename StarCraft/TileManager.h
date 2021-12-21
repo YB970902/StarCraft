@@ -69,6 +69,8 @@ private:
 	static const int TILE_OCCUPIED = D2D1::ColorF::Black;
 	static const int TILE_PATH = D2D1::ColorF::LightBlue;
 
+	bool mbIsReleased = false;
+
 public:
 	enum class eTileState
 	{

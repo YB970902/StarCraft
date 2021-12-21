@@ -21,6 +21,7 @@ void RenderManager::Release()
 {
 	ReleaseDirect2D();
 	ReleaseGizmo();
+	//ReleaseLayer();
 }
 
 void RenderManager::Render()
@@ -62,6 +63,18 @@ void RenderManager::Render()
 	{
 		for (int x = 0; x < width; ++x)
 		{
+			size = mLayerRemains[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth].size();
+			for (int i = 0; i < size; ++i)
+			{
+				mLayerRemains[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth][i]->render(mpD2DContext);
+			}
+		}
+	}
+
+	for (int y = 0; y < height; ++y)
+	{
+		for (int x = 0; x < width; ++x)
+		{
 			size = mLayerGround[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth].size();
 			for (int i = 0; i < size; ++i)
 			{
@@ -74,10 +87,10 @@ void RenderManager::Render()
 	{
 		for (int x = 0; x < width; ++x)
 		{
-			size = mLayerSky[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth].size();
+			size = mLayerParticle[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth].size();
 			for (int i = 0; i < size; ++i)
 			{
-				mLayerSky[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth][i]->render(mpD2DContext);
+				mLayerParticle[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth][i]->render(mpD2DContext);
 			}
 		}
 	}
@@ -106,8 +119,9 @@ void RenderManager::InitLayerSize(int width, int height)
 	mLayerHeight = height / DETAIL_GRID_SIZE;
 
 	mLayerTerrain.resize(mLayerWidth * mLayerHeight);
+	mLayerRemains.resize(mLayerWidth * mLayerHeight);
 	mLayerGround.resize(mLayerWidth * mLayerHeight);
-	mLayerSky.resize(mLayerWidth * mLayerHeight);
+	mLayerParticle.resize(mLayerWidth * mLayerHeight);
 }
 
 ID2D1Bitmap* RenderManager::GetBitmap(eBitmapTag tag)
@@ -135,11 +149,14 @@ void RenderManager::AddRenderer(const Vector2& pos, RendererComponent* pComponen
 	case eUnitLayer::Terrain:
 		mLayerTerrain[index.x + index.y * mLayerWidth].push_back(pComponent->GetGameObject());
 		break;
+	case eUnitLayer::Remains:
+		mLayerRemains[index.x + index.y * mLayerWidth].push_back(pComponent->GetGameObject());
+		break;
 	case eUnitLayer::Ground:
 		mLayerGround[index.x + index.y * mLayerWidth].push_back(pComponent->GetGameObject());
 		break;
-	case eUnitLayer::Sky:
-		mLayerSky[index.x + index.y * mLayerWidth].push_back(pComponent->GetGameObject());
+	case eUnitLayer::Particle:
+		mLayerParticle[index.x + index.y * mLayerWidth].push_back(pComponent->GetGameObject());
 		break;
 	}
 }
@@ -161,6 +178,13 @@ void RenderManager::EraseRenderer(const Vector2& pos, RendererComponent* pCompon
 				pComponent->GetGameObject()
 			));
 		break;
+	case eUnitLayer::Remains:
+		mLayerRemains[index.x + index.y * mLayerWidth].erase(
+			find(mLayerRemains[index.x + index.y * mLayerWidth].begin(),
+				mLayerRemains[index.x + index.y * mLayerWidth].end(),
+				pComponent->GetGameObject()
+			));
+		break;
 	case eUnitLayer::Ground:
 		mLayerGround[index.x + index.y * mLayerWidth].erase(
 			find(mLayerGround[index.x + index.y * mLayerWidth].begin(),
@@ -168,10 +192,10 @@ void RenderManager::EraseRenderer(const Vector2& pos, RendererComponent* pCompon
 				pComponent->GetGameObject()
 			));
 		break;
-	case eUnitLayer::Sky:
-		mLayerSky[index.x + index.y * mLayerWidth].erase(
-			find(mLayerSky[index.x + index.y * mLayerWidth].begin(),
-				mLayerSky[index.x + index.y * mLayerWidth].end(),
+	case eUnitLayer::Particle:
+		mLayerParticle[index.x + index.y * mLayerWidth].erase(
+			find(mLayerParticle[index.x + index.y * mLayerWidth].begin(),
+				mLayerParticle[index.x + index.y * mLayerWidth].end(),
 				pComponent->GetGameObject()
 			));
 		break;
@@ -237,6 +261,15 @@ Gizmo* RenderManager::RenderLine(Vector2 startPos, Vector2 endPos, float width, 
 	Gizmo* pResult = new LineGizmo(startPos, endPos, width, pBrush);
 	mVecGizmo.push_back(pResult);
 	return pResult;
+}
+
+void RenderManager::RemoveGizmo(Gizmo* pGizmo)
+{
+	auto it = find(mVecGizmo.begin(), mVecGizmo.end(), pGizmo);
+	if (it != mVecGizmo.end())
+	{
+		delete pGizmo;
+	}
 }
 
 void RenderManager::InitDirect2D()
@@ -378,6 +411,12 @@ void RenderManager::InitBitmap()
 
 	mMapBitmap[eBitmapTag::UI_CURSOR] = CreateBitmap((LPWSTR)TEXT("Images/UI/Cursor.png"));
 
+	mMapBitmap[eBitmapTag::PARTICLE_ATTACK] = CreateBitmap((LPWSTR)TEXT("Images/Particle/Attack.png"));
+	mMapBitmap[eBitmapTag::PARTICLE_EXPLOSION] = CreateBitmap((LPWSTR)TEXT("Images/Particle/Explosion.png"));
+	mMapBitmap[eBitmapTag::PARTICLE_MARINE_DEAD] = CreateBitmap((LPWSTR)TEXT("Images/Particle/MarineDead.png"));
+
+	mMapBitmap[eBitmapTag::REMAINS_MARINE] = CreateBitmap((LPWSTR)TEXT("Images/Remains/Marine.png"));
+
 	mMapBitmap[eBitmapTag::SELECTED_CIRCLE_SMALL] = CreateBitmap((LPWSTR)TEXT("Images/Units/Selected/Selected22.png"));
 	mMapBitmap[eBitmapTag::SELECTED_CIRCLE_MIDIUM] = CreateBitmap((LPWSTR)TEXT("Images/Units/Selected/Selected48.png"));
 	mMapBitmap[eBitmapTag::SELECTED_CIRCLE_BIG] = CreateBitmap((LPWSTR)TEXT("Images/Units/Selected/Selected122.png"));
@@ -407,6 +446,15 @@ void RenderManager::ReleaseGizmo()
 		it = mVecGizmo.erase(it);
 		delete pGizmo;
 	}
+}
+
+void RenderManager::ReleaseLayer()
+{
+	mLayerTerrain.clear();
+	mLayerRemains.clear();
+	mLayerGround.clear();
+	mLayerParticle.clear();
+	mLayerUI.clear();
 }
 
 ID2D1Bitmap* RenderManager::CreateBitmap(LPWSTR fileName)

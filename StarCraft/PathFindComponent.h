@@ -55,7 +55,7 @@ public:
 
 	inline bool IsMoving() { return mbIsFollowPath; }
 	inline bool IsArrived() { return mbIsSearching == false && mbIsWaiting == false && mbIsFollowPath == false; }
-	inline void Stop() { SetObstacle(); mbIsBeginSearching = true; mbIsSearching = false; mbIsFollowPath = false; }
+	inline void Stop() { SetObstacle(); mbIsBeginSearching = true; mbIsWaiting = false;  mbIsSearching = false; mbIsFollowPath = false; }
 	inline float GetAngle() { return mLookAngle; }
 
 private:

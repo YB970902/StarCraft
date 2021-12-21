@@ -166,6 +166,15 @@
     <Filter Include="Component\StateMachine">
       <UniqueIdentifier>{d392dcdc-2c8e-48d7-914a-6cd36efd3d66}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Manager\ParticleManager">
+      <UniqueIdentifier>{bb079bff-a2e2-414c-8ed5-7f5b07ba6020}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Particle">
+      <UniqueIdentifier>{9886d77b-62a2-4043-93e7-980cf4f48140}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Particle\Remains">
+      <UniqueIdentifier>{bf52a925-6ee0-4add-8676-0d0bb3633094}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -332,6 +341,12 @@
     </ClCompile>
     <ClCompile Include="StateMachineComponent.cpp">
       <Filter>Component\StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleManager.cpp">
+      <Filter>Manager\ParticleManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>GameObject\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -529,6 +544,12 @@
     </ClInclude>
     <ClInclude Include="StateMachineComponent.h">
       <Filter>Component\StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleManager.h">
+      <Filter>Manager\ParticleManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>GameObject\Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

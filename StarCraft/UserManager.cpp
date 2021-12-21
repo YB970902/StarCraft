@@ -123,7 +123,7 @@ void UserManager::Update()
 			}
 			else
 			{
-				if (INPUT->IsStayKeyDown(VK_LBUTTON))
+				if (INPUT->IsOnceKeyDown(VK_LBUTTON))
 				{
 					SetIsDrag(true);
 				}
@@ -154,6 +154,11 @@ void UserManager::Update()
 void UserManager::OnUnitRemoved(UnitID ID)
 {
 	auto it = find(mVecSelectedUnit.begin(), mVecSelectedUnit.end(), ID);
+
+	if (it != mVecSelectedUnit.end())
+	{
+		mVecSelectedUnit.erase(it);
+	}
 }
 
 void UserManager::UpdateDragLine()

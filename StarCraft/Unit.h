@@ -28,6 +28,7 @@ protected:
 	int mVisionRange = 400;
 	Fix mAttackSpeed = 0.25f;
 	UnitID mTargetID = UNIT_ID_NONE;
+	POINT mTargetPos;
 	bool mbIsDead = false;
 
 	bool mbIsHaveDestination = false;
@@ -83,7 +84,7 @@ protected:
 
 	void Stop();
 
-	void OnDamaged(int attack);
+	bool OnDamaged(int attack);
 
 	virtual void OnNotify(const UnitID& ID, const eObserverMessage& message) override;
 

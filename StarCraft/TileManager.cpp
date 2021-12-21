@@ -18,6 +18,7 @@ void TileManager::Init()
 
 void TileManager::Release()
 {
+	mbIsReleased = true;
 	SAFE_RELEASE(mpTerrainMap);
 	SAFE_RELEASE(mpSmallUnitMap);
 	SAFE_RELEASE(mpBigUnitMap);
@@ -981,6 +982,7 @@ void TileManager::GetTileCoordByPosition(const Vector2& pos, TileCoord& coord)
 
 void TileManager::SetTileState(const Vector2& pos, const eUnitTileSize& unitSize, bool isObstacle, bool isSet)
 {
+	if (mbIsReleased) { return; }
 	TileCoord leftTop;
 	TileCoord rightBottom;
 

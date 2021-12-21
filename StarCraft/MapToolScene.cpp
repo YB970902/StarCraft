@@ -45,6 +45,12 @@ void MapToolScene::Enter()
 
 void MapToolScene::Exit()
 {
+	PHYSICS->Release();
+
+	RENDER->RemoveGizmo(mpLineLT);
+	RENDER->RemoveGizmo(mpLineLB);
+	RENDER->RemoveGizmo(mpLineRT);
+	RENDER->RemoveGizmo(mpLineRB);
 }
 
 void MapToolScene::Update()
@@ -102,6 +108,11 @@ void MapToolScene::Update()
 		if (INPUT->IsStayKeyDown('D')) { CAMERA->AddPosition(Vector2::Left() * CAMERA_MOVING_SPEED * DELTA_TIME); }
 		if (INPUT->IsStayKeyDown('W')) { CAMERA->AddPosition(Vector2::Down() * CAMERA_MOVING_SPEED * DELTA_TIME); }
 		if (INPUT->IsStayKeyDown('S')) { CAMERA->AddPosition(Vector2::Up() * CAMERA_MOVING_SPEED * DELTA_TIME); }
+	}
+
+	if (INPUT->IsOnceKeyDown(VK_TAB))
+	{
+		SCENE->ChangeScene(eSceneTag::PathFindingScene);
 	}
 }
 

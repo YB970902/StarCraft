@@ -8,9 +8,11 @@
 #include "UIManager.h"
 #include "UserManager.h"
 #include "UnitManager.h"
+#include "ParticleManager.h"
 
 void PathFindingScene::Enter()
 {
+	PARTICLE->Init(this);
 	UNIT->Init(this);
 	USER->Init(eTeamTag::RED_TEAM);
 
@@ -33,16 +35,25 @@ void PathFindingScene::Enter()
 
 void PathFindingScene::Exit()
 {
-	TILE->Release();
+	PARTICLE->Release();
 	UI->Release();
 	USER->Release();
 	UNIT->Release();
+
+	TILE->Release();
 }
 
 void PathFindingScene::Update()
 {
+	if (INPUT->IsOnceKeyDown(VK_TAB))
+	{
+		SCENE->ChangeScene(eSceneTag::MapToolScene);
+		return;
+	}
+
 	UNIT->Update();
 	USER->Update();
+	PARTICLE->Update();
 
 	if (INPUT->IsStayKeyDown(VK_LSHIFT))
 	{

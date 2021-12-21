@@ -17,6 +17,8 @@ PathFindComponent::PathFindComponent(eUnitTileSize size)
 
 PathFindComponent::~PathFindComponent()
 {
+	SetOpen();
+
 	SAFE_DELETE(mpSearched);
 	SAFE_DELETE(mpJumpPoint);
 	SAFE_DELETE(mpEndPos);

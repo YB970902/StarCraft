@@ -61,8 +61,8 @@ void StateMachineComponent::ChangeState(eStateTag tag)
 		mpCurState->Exit();
 	}
 	mpCurState = mMapState[tag];
-	mpCurState->Enter();
 	mCurStateTag = tag;
+	mpCurState->Enter();
 }
 
 void StateMachineComponent::ChangeNextState()
@@ -74,6 +74,10 @@ void StateMachineComponent::ChangeNextState()
 		mCurStateTag = mNextStateTag;
 		mpCurState = mMapState[mNextStateTag];
 		mpCurState->Enter();
+	}
+	else
+	{
+		int i = 0;
 	}
 }
 
@@ -351,6 +355,13 @@ void MoveAlertlyState::Update()
 		}
 	}
 
+	if (mpUnit->IsArrived())
+	{
+		mpUnit->SetIsHaveDestination(false);
+		mpStateMachine->ChangeState(eStateTag::Idle);
+		return;
+	}
+
 	mElapsedDetectTime += DELTA_TIME;
 	if (mElapsedDetectTime >= mDurationDetectTime)
 	{
@@ -358,6 +369,7 @@ void MoveAlertlyState::Update()
 		if (mpUnit->FindCloserEnemy())
 		{
 			mpStateMachine->ChangeState(eStateTag::Chase);
+			return;
 		}
 	}
 }
