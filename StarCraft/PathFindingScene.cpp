@@ -9,11 +9,10 @@
 #include "UserManager.h"
 #include "UnitManager.h"
 #include "ParticleManager.h"
-#include "SoundManager.h"
 
 void PathFindingScene::Enter()
 {
-	SOUND->Init();
+	SOUND->Play(eSoundTag::TerranTheme);
 
 	PARTICLE->Init(this);
 	UNIT->Init(this);
@@ -38,8 +37,6 @@ void PathFindingScene::Enter()
 
 void PathFindingScene::Exit()
 {
-	SOUND->Release();
-
 	PARTICLE->Release();
 	UI->Release();
 	USER->Release();
@@ -50,8 +47,6 @@ void PathFindingScene::Exit()
 
 void PathFindingScene::Update()
 {
-	SOUND->Update();
-
 	if (INPUT->IsOnceKeyDown(VK_TAB))
 	{
 		SCENE->ChangeScene(eSceneTag::MapToolScene);

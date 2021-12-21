@@ -44,3 +44,4 @@ using namespace std;
 #include "SceneManager.h"
 #include "CameraManager.h"
 #include "RandomManager.h"
+#include "SoundManager.h"

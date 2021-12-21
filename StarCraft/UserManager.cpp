@@ -4,6 +4,7 @@
 #include "UIManager.h"
 #include "RenderManager.h"
 #include "UnitManager.h"
+#include "SoundManager.h"
 #include "LineGizmo.h"
 #include "Unit.h"
 
@@ -41,6 +42,7 @@ void UserManager::Update()
 			vector<UnitID> vecUnit;
 			if (PHYSICS->GetDragUnit(mTeamTag, mDragStartPos, INPUT->GetMousePosition(), vecUnit, MAX_SELECT_UNIT))
 			{
+				SOUND->Play(eSoundTag::MarineClick);
 				ChangeSelectDragUnit(vecUnit);
 			}
 			else if (PHYSICS->GetDragUnit(mEnemyTeamTag, mDragStartPos, INPUT->GetMousePosition(), vecUnit, 1))
@@ -83,6 +85,7 @@ void UserManager::Update()
 				UI->ChangeCursorState(eCursorState::OnGreen);
 				if (INPUT->IsOnceKeyUp(VK_LBUTTON))
 				{
+					SOUND->Play(eSoundTag::MarineClick);
 					ChangeSelectUnit(ID);
 				}
 			}
@@ -92,11 +95,6 @@ void UserManager::Update()
 			if (mbIsAttackMode)
 			{
 				UI->ChangeCursorState(eCursorState::PrepairRed);
-				if (INPUT->IsOnceKeyUp(VK_LBUTTON))
-				{
-					ChaseTarget(ID);
-					SetAttackMode(false);
-				}
 			}
 			else
 			{
@@ -227,6 +225,8 @@ void UserManager::ChangeSelectDragUnit(const vector<UnitID>& vecUnit)
 void UserManager::UnitMove(const POINT& pos)
 {
 	if (mVecSelectedUnit.empty()) { return; }
+
+	SOUND->Play(eSoundTag::MarineMove);
 
 	if (mVecSelectedUnit.size() == 1)
 	{

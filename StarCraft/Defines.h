@@ -7,6 +7,7 @@
 #define RANDOM RandomManager::GetInstance()
 #define UI UIManager::GetInstance()
 #define USER UserManager::GetInstance()
+#define SOUND SoundManager::GetInstance()
 
 #define DELTA_TIME TimeManager::GetInstance()->GetDeltaTime()
 

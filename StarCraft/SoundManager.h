@@ -7,8 +7,6 @@ using namespace FMOD;
 static const int SOUND_MAX_CHANNEL = 20;
 static const float MAX_DELAY_TIME = 0.1f;
 
-#define SOUND SoundManager::GetInstance()
-
 class SoundManager : public Singleton<SoundManager>
 {
 private:
@@ -20,9 +18,13 @@ private:
 
 		bool mbIsCanPlay = true;
 		float mCurDelayTime = 0.0f;
+		float mMaxDelayTime = MAX_DELAY_TIME;
 
+		bool mbIsOnce = false;
+
+		eSoundTag mFriendTag = eSoundTag::None;
 	public:
-		SoundInfo(Sound* pSound, float volume);
+		SoundInfo(Sound* pSound, float volume, bool isOnce = false, eSoundTag friendTag = eSoundTag::None);
 		~SoundInfo();
 		void Update();
 
@@ -32,7 +34,10 @@ private:
 
 		inline float GetVolume() { return mVolume; }
 		inline bool IsCanPlay() { return mbIsCanPlay; }
-		inline void SetIsCanPlay(bool set) { mbIsCanPlay = set; }
+		inline bool IsOncePlay() { return mbIsOnce; }
+		inline bool IsHaveFirend() { return (mFriendTag != eSoundTag::None); }
+		inline eSoundTag GetFriendTag() { return mFriendTag; }
+		void Play(float length = 0);
 	};
 
 	class SoundClip
@@ -56,7 +61,7 @@ public:
 	void Release();
 	void Update();
 
-	void LoadFile(eSoundTag tag, string path, float volume, bool isBgm);
+	void LoadFile(eSoundTag tag, string path, float volume, bool isBgm, bool isOnce = false, eSoundTag friendTag = eSoundTag::None);
 
 	void Play(eSoundTag tag);
 	void StopAll();

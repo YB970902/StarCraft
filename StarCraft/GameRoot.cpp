@@ -4,6 +4,7 @@
 
 void GameRoot::Init()
 {
+	SOUND->Init();
 	CAMERA->Init();
 	RENDER->Init();
 	SCENE->Init();
@@ -15,6 +16,7 @@ void GameRoot::Release()
 {
 	RENDER->Release();
 	SCENE->Release();
+	SOUND->Release();
 }
 
 void GameRoot::Run()
@@ -33,6 +35,7 @@ void GameRoot::Run()
 
 void GameRoot::Update()
 {
+	SOUND->Update();
 	SCENE->Update();
 }
 

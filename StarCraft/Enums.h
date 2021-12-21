@@ -134,6 +134,9 @@ enum class eParticleTag
 enum class eSoundTag
 {
 	None,
+	TerranTheme,
 	MarineDead,
 	MarineAttack,
+	MarineMove,
+	MarineClick,
 };

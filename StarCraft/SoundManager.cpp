@@ -19,8 +19,8 @@ bool SoundManager::SoundClip::IsEnd()
 	return !bIsPlaying;
 }
 
-SoundManager::SoundInfo::SoundInfo(Sound* pSound, float volume)
-	:mVolume{ volume }
+SoundManager::SoundInfo::SoundInfo(Sound* pSound, float volume, bool isOnce, eSoundTag friendTag)
+	:mVolume{ volume }, mbIsOnce{ isOnce }, mFriendTag{ friendTag }
 {
 	mVecSound.push_back(pSound);
 }
@@ -41,7 +41,7 @@ void SoundManager::SoundInfo::Update()
 	if (mbIsCanPlay) { return; }
 
 	mCurDelayTime += (float)DELTA_TIME;
-	if (mCurDelayTime >= MAX_DELAY_TIME)
+	if (mCurDelayTime >= mMaxDelayTime)
 	{
 		mCurDelayTime = 0.0f;
 		mbIsCanPlay = true;
@@ -63,14 +63,39 @@ void SoundManager::SoundInfo::AddSound(Sound* pSound)
 	mVecSound.push_back(pSound);
 }
 
+void SoundManager::SoundInfo::Play(float length)
+{
+	mbIsCanPlay = false;
+
+	if (mbIsOnce)
+	{
+		mMaxDelayTime = length;
+	}
+}
+
 void SoundManager::Init()
 {
 	System_Create(&mpSystem);
 	mpSystem->init(SOUND_MAX_CHANNEL, FMOD_INIT_NORMAL, 0);
 
 	LoadFile(eSoundTag::MarineAttack, "Sounds/Marine/tmafir00.wav", 1.0f, false);
+
 	LoadFile(eSoundTag::MarineDead, "Sounds/Marine/tmadth00.wav", 1.0f, false);
 	LoadFile(eSoundTag::MarineDead, "Sounds/Marine/tmadth01.wav", 1.0f, false);
+
+	LoadFile(eSoundTag::MarineMove, "Sounds/Marine/tmayes00.wav", 1.0f, false, true, eSoundTag::MarineClick);
+	LoadFile(eSoundTag::MarineMove, "Sounds/Marine/tmayes01.wav", 1.0f, false, true, eSoundTag::MarineClick);
+	LoadFile(eSoundTag::MarineMove, "Sounds/Marine/tmayes02.wav", 1.0f, false, true, eSoundTag::MarineClick);
+	LoadFile(eSoundTag::MarineMove, "Sounds/Marine/tmayes03.wav", 1.0f, false, true, eSoundTag::MarineClick);
+
+	LoadFile(eSoundTag::MarineClick, "Sounds/Marine/tmawht00.wav", 1.0f, false, true, eSoundTag::MarineMove);
+	LoadFile(eSoundTag::MarineClick, "Sounds/Marine/tmawht01.wav", 1.0f, false, true, eSoundTag::MarineMove);
+	LoadFile(eSoundTag::MarineClick, "Sounds/Marine/tmawht02.wav", 1.0f, false, true, eSoundTag::MarineMove);
+	LoadFile(eSoundTag::MarineClick, "Sounds/Marine/tmawht03.wav", 1.0f, false, true, eSoundTag::MarineMove);
+
+	LoadFile(eSoundTag::TerranTheme, "Musics/terran1.wav", 0.5f, true, true);
+	LoadFile(eSoundTag::TerranTheme, "Musics/terran2.wav", 0.5f, true, true);
+	LoadFile(eSoundTag::TerranTheme, "Musics/terran3.wav", 0.5f, true, true);
 }
 
 void SoundManager::Release()
@@ -110,7 +135,7 @@ void SoundManager::Update()
 	}
 }
 
-void SoundManager::LoadFile(eSoundTag tag, string path, float volume, bool isBgm)
+void SoundManager::LoadFile(eSoundTag tag, string path, float volume, bool isBgm, bool isOnce, eSoundTag friendTag)
 {
 	auto pSoundInfo = mMapInfo.find(tag);
 
@@ -129,7 +154,7 @@ void SoundManager::LoadFile(eSoundTag tag, string path, float volume, bool isBgm
 	{
 		if (pSound)
 		{
-			mMapInfo[tag] = new SoundInfo(pSound, volume);
+			mMapInfo[tag] = new SoundInfo(pSound, volume, isOnce, friendTag);
 		}
 	}
 	else
@@ -143,13 +168,34 @@ void SoundManager::LoadFile(eSoundTag tag, string path, float volume, bool isBgm
 
 void SoundManager::Play(eSoundTag tag)
 {
-	if (mMapInfo[tag]->IsCanPlay() == false) { return; }
+	if (mMapInfo[tag]->IsHaveFirend())
+	{
+		if (mMapInfo[mMapInfo[tag]->GetFriendTag()]->IsCanPlay() == false ||
+			mMapInfo[tag]->IsCanPlay() == false)
+		{
+			return;
+		}
+	}
+	else
+	{
+		if (mMapInfo[tag]->IsCanPlay() == false) { return; }
+	}
 
 	Channel* pChannel;
-	mpSystem->playSound(FMOD_CHANNEL_FREE, mMapInfo[tag]->GetSound(), false, &pChannel);
+	Sound* pSound = mMapInfo[tag]->GetSound();
+	mpSystem->playSound(FMOD_CHANNEL_FREE, pSound, false, &pChannel);
 	if (pChannel == nullptr) { return; }
 
-	mMapInfo[tag]->SetIsCanPlay(false);
+	if (mMapInfo[tag]->IsOncePlay())
+	{
+		unsigned int len = 0;
+		pSound->getLength(&len, FMOD_TIMEUNIT_MS);
+		mMapInfo[tag]->Play((float)len * 0.001f);
+	}
+	else
+	{
+		mMapInfo[tag]->Play();
+	}
 
 	mListClip.push_back(new SoundClip(pChannel, mMapInfo[tag]->GetVolume()));
 }
