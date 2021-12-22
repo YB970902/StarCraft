@@ -18,12 +18,11 @@ void UIRendererComponent::Init(GameObject* pObject)
 	mpGameObject = pObject;
 	mpTransform = (TransformComponent*)mpGameObject->GetComponent(eComponentTag::Transform);
 	mPrevPosition = mpTransform->GetPosition();
-	RENDER->AddUIRenderer(this);
 }
 
 void UIRendererComponent::Release()
 {
-	RENDER->EraseUIRenderer(this);
+	
 }
 
 void UIRendererComponent::Update()

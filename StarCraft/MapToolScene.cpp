@@ -10,6 +10,8 @@
 
 void MapToolScene::Enter()
 {
+	SOUND->StopAll();
+	SOUND->Play(eSoundTag::TerranTheme);
 	RANDOM->SetSeed(time(nullptr));
 
 	CAMERA->SetMovingSize(POINT{ mMapWidth * Tile::TILE_SIZE, mMapHeight * Tile::TILE_SIZE });
@@ -45,6 +47,7 @@ void MapToolScene::Enter()
 
 void MapToolScene::Exit()
 {
+	SOUND->StopAll();
 	PHYSICS->Release();
 
 	RENDER->RemoveGizmo(mpLineLT);
@@ -55,6 +58,12 @@ void MapToolScene::Exit()
 
 void MapToolScene::Update()
 {
+	if (INPUT->IsOnceKeyDown(VK_BACK))
+	{
+		SCENE->ChangeScene(eSceneTag::MainScene);
+		return;
+	}
+
 	if (INPUT->IsOnceKeyDown('1'))
 	{
 		mCurTag = (int)Tile::eTileTag::Dirt;
@@ -108,11 +117,6 @@ void MapToolScene::Update()
 		if (INPUT->IsStayKeyDown('D')) { CAMERA->AddPosition(Vector2::Left() * CAMERA_MOVING_SPEED * DELTA_TIME); }
 		if (INPUT->IsStayKeyDown('W')) { CAMERA->AddPosition(Vector2::Down() * CAMERA_MOVING_SPEED * DELTA_TIME); }
 		if (INPUT->IsStayKeyDown('S')) { CAMERA->AddPosition(Vector2::Up() * CAMERA_MOVING_SPEED * DELTA_TIME); }
-	}
-
-	if (INPUT->IsOnceKeyDown(VK_TAB))
-	{
-		SCENE->ChangeScene(eSceneTag::PathFindingScene);
 	}
 }
 

@@ -2,8 +2,8 @@
 #include "SoundManager.h"
 #include "RandomManager.h"
 
-SoundManager::SoundClip::SoundClip(Channel* pChannel, float volume)
-	:mpChannel{ pChannel }
+SoundManager::SoundClip::SoundClip(eSoundTag soundTag, Channel* pChannel, float volume)
+	: mSoundTag{ soundTag }, mpChannel { pChannel }
 {
 	mpChannel->setVolume(volume);
 }
@@ -96,6 +96,9 @@ void SoundManager::Init()
 	LoadFile(eSoundTag::TerranTheme, "Musics/terran1.wav", 0.5f, true, true);
 	LoadFile(eSoundTag::TerranTheme, "Musics/terran2.wav", 0.5f, true, true);
 	LoadFile(eSoundTag::TerranTheme, "Musics/terran3.wav", 0.5f, true, true);
+
+
+	LoadFile(eSoundTag::TitleBackground, "Musics/title.wav", 0.5f, true, true);
 }
 
 void SoundManager::Release()
@@ -197,13 +200,15 @@ void SoundManager::Play(eSoundTag tag)
 		mMapInfo[tag]->Play();
 	}
 
-	mListClip.push_back(new SoundClip(pChannel, mMapInfo[tag]->GetVolume()));
+	mListClip.push_back(new SoundClip(tag, pChannel, mMapInfo[tag]->GetVolume()));
 }
 
 void SoundManager::StopAll()
 {
 	for (auto it = mListClip.begin(); it != mListClip.end();)
 	{
+		(*it)->Stop();
+		mMapInfo[(*it)->GetSoundTag()]->SetCanPlay();
 		delete (*it);
 		it = mListClip.erase(it);
 	}

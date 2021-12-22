@@ -34,6 +34,7 @@ private:
 
 		inline float GetVolume() { return mVolume; }
 		inline bool IsCanPlay() { return mbIsCanPlay; }
+		inline void SetCanPlay() { mbIsCanPlay = true; mCurDelayTime = 0.0f; }
 		inline bool IsOncePlay() { return mbIsOnce; }
 		inline bool IsHaveFirend() { return (mFriendTag != eSoundTag::None); }
 		inline eSoundTag GetFriendTag() { return mFriendTag; }
@@ -44,12 +45,15 @@ private:
 	{
 	private:
 		Channel* mpChannel = nullptr;
+		eSoundTag mSoundTag;
 
 	public:
-		SoundClip(Channel* pChannel, float volume = 1.0f);
+		SoundClip(eSoundTag soundTag, Channel* pChannel, float volume = 1.0f);
 
 		void Stop();
 		bool IsEnd();
+
+		inline eSoundTag GetSoundTag() { return mSoundTag; }
 	};
 
 	System* mpSystem = nullptr;

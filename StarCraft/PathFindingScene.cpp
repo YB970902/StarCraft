@@ -12,11 +12,12 @@
 
 void PathFindingScene::Enter()
 {
+	SOUND->StopAll();
 	SOUND->Play(eSoundTag::TerranTheme);
 
 	PARTICLE->Init(this);
-	UNIT->Init(this);
 	USER->Init(eTeamTag::RED_TEAM);
+	UNIT->Init(this);
 
 	UI->Init();
 	TILE->Init();
@@ -37,6 +38,7 @@ void PathFindingScene::Enter()
 
 void PathFindingScene::Exit()
 {
+	SOUND->StopAll();
 	PARTICLE->Release();
 	UI->Release();
 	USER->Release();
@@ -47,9 +49,9 @@ void PathFindingScene::Exit()
 
 void PathFindingScene::Update()
 {
-	if (INPUT->IsOnceKeyDown(VK_TAB))
+	if (INPUT->IsOnceKeyDown(VK_BACK))
 	{
-		SCENE->ChangeScene(eSceneTag::MapToolScene);
+		SCENE->ChangeScene(eSceneTag::MainScene);
 		return;
 	}
 

@@ -65,6 +65,32 @@ void SingleAnimation::Update()
 				}
 			}
 			break;
+		case eSingleClipDirection::Repeat:
+			++mCurCol;
+			if (mCurCol == mClip.StartFrameX + mClip.Length)
+			{
+				++mCurRepeatCount;
+				if (mCurRepeatCount == mClip.Repeat)
+				{
+					if (mClip.IsLoop)
+					{
+						mCurRepeatCount = 0;
+						mCurCol = mClip.StartFrameX;
+						mCurRow = mClip.StartFrameY + mCurRepeatCount;
+					}
+					else
+					{
+						--mCurCol;
+						mbIsEnd = true;
+					}
+				}
+				else
+				{
+					mCurCol = mClip.StartFrameX;
+					mCurRow = mClip.StartFrameY + mCurRepeatCount;
+				}
+			}
+			break;
 		}
 	}
 }

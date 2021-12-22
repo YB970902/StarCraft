@@ -27,6 +27,15 @@ const SingleAnimationClip CursorPrepairGreen = SingleAnimationClip(eSingleClipDi
 const SingleAnimationClip CursorPrepairRed = SingleAnimationClip(eSingleClipDirection::Right, 2, 6, 2, true, 1);
 const SingleAnimationClip CursorPrepairYellow = SingleAnimationClip(eSingleClipDirection::Right, 4, 6, 2, true, 1);
 
+const SingleAnimationClip UIButtonSingle = SingleAnimationClip(eSingleClipDirection::Repeat, 0, 0, 5, true, 0.5f, 7);
+const SingleAnimationClip UIButtonOnSingle = SingleAnimationClip(eSingleClipDirection::Repeat, 0, 0, 10, true, 0.5f, 6);
+const SingleAnimationClip UIButtonMulti = SingleAnimationClip(eSingleClipDirection::Repeat, 0, 0, 5, true, 0.5f, 10);
+const SingleAnimationClip UIButtonOnMulti = SingleAnimationClip(eSingleClipDirection::Repeat, 0, 0, 5, true, 0.5f, 4);
+const SingleAnimationClip UIButtonEditor = SingleAnimationClip(eSingleClipDirection::Repeat, 0, 0, 5, true, 0.5f, 17);
+const SingleAnimationClip UIButtonOnEditor = SingleAnimationClip(eSingleClipDirection::Repeat, 0, 0, 5, true, 0.5f, 4);
+const SingleAnimationClip UIButtonExit = SingleAnimationClip(eSingleClipDirection::Repeat, 0, 0, 5, true, 0.5f, 10);
+const SingleAnimationClip UIButtonOnExit = SingleAnimationClip(eSingleClipDirection::Repeat, 0, 0, 5, true, 0.5f, 6);
+
 const SingleAnimationClip ClickCircle = SingleAnimationClip(eSingleClipDirection::Right, 0, 0, 5, false, 0.2f);
 
 const SingleAnimationClip ParticleAttack = SingleAnimationClip(eSingleClipDirection::Right, 0, 0, 15, false, 1);

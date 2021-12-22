@@ -35,7 +35,7 @@ protected:
 	POINT mDestination;
 
 public:
-	Unit(eTeamTag teamTag, UnitID ID);
+	Unit(eTeamTag teamTag, UnitID ID, const float* arrColor);
 	virtual ~Unit();
 	virtual void Init() override;
 	virtual void Release() override;

@@ -14,10 +14,13 @@ private:
 
 	int mGridWidth = 0;
 	int mGridHeight = 0;
+
+	bool mbIsRelease = false;
 public:
 	void Init();
 	void Release();
 
+	void InitDefaultLayer();
 	void InitLayerSize(int width, int height);
 
 	void AddCollider(ColliderComponent* pCollider, const Vector2& pos, const Vector2& size);
@@ -25,6 +28,7 @@ public:
 
 	void ProcessObjectMove(ColliderComponent* pCollider, const Vector2& prevPos, const Vector2& size);
 
+	bool GetCollider(const POINT& pos, GameObject** ppObject);
 	bool GetUnit(eTeamTag teamTag, const POINT& pos, UnitID* pUnitID);
 	bool GetDragUnit(eTeamTag teamTag, const POINT& startPos, const POINT& endPos, vector<UnitID>& outVecUnitID, int maxSize);
 

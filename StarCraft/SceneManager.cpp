@@ -3,14 +3,18 @@
 #include "TestScene.h"
 #include "PathFindingScene.h"
 #include "MapToolScene.h"
+#include "LogoScene.h"
+#include "MainScene.h"
 
 void SceneManager::Init()
 {
 	AddScene(eSceneTag::TestScene, new TestScene());
+	AddScene(eSceneTag::LogoScene, new LogoScene());
+	AddScene(eSceneTag::MainScene, new MainScene());
 	AddScene(eSceneTag::PathFindingScene, new PathFindingScene());
 	AddScene(eSceneTag::MapToolScene, new MapToolScene());
 
-	ChangeScene(eSceneTag::PathFindingScene);
+	ChangeScene(eSceneTag::LogoScene);
 }
 
 void SceneManager::Release()

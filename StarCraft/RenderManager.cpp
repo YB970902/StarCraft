@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "RenderManager.h"
+#include "UIManager.h"
 #include "GameObject.h"
 #include "ColorReplaceEffect.h"
 #include "ShadowEffect.h"
@@ -27,7 +28,7 @@ void RenderManager::Render()
 {
 	if (mbIsInitLayer == false) { return; }
 	mpD2DContext->BeginDraw();
-	mpD2DContext->Clear(D2D1::ColorF(D2D1::ColorF::White));
+	mpD2DContext->Clear(D2D1::ColorF(D2D1::ColorF::Black));
 	mpD2DContext->SetTransform(D2D1::Matrix3x2F::Translation(CAMERA->GetD2DPosition()));
 
 	POINT leftTop = GetDetailIndexByPoint(POINT{ CAMERA->GetCameraRect().left, CAMERA->GetCameraRect().top });
@@ -99,19 +100,31 @@ void RenderManager::Render()
 		mVecGizmo[i]->Render(mpD2DContext);
 	}
 
-	size = mLayerUI.size();
-	for (int i = 0; i < size; ++i)
-	{
-		mLayerUI[i]->render(mpD2DContext);
-	}
+	UI->Render(mpD2DContext);
 
 	mpD2DContext->EndDraw();
 
 	mpSwapChain->Present(1, 0);
 }
 
+void RenderManager::InitDefaultLayer()
+{
+	RECT rc;
+	GetClientRect(g_hWnd, &rc);
+
+	InitLayerSize(rc.right - rc.left, rc.bottom - rc.top);
+}
+
 void RenderManager::InitLayerSize(int width, int height)
 {
+	if (mbIsInitLayer)
+	{
+		mLayerTerrain.clear();
+		mLayerRemains.clear();
+		mLayerGround.clear();
+		mLayerParticle.clear();
+	}
+
 	mbIsInitLayer = true;
 
 	mLayerWidth = width / DETAIL_GRID_SIZE;
@@ -160,11 +173,6 @@ void RenderManager::AddRenderer(const Vector2& pos, RendererComponent* pComponen
 	}
 }
 
-void RenderManager::AddUIRenderer(RendererComponent* pComponent)
-{
-	mLayerUI.push_back(pComponent->GetGameObject());
-}
-
 void RenderManager::EraseRenderer(const Vector2& pos, RendererComponent* pComponent)
 {
 	POINT index = GetDetailIndex(pos);
@@ -199,16 +207,6 @@ void RenderManager::EraseRenderer(const Vector2& pos, RendererComponent* pCompon
 			));
 		break;
 	}
-}
-
-void RenderManager::EraseUIRenderer(RendererComponent* pComponent)
-{
-	mLayerUI.erase(
-		find(mLayerUI.begin(),
-			mLayerUI.end(),
-			pComponent->GetGameObject()
-		)
-	);
 }
 
 void RenderManager::RendererMoved(RendererComponent* pComponent, const Vector2& prevPos, const Vector2& curPos)
@@ -412,6 +410,19 @@ void RenderManager::InitBitmap()
 	mMapBitmap[eBitmapTag::UI_CURSOR] = CreateBitmap((LPWSTR)TEXT("Images/UI/Cursor.png"));
 	mMapBitmap[eBitmapTag::UI_CLICK_CIRCLE] = CreateBitmap((LPWSTR)TEXT("Images/UI/ClickCircle.png"));
 
+	mMapBitmap[eBitmapTag::UI_BTN_SINGLE] = CreateBitmap((LPWSTR)TEXT("Images/UI/Single.png"));
+	mMapBitmap[eBitmapTag::UI_BTN_ON_SINGLE] = CreateBitmap((LPWSTR)TEXT("Images/UI/OnSingle.png"));
+	mMapBitmap[eBitmapTag::UI_BTN_MULTI_TAIL] = CreateBitmap((LPWSTR)TEXT("Images/UI/MultiTail.png"));
+	mMapBitmap[eBitmapTag::UI_BTN_MULTI] = CreateBitmap((LPWSTR)TEXT("Images/UI/Multi.png"));
+	mMapBitmap[eBitmapTag::UI_BTN_ON_MULTI] = CreateBitmap((LPWSTR)TEXT("Images/UI/OnMulti.png"));
+	mMapBitmap[eBitmapTag::UI_BTN_EDITOR] = CreateBitmap((LPWSTR)TEXT("Images/UI/Editor.png"));
+	mMapBitmap[eBitmapTag::UI_BTN_ON_EDITOR] = CreateBitmap((LPWSTR)TEXT("Images/UI/OnEditor.png"));
+	mMapBitmap[eBitmapTag::UI_BTN_EXIT] = CreateBitmap((LPWSTR)TEXT("Images/UI/Exit.png"));
+	mMapBitmap[eBitmapTag::UI_BTN_ON_EXIT] = CreateBitmap((LPWSTR)TEXT("Images/UI/OnExit.png"));
+
+	mMapBitmap[eBitmapTag::BACKGROUND_LOGO] = CreateBitmap((LPWSTR)TEXT("Images/Background/Logo.png"));
+	mMapBitmap[eBitmapTag::BACKGROUND_MAIN] = CreateBitmap((LPWSTR)TEXT("Images/Background/Main.png"));
+	
 	mMapBitmap[eBitmapTag::PARTICLE_ATTACK] = CreateBitmap((LPWSTR)TEXT("Images/Particle/Attack.png"));
 	mMapBitmap[eBitmapTag::PARTICLE_EXPLOSION] = CreateBitmap((LPWSTR)TEXT("Images/Particle/Explosion.png"));
 	mMapBitmap[eBitmapTag::PARTICLE_MARINE_DEAD] = CreateBitmap((LPWSTR)TEXT("Images/Particle/MarineDead.png"));
@@ -455,7 +466,6 @@ void RenderManager::ReleaseLayer()
 	mLayerRemains.clear();
 	mLayerGround.clear();
 	mLayerParticle.clear();
-	mLayerUI.clear();
 }
 
 ID2D1Bitmap* RenderManager::CreateBitmap(LPWSTR fileName)

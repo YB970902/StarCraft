@@ -24,6 +24,18 @@ enum class eBitmapTag
 
 	UI_CURSOR,
 	UI_CLICK_CIRCLE,
+	UI_BTN_SINGLE,
+	UI_BTN_ON_SINGLE,
+	UI_BTN_MULTI_TAIL,
+	UI_BTN_MULTI,
+	UI_BTN_ON_MULTI,
+	UI_BTN_EDITOR,
+	UI_BTN_ON_EDITOR,
+	UI_BTN_EXIT,
+	UI_BTN_ON_EXIT,
+
+	BACKGROUND_LOGO,
+	BACKGROUND_MAIN,
 
 	SELECTED_CIRCLE_SMALL,
 	SELECTED_CIRCLE_MIDIUM,
@@ -138,6 +150,8 @@ enum class eSoundTag
 {
 	None,
 	TerranTheme,
+	TitleBackground,
+
 	MarineDead,
 	MarineAttack,
 	MarineMove,

@@ -34,13 +34,26 @@ void UnitManager::Update()
 void UnitManager::CreateUnit(eTeamTag teamTag, eUnitTag unitTag, Fix posX, Fix posY, UnitID ID)
 {
 	Unit* newUnit = nullptr;
+
+	const float* arrColor = nullptr;
+
+	switch (teamTag)
+	{
+	case eTeamTag::RED_TEAM:
+		arrColor = EFFECT_COLOR_RED;
+		break;
+	case eTeamTag::BLUE_TEAM:
+		arrColor = EFFECT_COLOR_BLUE;
+		break;
+	}
+
 	switch (unitTag)
 	{
 	case eUnitTag::Marrine:
-		newUnit = new Unit(teamTag, ID);
+		newUnit = new Unit(teamTag, ID, arrColor);
 		break;
 	case eUnitTag::Goliaht:
-		newUnit = new Unit(teamTag, ID);
+		newUnit = new Unit(teamTag, ID, arrColor);
 		break;
 	default:
 		break;

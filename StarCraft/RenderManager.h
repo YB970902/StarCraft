@@ -44,7 +44,6 @@ private:
 	QueueZOrder mLayerRemains;
 	QueueZOrder mLayerGround;
 	QueueZOrder mLayerParticle;
-	vector<GameObject*> mLayerUI;
 	bool mbIsInitLayer = false;
 	int mLayerWidth = 0;
 	int mLayerHeight = 0;
@@ -58,15 +57,14 @@ public:
 	void Release();
 	void Render();
 
+	void InitDefaultLayer();
 	void InitLayerSize(int width, int height);
 
 	ID2D1Bitmap* GetBitmap(eBitmapTag tag);
 	ID2D1Effect* CreateEffect(eEffectTag tag);
 
 	void AddRenderer(const Vector2& pos, RendererComponent* pComponent);
-	void AddUIRenderer(RendererComponent* pComponent);
 	void EraseRenderer(const Vector2& pos, RendererComponent* pComponent);
-	void EraseUIRenderer(RendererComponent* pComponent);
 	void RendererMoved(RendererComponent* pComponent, const Vector2& prevPos, const Vector2& curPos);
 
 	Gizmo* RenderText(wstring text, Vector2 pos, Vector2 size, int fontSize = 14, D2D1::ColorF color = D2D1::ColorF::Black, eTextAlign align = eTextAlign::Center);

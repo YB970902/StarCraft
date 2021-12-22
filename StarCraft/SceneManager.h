@@ -6,6 +6,8 @@ enum class eSceneTag
 	TestScene,
 	PathFindingScene,
 	MapToolScene,
+	LogoScene,
+	MainScene,
 };
 
 class Scene;

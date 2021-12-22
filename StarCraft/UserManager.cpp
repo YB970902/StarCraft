@@ -30,6 +30,10 @@ void UserManager::Init(eTeamTag teamTag)
 
 void UserManager::Release()
 {
+	for (int i = 0; i < LINE_SIZE; ++i)
+	{
+		RENDER->RemoveGizmo(mpArrLineGizmo[i]);
+	}
 }
 
 void UserManager::Update()
@@ -270,6 +274,9 @@ void UserManager::UnitMove(const POINT& pos)
 
 void UserManager::ChaseTarget(UnitID ID)
 {
+	if (mVecSelectedUnit.empty()) { return; }
+
+	SOUND->Play(eSoundTag::MarineMove);
 	for (int i = 0; i < mVecSelectedUnit.size(); ++i)
 	{
 		UNIT->CommandAttackUnit(mVecSelectedUnit[i], ID);
@@ -278,6 +285,9 @@ void UserManager::ChaseTarget(UnitID ID)
 
 void UserManager::AttackGround(const POINT& pos)
 {
+	if (mVecSelectedUnit.empty()) { return; }
+
+	SOUND->Play(eSoundTag::MarineMove);
 	for (int i = 0; i < mVecSelectedUnit.size(); ++i)
 	{
 		UNIT->CommandAttackGround(mVecSelectedUnit[i], pos);

@@ -8,11 +8,9 @@
 #include "ParticleManager.h"
 #include "SoundManager.h"
 
-Unit::Unit(eTeamTag teamTag, UnitID ID)
+Unit::Unit(eTeamTag teamTag, UnitID ID, const float* arrColor)
 	: GameObject::GameObject(), mTeamTag{ teamTag }, mID{ ID }
 {
-	Init();
-
 	if (USER->GetTeamTag() == teamTag)
 	{
 		mArrColor = EFFECT_COLOR_GREEN;
@@ -21,6 +19,9 @@ Unit::Unit(eTeamTag teamTag, UnitID ID)
 	{
 		mArrColor = EFFECT_COLOR_RED;
 	}
+
+	Init();
+	mpModel->ChangeUnitColor(arrColor);
 }
 
 Unit::~Unit()

@@ -175,6 +175,21 @@
     <Filter Include="Manager\SoundManager">
       <UniqueIdentifier>{083ae44a-0227-4303-8b4a-056563c46355}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\LogoScene">
+      <UniqueIdentifier>{0b6243f9-b516-4f71-9826-8390b7d20d22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\UIObject\Cursor">
+      <UniqueIdentifier>{1ae7d4cb-1677-4e81-950b-cf4654586308}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\UIObject\Animation">
+      <UniqueIdentifier>{d6eb2519-13c9-4a51-8d3f-471062ccaa5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\UIObject\Sprite">
+      <UniqueIdentifier>{f53d2813-2584-47c8-9eaf-148dce87a0aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\MainScene">
+      <UniqueIdentifier>{7413e186-c2f2-4829-8903-557db41c51d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -318,9 +333,6 @@
     <ClCompile Include="UIManager.cpp">
       <Filter>Manager\UIManager</Filter>
     </ClCompile>
-    <ClCompile Include="UICursor.cpp">
-      <Filter>GameObject\UIObject</Filter>
-    </ClCompile>
     <ClCompile Include="UIRendererComponent.cpp">
       <Filter>Component\Renderer</Filter>
     </ClCompile>
@@ -350,6 +362,21 @@
     </ClCompile>
     <ClCompile Include="SoundManager.cpp">
       <Filter>Manager\SoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="LogoScene.cpp">
+      <Filter>Scene\LogoScene</Filter>
+    </ClCompile>
+    <ClCompile Include="UICursor.cpp">
+      <Filter>GameObject\UIObject\Cursor</Filter>
+    </ClCompile>
+    <ClCompile Include="UISprite.cpp">
+      <Filter>GameObject\UIObject\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="UIAnimation.cpp">
+      <Filter>GameObject\UIObject\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="MainScene.cpp">
+      <Filter>Scene\MainScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -524,9 +551,6 @@
     <ClInclude Include="UIManager.h">
       <Filter>Manager\UIManager</Filter>
     </ClInclude>
-    <ClInclude Include="UICursor.h">
-      <Filter>GameObject\UIObject</Filter>
-    </ClInclude>
     <ClInclude Include="UIRendererComponent.h">
       <Filter>Component\Renderer</Filter>
     </ClInclude>
@@ -556,6 +580,21 @@
     </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>Manager\SoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="LogoScene.h">
+      <Filter>Scene\LogoScene</Filter>
+    </ClInclude>
+    <ClInclude Include="UICursor.h">
+      <Filter>GameObject\UIObject\Cursor</Filter>
+    </ClInclude>
+    <ClInclude Include="UISprite.h">
+      <Filter>GameObject\UIObject\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="UIAnimation.h">
+      <Filter>GameObject\UIObject\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="MainScene.h">
+      <Filter>Scene\MainScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

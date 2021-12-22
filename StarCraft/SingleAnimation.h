@@ -7,6 +7,8 @@ class SingleAnimation : public AnimationBase
 private:
 	ID2D1Bitmap* mpCurBitmap = nullptr;
 	SingleAnimationClip mClip;
+
+	int mCurRepeatCount = 0;
 public:
 	SingleAnimation(const SingleAnimationClip& clip);
 	virtual ~SingleAnimation();

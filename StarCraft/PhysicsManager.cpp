@@ -13,10 +13,24 @@ void PhysicsManager::Init()
 
 void PhysicsManager::Release()
 {
+	mbIsRelease = true;
+
+	mVecRedTeamObjectGrid.clear();
+	mVecBlueTeamObjectGrid.clear();
+}
+
+void PhysicsManager::InitDefaultLayer()
+{
+	RECT rc;
+	GetClientRect(g_hWnd, &rc);
+
+	InitLayerSize(rc.right - rc.left, rc.bottom - rc.top);
 }
 
 void PhysicsManager::InitLayerSize(int width, int height)
 {
+	mbIsRelease = false;
+
 	div_t dv = div(width, GRID_SIZE);
 	if (dv.rem) { dv.quot++; }
 	mGridWidth = dv.quot;
@@ -30,6 +44,7 @@ void PhysicsManager::InitLayerSize(int width, int height)
 
 void PhysicsManager::AddCollider(ColliderComponent* pCollider, const Vector2& pos, const Vector2& size)
 {
+	if (mbIsRelease) { return; }
 	vector<vector<ColliderComponent*>>* pCurGrid = nullptr;
 
 	switch (pCollider->GetTeamTag())
@@ -52,6 +67,8 @@ void PhysicsManager::AddCollider(ColliderComponent* pCollider, const Vector2& po
 
 void PhysicsManager::RemoveCollider(ColliderComponent* pCollider, const Vector2& pos, const Vector2& size)
 {
+	if (mbIsRelease) { return; }
+
 	vector<vector<ColliderComponent*>>* pCurGrid = nullptr;
 
 	switch (pCollider->GetTeamTag())
@@ -74,6 +91,8 @@ void PhysicsManager::RemoveCollider(ColliderComponent* pCollider, const Vector2&
 
 void PhysicsManager::ProcessObjectMove(ColliderComponent* pCollider, const Vector2& prevPos, const Vector2& size)
 {
+	if (mbIsRelease) { return; }
+
 	POINT prevLeftTop = POINT{ (int)(prevPos.x - size.x) / GRID_SIZE, (int)(prevPos.y - size.y) / GRID_SIZE };
 	POINT prevRightBottom = POINT{ (int)(prevPos.x + size.x) / GRID_SIZE, (int)(prevPos.y + size.y) / GRID_SIZE };
 
@@ -89,6 +108,37 @@ void PhysicsManager::ProcessObjectMove(ColliderComponent* pCollider, const Vecto
 
 	RemoveCollider(pCollider, prevPos, size);
 	AddCollider(pCollider, pos, size);
+}
+
+bool PhysicsManager::GetCollider(const POINT& pos, GameObject** ppObject)
+{
+	POINT index = { pos.x / GRID_SIZE, pos.y / GRID_SIZE };
+
+	vector<ColliderComponent*>* pVecUnit = nullptr;
+
+	pVecUnit = &mVecRedTeamObjectGrid[index.x + index.y * mGridWidth];
+	size_t size = pVecUnit->size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		if ((*pVecUnit)[i]->IsCollided(pos))
+		{
+			(*ppObject) = (*pVecUnit)[i]->GetGameObject();
+			return true;
+		}
+	}
+
+	pVecUnit = &mVecBlueTeamObjectGrid[index.x + index.y * mGridWidth];
+	size = pVecUnit->size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		if ((*pVecUnit)[i]->IsCollided(pos))
+		{
+			(*ppObject) = (*pVecUnit)[i]->GetGameObject();
+			return true;
+		}
+	}
+
+	return false;
 }
 
 bool PhysicsManager::GetUnit(eTeamTag teamTag, const POINT& pos, UnitID* pUnitID)
