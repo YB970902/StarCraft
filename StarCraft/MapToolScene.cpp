@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MapToolScene.h"
 #include "RenderManager.h"
+#include "UIManager.h"
 #include "PhysicsManager.h"
 #include "RectGizmo.h"
 #include "TextGizmo.h"
@@ -18,10 +19,12 @@ void MapToolScene::Enter()
 	RENDER->InitLayerSize(mMapWidth * Tile::TILE_SIZE, mMapHeight * Tile::TILE_SIZE);
 	PHYSICS->InitLayerSize(mMapWidth * Tile::TILE_SIZE, mMapHeight * Tile::TILE_SIZE);
 
-	mpLineLT = (LineGizmo*)RENDER->RenderLine(Vector2(0, 0), Vector2(Tile::TILE_SIZE * 2, -Tile::TILE_SIZE), 3, D2D1::ColorF::LimeGreen);
-	mpLineLB = (LineGizmo*)RENDER->RenderLine(Vector2(0, 0), Vector2(Tile::TILE_SIZE * 2, Tile::TILE_SIZE), 3, D2D1::ColorF::LimeGreen);
-	mpLineRT = (LineGizmo*)RENDER->RenderLine(Vector2(Tile::TILE_SIZE * 2, -Tile::TILE_SIZE), Vector2(Tile::TILE_SIZE * 4, 0), 3, D2D1::ColorF::LimeGreen);
-	mpLineRB = (LineGizmo*)RENDER->RenderLine(Vector2(Tile::TILE_SIZE * 2, Tile::TILE_SIZE), Vector2(Tile::TILE_SIZE * 4, 0), 3, D2D1::ColorF::LimeGreen);
+	UI->Init();
+
+	mpLineLT = (LineGizmo*)UI->CreateLine(Vector2(0, 0), Vector2(Tile::TILE_SIZE * 2, -Tile::TILE_SIZE), 0, 3, D2D1::ColorF::LimeGreen);
+	mpLineLB = (LineGizmo*)UI->CreateLine(Vector2(0, 0), Vector2(Tile::TILE_SIZE * 2, Tile::TILE_SIZE), 0, 3, D2D1::ColorF::LimeGreen);
+	mpLineRT = (LineGizmo*)UI->CreateLine(Vector2(Tile::TILE_SIZE * 2, -Tile::TILE_SIZE), Vector2(Tile::TILE_SIZE * 4, 0), 0, 3, D2D1::ColorF::LimeGreen);
+	mpLineRB = (LineGizmo*)UI->CreateLine(Vector2(Tile::TILE_SIZE * 2, Tile::TILE_SIZE), Vector2(Tile::TILE_SIZE * 4, 0), 0, 3, D2D1::ColorF::LimeGreen);
 
 	mVecTile.resize(mMapWidth * mMapHeight);
 	for (int x = 0; x < mMapWidth; ++x)
@@ -50,10 +53,12 @@ void MapToolScene::Exit()
 	SOUND->StopAll();
 	PHYSICS->Release();
 
-	RENDER->RemoveGizmo(mpLineLT);
-	RENDER->RemoveGizmo(mpLineLB);
-	RENDER->RemoveGizmo(mpLineRT);
-	RENDER->RemoveGizmo(mpLineRB);
+	UI->Release();
+
+	UI->RemoveUI(mpLineLT);
+	UI->RemoveUI(mpLineLB);
+	UI->RemoveUI(mpLineRT);
+	UI->RemoveUI(mpLineRB);
 }
 
 void MapToolScene::Update()
@@ -1223,10 +1228,10 @@ void MapToolScene::ChangeTile(const POINT& index, int tag, int col, int offset)
 void MapToolScene::SetIsLineActive(bool set)
 {
 	mbIsDrawTerrain = set;
-	mpLineLT->SetIsActive(set);
-	mpLineLB->SetIsActive(set);
-	mpLineRT->SetIsActive(set);
-	mpLineRB->SetIsActive(set);
+	mpLineLT->SetIsRender(set);
+	mpLineLB->SetIsRender(set);
+	mpLineRT->SetIsRender(set);
+	mpLineRB->SetIsRender(set);
 }
 
 void MapToolScene::ChangeToNone()

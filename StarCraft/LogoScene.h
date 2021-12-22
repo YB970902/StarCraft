@@ -1,14 +1,14 @@
 #pragma once
 #include "Scene.h"
 
-class GameObject;
+class UIGameObject;
 class LogoScene : public Scene
 {
 private:
 	Fix mElapsedTime = 0;
 	Fix mDurationSceneChangeTime = 2.0f;
 
-	GameObject* mpBackground = nullptr;
+	UIGameObject* mpBackground = nullptr;
 public:
 	virtual void Enter() override;
 	virtual void Exit() override;

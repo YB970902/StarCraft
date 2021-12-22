@@ -14,12 +14,12 @@ void PathFindingScene::Enter()
 {
 	SOUND->StopAll();
 	SOUND->Play(eSoundTag::TerranTheme);
-
 	PARTICLE->Init(this);
+
+	UI->Init();
 	USER->Init(eTeamTag::RED_TEAM);
 	UNIT->Init(this);
 
-	UI->Init();
 	TILE->Init();
 	TILE->LoadTileMap(this, TEXT("MapData/Test.txt"));
 

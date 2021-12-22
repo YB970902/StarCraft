@@ -25,8 +25,6 @@ void GameRoot::Run()
 	{
 		INPUT->Update();
 
-		if (INPUT->IsOnceKeyDown(VK_F1)) { DestroyWindow(g_hWnd); }
-
 		Update();
 		CAMERA->Update();
 		Render();

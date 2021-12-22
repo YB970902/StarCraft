@@ -3,13 +3,6 @@
 
 #define RENDER RenderManager::GetInstance()
 
-enum class eTextAlign
-{
-	Left = 0,
-	Right = 1,
-	Center = 2,
-};
-
 class SpriteComponent;
 class ColorReplaceEffect;
 class ShadowEffect;
@@ -44,13 +37,13 @@ private:
 	QueueZOrder mLayerRemains;
 	QueueZOrder mLayerGround;
 	QueueZOrder mLayerParticle;
+
 	bool mbIsInitLayer = false;
+
 	int mLayerWidth = 0;
 	int mLayerHeight = 0;
 
 	const int CULLING_EXTRA_SIZE = 3;
-
-	vector<Gizmo*> mVecGizmo;
 
 public:
 	void Init();
@@ -67,17 +60,14 @@ public:
 	void EraseRenderer(const Vector2& pos, RendererComponent* pComponent);
 	void RendererMoved(RendererComponent* pComponent, const Vector2& prevPos, const Vector2& curPos);
 
-	Gizmo* RenderText(wstring text, Vector2 pos, Vector2 size, int fontSize = 14, D2D1::ColorF color = D2D1::ColorF::Black, eTextAlign align = eTextAlign::Center);
-	Gizmo* RenderRect(Vector2 pos, Vector2 size, float weight = 1.0f, D2D1::ColorF color = D2D1::ColorF::Black, Vector2 anchor = Vector2(0.5f, 0.5f));
-	Gizmo* RenderLine(Vector2 startPos, Vector2 endPos, float width = 1.0f, D2D1::ColorF color = D2D1::ColorF::Black);
-	void RemoveGizmo(Gizmo* pGizmo);
+	IDWriteTextFormat* GetTextFormat(int fontSize = 14, D2D1::ColorF color = D2D1::ColorF::Black, eTextAlign align = eTextAlign::Center);
+	ID2D1SolidColorBrush* GetSolidBrush(float weight = 1.0f, D2D1::ColorF color = D2D1::ColorF::Black);
 
 private:
 	void InitDirect2D();
 	void InitBitmap();
 
 	void ReleaseDirect2D();
-	void ReleaseGizmo();
 	void ReleaseLayer();
 
 	ID2D1Bitmap* CreateBitmap(LPWSTR fileName);

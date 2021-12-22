@@ -21,7 +21,7 @@ void RenderManager::Init()
 void RenderManager::Release()
 {
 	ReleaseDirect2D();
-	ReleaseGizmo();
+	ReleaseLayer();
 }
 
 void RenderManager::Render()
@@ -93,11 +93,6 @@ void RenderManager::Render()
 				mLayerParticle[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth][i]->render(mpD2DContext);
 			}
 		}
-	}
-
-	for (int i = 0; i < mVecGizmo.size(); ++i)
-	{
-		mVecGizmo[i]->Render(mpD2DContext);
 	}
 
 	UI->Render(mpD2DContext);
@@ -221,53 +216,28 @@ void RenderManager::RendererMoved(RendererComponent* pComponent, const Vector2& 
 	}
 }
 
-Gizmo* RenderManager::RenderText(wstring text, Vector2 pos, Vector2 size, int fontSize, D2D1::ColorF color, eTextAlign align)
+IDWriteTextFormat* RenderManager::GetTextFormat(int fontSize, D2D1::ColorF color, eTextAlign align)
 {
 	IDWriteTextFormat* pFormat = nullptr;
+
 	mpDWriteFactory->CreateTextFormat(TEXT("Arial"), nullptr,
 		DWRITE_FONT_WEIGHT_REGULAR,
 		DWRITE_FONT_STYLE_NORMAL,
 		DWRITE_FONT_STRETCH_NORMAL,
 		fontSize, TEXT("ko"), &pFormat);
-
+	
 	pFormat->SetTextAlignment((DWRITE_TEXT_ALIGNMENT)align);
-
-	ID2D1SolidColorBrush* pBrush = nullptr;
-	mpD2DContext->CreateSolidColorBrush(D2D1::ColorF(color), &pBrush);
-
-	Gizmo* pResult = new TextGizmo(pFormat, text, pos, size, pBrush);
-	mVecGizmo.push_back(pResult);
-	return pResult;
+	
+	return pFormat;
 }
 
-Gizmo* RenderManager::RenderRect(Vector2 pos, Vector2 size, float weight, D2D1::ColorF color, Vector2 anchor)
+ID2D1SolidColorBrush* RenderManager::GetSolidBrush(float weight, D2D1::ColorF color)
 {
 	ID2D1SolidColorBrush* pBrush = nullptr;
+
 	mpD2DContext->CreateSolidColorBrush(D2D1::ColorF(color), &pBrush);
 
-	Gizmo* pResult = new RectGizmo(pos, size, anchor, weight, pBrush);
-	mVecGizmo.push_back(pResult);
-	return pResult;
-}
-
-Gizmo* RenderManager::RenderLine(Vector2 startPos, Vector2 endPos, float width, D2D1::ColorF color)
-{
-	ID2D1SolidColorBrush* pBrush = nullptr;
-	mpD2DContext->CreateSolidColorBrush(D2D1::ColorF(color), &pBrush);
-
-	Gizmo* pResult = new LineGizmo(startPos, endPos, width, pBrush);
-	mVecGizmo.push_back(pResult);
-	return pResult;
-}
-
-void RenderManager::RemoveGizmo(Gizmo* pGizmo)
-{
-	auto it = find(mVecGizmo.begin(), mVecGizmo.end(), pGizmo);
-	if (it != mVecGizmo.end())
-	{
-		mVecGizmo.erase(it);
-		delete pGizmo;
-	}
+	return pBrush;
 }
 
 void RenderManager::InitDirect2D()
@@ -447,17 +417,6 @@ void RenderManager::ReleaseDirect2D()
 	mpSwapChain->Release();
 
 	mpDWriteFactory->Release();
-}
-
-void RenderManager::ReleaseGizmo()
-{
-	Gizmo* pGizmo = nullptr;
-	for (auto it = mVecGizmo.begin(); it != mVecGizmo.end(); )
-	{
-		pGizmo = (*it);
-		it = mVecGizmo.erase(it);
-		delete pGizmo;
-	}
 }
 
 void RenderManager::ReleaseLayer()

@@ -1,8 +1,13 @@
 #include "stdafx.h"
 #include "UIManager.h"
+#include "RenderManager.h"
 #include "UICursor.h"
 #include "UISprite.h"
 #include "UIAnimation.h"
+#include "LineGizmo.h"
+#include "RectGizmo.h"
+#include "TextGizmo.h"
+#include "UIGameObject.h"
 
 void UIManager::Init()
 {
@@ -13,16 +18,16 @@ void UIManager::Release()
 {
 	SAFE_DELETE(mpCursor);
 
-	for (auto it = mListUI.begin(); it != mListUI.end();)
+	for (auto it = mVecUI.begin(); it != mVecUI.end();)
 	{
 		SAFE_DELETE((*it));
-		it = mListUI.erase(it);
+		it = mVecUI.erase(it);
 	}
 }
 
 void UIManager::Update()
 {
-	for (auto it = mListUI.begin(); it != mListUI.end(); ++it)
+	for (auto it = mVecUI.begin(); it != mVecUI.end(); ++it)
 	{
 		(*it)->update();
 	}
@@ -32,7 +37,7 @@ void UIManager::Update()
 
 void UIManager::Render(ID2D1DeviceContext2* pContext)
 {
-	for (auto it = mListUI.begin(); it != mListUI.end(); ++it)
+	for (auto it = mVecUI.begin(); it != mVecUI.end(); ++it)
 	{
 		(*it)->render(pContext);
 	}
@@ -45,25 +50,56 @@ void UIManager::ChangeCursorState(eCursorState state)
 	static_cast<UICursor*>(mpCursor)->ChangeAnimation((int)state);
 }
 
-GameObject* UIManager::CreateSprite(eBitmapTag bitmapTag, D2D_POINT_2F anchor)
+UIGameObject* UIManager::CreateSprite(eBitmapTag bitmapTag, int order, D2D_POINT_2F anchor)
 {
-	GameObject* pNewObject = new UISprite(bitmapTag, anchor);
-	mListUI.push_back(pNewObject);
+	UIGameObject* pNewObject = new UISprite(bitmapTag, anchor);
+	AddUIObject(pNewObject, order);
 	return pNewObject;
 }
 
-GameObject* UIManager::CreateAnimation(eBitmapTag bitmapTag, const SingleAnimationClip& clip, D2D_POINT_2F anchor)
+UIGameObject* UIManager::CreateAnimation(eBitmapTag bitmapTag, const SingleAnimationClip& clip, int order, D2D_POINT_2F anchor)
 {
-	GameObject* pNewObject = new UIAnimation(bitmapTag, clip, anchor);
-	mListUI.push_back(pNewObject);
+	UIGameObject* pNewObject = new UIAnimation(bitmapTag, clip, anchor);
+	AddUIObject(pNewObject, order);
 	return pNewObject;
 }
 
-void UIManager::RemoveUI(GameObject* pObject)
+UIGameObject* UIManager::CreateLine(const Vector2& startPos, const Vector2& endPos, int order, float width, D2D1::ColorF color)
 {
-	auto it = find(mListUI.begin(), mListUI.end(), pObject);
-	if (it == mListUI.end()) { return; }
+	UIGameObject* pNewObject = new LineGizmo(startPos, endPos, width, RENDER->GetSolidBrush(width, color));
+	AddUIObject(pNewObject, order);
+	return pNewObject;
+}
+
+UIGameObject* UIManager::CreateRect(const Vector2& pos, const Vector2& size, const Vector2& anchor, int order, float width, D2D1::ColorF color)
+{
+	UIGameObject* pNewObject = new RectGizmo(pos, size, anchor, width, RENDER->GetSolidBrush(width, color));
+	AddUIObject(pNewObject, order);
+	return pNewObject;
+}
+
+UIGameObject* UIManager::CreateText(const wstring& text, const Vector2& pos, const Vector2& size, int order, int fontSize, D2D1::ColorF color, eTextAlign align)
+{
+	return nullptr;
+}
+
+void UIManager::RemoveUI(UIGameObject* pObject)
+{
+	auto it = find(mVecUI.begin(), mVecUI.end(), pObject);
+	if (it == mVecUI.end()) { return; }
 
 	SAFE_DELETE((*it));
-	mListUI.erase(it);
+	mVecUI.erase(it);
+}
+
+void UIManager::AddUIObject(UIGameObject* pObject, int order)
+{
+	pObject->SetOrder(order);
+	mVecUI.push_back(pObject);
+	sort(mVecUI.begin(), mVecUI.end(),
+		[](const UIGameObject* lhs, const UIGameObject* rhs)
+		{
+			return lhs->GetOrder() < rhs->GetOrder();
+		}
+	);
 }

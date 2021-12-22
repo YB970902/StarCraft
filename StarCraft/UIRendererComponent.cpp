@@ -27,10 +27,13 @@ void UIRendererComponent::Release()
 
 void UIRendererComponent::Update()
 {
-	mRect = D2D_RECT_F{
-		(float)mpTransform->GetPosition().x + mpSprite->GetAnchorX(),
-		(float)mpTransform->GetPosition().y + mpSprite->GetAnchorY(),
-		(float)mpTransform->GetPosition().x + mpSprite->GetAnchorX() + mpSprite->GetSizeWidth(),
-		(float)mpTransform->GetPosition().y + mpSprite->GetAnchorY() + mpSprite->GetSizeHeight()
-	};
+	if (mpSprite)
+	{
+		mRect = D2D_RECT_F{
+			(float)mpTransform->GetPosition().x + mpSprite->GetAnchorX(),
+			(float)mpTransform->GetPosition().y + mpSprite->GetAnchorY(),
+			(float)mpTransform->GetPosition().x + mpSprite->GetAnchorX() + mpSprite->GetSizeWidth(),
+			(float)mpTransform->GetPosition().y + mpSprite->GetAnchorY() + mpSprite->GetSizeHeight()
+		};
+	}
 }

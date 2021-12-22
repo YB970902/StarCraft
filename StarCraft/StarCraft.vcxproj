@@ -201,6 +201,7 @@
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="UIAnimation.cpp" />
+    <ClCompile Include="UIButton.cpp" />
     <ClCompile Include="UICursor.cpp" />
     <ClCompile Include="UIGameObject.cpp" />
     <ClCompile Include="UIManager.cpp" />
@@ -275,6 +276,7 @@
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="UIAnimation.h" />
+    <ClInclude Include="UIButton.h" />
     <ClInclude Include="UICursor.h" />
     <ClInclude Include="UIGameObject.h" />
     <ClInclude Include="UIManager.h" />

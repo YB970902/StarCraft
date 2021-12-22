@@ -12,6 +12,6 @@ public:
 
 	virtual void Render(ID2D1DeviceContext2* pD2DContext);
 
-	inline void SetStartPosition(const Vector2& startPos) { mPosition.x = startPos.x; mPosition.y = startPos.y; }
-	inline void SetEndPosition(const Vector2& endPos) { mEndPos.x = endPos.x;  mEndPos.y = endPos.y; }
+	inline void SetStartPosition(const Vector2& startPos) { mpTransform->SetPosition(startPos); }
+	inline void SetEndPosition(const Vector2& endPos) { mEndPos = endPos; }
 };

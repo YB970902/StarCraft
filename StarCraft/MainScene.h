@@ -1,24 +1,24 @@
 #pragma once
 #include "Scene.h"
 
-class GameObject;
+class UIGameObject;
 class MainScene : public Scene
 {
 private:
-	GameObject* mpBackground = nullptr;
+	UIGameObject* mpBackground = nullptr;
 
-	GameObject* mpBtnSingle = nullptr;
-	GameObject* mpBtnOnSingle = nullptr;
+	UIGameObject* mpBtnSingle = nullptr;
+	UIGameObject* mpBtnOnSingle = nullptr;
 
-	GameObject* mpBtnMulti = nullptr;
-	GameObject* mpBtnOnMulti = nullptr;
-	GameObject* mpMultiTail = nullptr;
+	UIGameObject* mpBtnMulti = nullptr;
+	UIGameObject* mpBtnOnMulti = nullptr;
+	UIGameObject* mpMultiTail = nullptr;
 
-	GameObject* mpBtnEditor = nullptr;
-	GameObject* mpBtnOnEditor = nullptr;
+	UIGameObject* mpBtnEditor = nullptr;
+	UIGameObject* mpBtnOnEditor = nullptr;
 
-	GameObject* mpBtnExit = nullptr;
-	GameObject* mpBtnOnExit = nullptr;
+	UIGameObject* mpBtnExit = nullptr;
+	UIGameObject* mpBtnOnExit = nullptr;
 public:
 	virtual void Enter() override;
 	virtual void Exit() override;

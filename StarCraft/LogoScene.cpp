@@ -11,7 +11,7 @@ void LogoScene::Enter()
 
 	mElapsedTime = 0;
 
-	mpBackground = UI->CreateSprite(eBitmapTag::BACKGROUND_LOGO, D2D1::Point2F(0, 0));
+	mpBackground = UI->CreateSprite(eBitmapTag::BACKGROUND_LOGO, 0, D2D1::Point2F(0, 0));
 }
 
 void LogoScene::Exit()

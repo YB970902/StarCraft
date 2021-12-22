@@ -8,6 +8,7 @@
 #include "LineGizmo.h"
 #include "Unit.h"
 #include "ParticleManager.h"
+#include "UIManager.h"
 
 void UserManager::Init(eTeamTag teamTag)
 {
@@ -24,7 +25,7 @@ void UserManager::Init(eTeamTag teamTag)
 	mVecSelectedUnit.reserve(MAX_SELECT_UNIT);
 	for (int i = 0; i < LINE_SIZE; ++i)
 	{
-		mpArrLineGizmo[i] = static_cast<LineGizmo*>(RENDER->RenderLine(Vector2::Left(), Vector2::Left(), 3, D2D1::ColorF::LimeGreen));
+		mpArrLineGizmo[i] = static_cast<LineGizmo*>(UI->CreateLine(Vector2::Left(), Vector2::Left(), 0, 3, D2D1::ColorF::LimeGreen));
 	}
 }
 
@@ -32,7 +33,7 @@ void UserManager::Release()
 {
 	for (int i = 0; i < LINE_SIZE; ++i)
 	{
-		RENDER->RemoveGizmo(mpArrLineGizmo[i]);
+		UI->RemoveUI(mpArrLineGizmo[i]);
 	}
 }
 

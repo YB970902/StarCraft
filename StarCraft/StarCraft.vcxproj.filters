@@ -82,15 +82,6 @@
     <Filter Include="Component\Animation">
       <UniqueIdentifier>{ccb20fc9-0113-417e-a680-5bb0963c3249}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Gizmos">
-      <UniqueIdentifier>{4396df7f-8873-42ba-a4bf-aed93dc0efcc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Gizmos\TextGizmo">
-      <UniqueIdentifier>{0a7d60f1-81da-47a1-b997-8b1af72e7195}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Gizmos\RectGizmo">
-      <UniqueIdentifier>{06c3a16c-a3cf-4029-a8bc-c6926e54ae54}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene\PathFindingScene">
       <UniqueIdentifier>{375dffd4-7f68-4e95-8ee1-7d24be653c3d}</UniqueIdentifier>
     </Filter>
@@ -126,9 +117,6 @@
     </Filter>
     <Filter Include="Manager\RandomManager">
       <UniqueIdentifier>{2ed0deb5-02a5-4f44-9fe5-c24726180285}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Gizmos\LineGizmo">
-      <UniqueIdentifier>{75270b09-bb00-4a94-9bb0-7f482d679d4c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Manager\PhysicsManager">
       <UniqueIdentifier>{ec0a7424-41db-42f9-a304-25c01ca92cb2}</UniqueIdentifier>
@@ -189,6 +177,21 @@
     </Filter>
     <Filter Include="Scene\MainScene">
       <UniqueIdentifier>{7413e186-c2f2-4829-8903-557db41c51d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\UIObject\Gizmos">
+      <UniqueIdentifier>{4396df7f-8873-42ba-a4bf-aed93dc0efcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\UIObject\Gizmos\TextGizmo">
+      <UniqueIdentifier>{0a7d60f1-81da-47a1-b997-8b1af72e7195}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\UIObject\Gizmos\RectGizmo">
+      <UniqueIdentifier>{06c3a16c-a3cf-4029-a8bc-c6926e54ae54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\UIObject\Gizmos\LineGizmo">
+      <UniqueIdentifier>{75270b09-bb00-4a94-9bb0-7f482d679d4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\UIObject\Button">
+      <UniqueIdentifier>{bfa4c423-92ee-4bd5-94b6-e056d11c7b18}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -268,13 +271,13 @@
       <Filter>Math</Filter>
     </ClCompile>
     <ClCompile Include="Gizmo.cpp">
-      <Filter>Gizmos</Filter>
+      <Filter>GameObject\UIObject\Gizmos</Filter>
     </ClCompile>
     <ClCompile Include="RectGizmo.cpp">
-      <Filter>Gizmos\RectGizmo</Filter>
+      <Filter>GameObject\UIObject\Gizmos\RectGizmo</Filter>
     </ClCompile>
     <ClCompile Include="TextGizmo.cpp">
-      <Filter>Gizmos\TextGizmo</Filter>
+      <Filter>GameObject\UIObject\Gizmos\TextGizmo</Filter>
     </ClCompile>
     <ClCompile Include="PathFindingScene.cpp">
       <Filter>Scene\PathFindingScene</Filter>
@@ -319,7 +322,7 @@
       <Filter>Manager\PhysicsManager</Filter>
     </ClCompile>
     <ClCompile Include="LineGizmo.cpp">
-      <Filter>Gizmos\LineGizmo</Filter>
+      <Filter>GameObject\UIObject\Gizmos\LineGizmo</Filter>
     </ClCompile>
     <ClCompile Include="ColliderComponent.cpp">
       <Filter>Component\Collider</Filter>
@@ -377,6 +380,9 @@
     </ClCompile>
     <ClCompile Include="MainScene.cpp">
       <Filter>Scene\MainScene</Filter>
+    </ClCompile>
+    <ClCompile Include="UIButton.cpp">
+      <Filter>GameObject\UIObject\Button</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -480,13 +486,13 @@
       <Filter>Stdafx</Filter>
     </ClInclude>
     <ClInclude Include="Gizmo.h">
-      <Filter>Gizmos</Filter>
+      <Filter>GameObject\UIObject\Gizmos</Filter>
     </ClInclude>
     <ClInclude Include="TextGizmo.h">
-      <Filter>Gizmos\TextGizmo</Filter>
+      <Filter>GameObject\UIObject\Gizmos\TextGizmo</Filter>
     </ClInclude>
     <ClInclude Include="RectGizmo.h">
-      <Filter>Gizmos\RectGizmo</Filter>
+      <Filter>GameObject\UIObject\Gizmos\RectGizmo</Filter>
     </ClInclude>
     <ClInclude Include="PathFindingScene.h">
       <Filter>Scene\PathFindingScene</Filter>
@@ -537,7 +543,7 @@
       <Filter>Manager\PhysicsManager</Filter>
     </ClInclude>
     <ClInclude Include="LineGizmo.h">
-      <Filter>Gizmos\LineGizmo</Filter>
+      <Filter>GameObject\UIObject\Gizmos\LineGizmo</Filter>
     </ClInclude>
     <ClInclude Include="ColliderComponent.h">
       <Filter>Component\Collider</Filter>
@@ -595,6 +601,9 @@
     </ClInclude>
     <ClInclude Include="MainScene.h">
       <Filter>Scene\MainScene</Filter>
+    </ClInclude>
+    <ClInclude Include="UIButton.h">
+      <Filter>GameObject\UIObject\Button</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
