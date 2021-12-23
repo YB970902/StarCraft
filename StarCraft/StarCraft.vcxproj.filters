@@ -205,6 +205,9 @@
     <Filter Include="GameObject\Unit\Goliath\Model">
       <UniqueIdentifier>{1155bd46-a0d7-46aa-9a64-f81d59c552db}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Manager\NetworkManager">
+      <UniqueIdentifier>{a11cdb87-3161-4fad-95d0-a4b15f26b555}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -410,6 +413,9 @@
     </ClCompile>
     <ClCompile Include="GoliathLegModel.cpp">
       <Filter>GameObject\Unit\Goliath\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkManager.cpp">
+      <Filter>Manager\NetworkManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -646,6 +652,9 @@
     </ClInclude>
     <ClInclude Include="GoliathLegModel.h">
       <Filter>GameObject\Unit\Goliath\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkManager.h">
+      <Filter>Manager\NetworkManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

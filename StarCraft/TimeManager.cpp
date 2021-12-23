@@ -15,7 +15,7 @@ void TimeManager::Init(int fps)
 
 	mFPS = fps;
 	mFrameTime = 1.0f / fps;
-	mFixedDeltaTime = 1.0f / fps;
+	mFixedDeltaTime = (Fix)1.0f / (Fix)fps;
 }
 
 bool TimeManager::IsUpdateTime()

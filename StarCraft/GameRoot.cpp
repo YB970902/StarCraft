@@ -9,7 +9,7 @@ void GameRoot::Init()
 	RENDER->Init();
 	SCENE->Init();
 
-	TIME->Init(60);
+	TIME->Init(30);
 }
 
 void GameRoot::Release()

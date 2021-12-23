@@ -22,7 +22,6 @@ public:
 	void Update();
 
 	void CreateUnit(eTeamTag teamTag, eUnitTag unitTag, Fix posX, Fix posY);
-	void RemoveUnit(UnitID ID);
 
 	void CommandAttackUnit(UnitID ID, UnitID targetID);
 	void CommandAttackGround(UnitID ID, const POINT& pos);

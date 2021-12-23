@@ -58,6 +58,8 @@ private:
 	vector<TileData> mVecSmallTileState;
 	vector<TileData> mVecBigTileState;
 
+	vector<TileData>* mpVecCurTileState = nullptr;
+
 	int mTileWidth = 0;
 	int mTileHeight = 0;
 
@@ -112,6 +114,7 @@ private:
 
 	bool IsPassable(const TileCoord& coord);
 	bool IsPassable(const TileCoord& coord, const int dir);
+	bool IsTilePassable(const TileCoord& coord);
 
 	bool IsCoordinateInTileMap(const TileCoord& coord) { return (coord.GetX() >= 0 && coord.GetX() < mTileWidth && coord.GetY() >= 0 && coord.GetY() < mTileHeight); }
 

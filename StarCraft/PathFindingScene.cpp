@@ -62,8 +62,14 @@ void PathFindingScene::Update()
 
 	if (INPUT->IsOnceKeyDown('1'))
 	{
-		UNIT->CreateUnit(eTeamTag::RED_TEAM, eUnitTag::Goliath, 200, 200);
-		UNIT->CreateUnit(eTeamTag::RED_TEAM, eUnitTag::Marine, 200, 200);
+		UNIT->CreateUnit(eTeamTag::RED_TEAM, eUnitTag::Goliath, 400, 200);
+		UNIT->CreateUnit(eTeamTag::RED_TEAM, eUnitTag::Marine, 400, 200);
+	}
+
+	if (INPUT->IsOnceKeyDown('2'))
+	{
+		UNIT->CreateUnit(eTeamTag::BLUE_TEAM, eUnitTag::Goliath, 500, 200);
+		UNIT->CreateUnit(eTeamTag::BLUE_TEAM, eUnitTag::Marine, 500, 200);
 	}
 
 	if (INPUT->IsStayKeyDown(VK_LSHIFT))

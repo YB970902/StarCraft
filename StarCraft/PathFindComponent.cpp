@@ -53,7 +53,7 @@ void PathFindComponent::Update()
 		}
 
 		Vector2 dir = (mNextPath - mpTransform->GetPosition()).Normalize();
-		Vector2 nextPosition = mpTransform->GetPosition() + dir * 100 * DELTA_TIME;
+		Vector2 nextPosition = mpTransform->GetPosition() + dir * UNIT_MOVE_SPEED * DELTA_TIME;
 		TileManager::eTileState tileState;
 
 		SetOpen();
@@ -68,7 +68,7 @@ void PathFindComponent::Update()
 	{
 		Vector2 toNextPos = (mNextPath - mpTransform->GetPosition());
 		Vector2 dir = toNextPos.Normalize();
-		Vector2 nextPosition = mpTransform->GetPosition() + dir * 100 * DELTA_TIME;
+		Vector2 nextPosition = mpTransform->GetPosition() + dir * UNIT_MOVE_SPEED * DELTA_TIME;
 
 		mLookAngle = RAD2DEG(atan2f(-toNextPos.y, toNextPos.x));
 
@@ -317,5 +317,5 @@ bool PathFindComponent::GetNextPath(Vector2& nextPath)
 
 bool PathFindComponent::IsCloserAtNextPath()
 {
-	return (Vector2::GetDistance(mpTransform->GetPosition(), mNextPath) < (Fix)1);
+	return (Vector2::GetDistance(mpTransform->GetPosition(), mNextPath) < (Fix)DISTANCE_EPSILON);
 }

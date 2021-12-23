@@ -92,12 +92,6 @@ void UnitManager::CreateUnit(eTeamTag teamTag, eUnitTag unitTag, Fix posX, Fix p
 	}
 }
 
-void UnitManager::RemoveUnit(UnitID ID)
-{
-	mMapUnit.erase(ID);
-	mQueIDAllocater.push(ID);
-}
-
 void UnitManager::CommandAttackUnit(UnitID ID, UnitID targetID)
 {
 	Unit* pUnit = mMapUnit[ID];
@@ -212,4 +206,5 @@ void UnitManager::Dead(UnitID ID)
 
 	mVecRemovedUnit.push_back(pUnit);
 	USER->OnUnitRemoved(ID);
+	mQueIDAllocater.push(ID);
 }

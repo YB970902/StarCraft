@@ -422,10 +422,12 @@ bool TileManager::GetSpawnPosition(const Vector2& spawnPos, const eUnitTileSize&
 	{
 	case eUnitTileSize::Small:
 		mpCurDetailMap = mpSmallUnitMap;
+		mpVecCurTileState = &mVecSmallTileState;
 		tileSize = SMALL_UNIT_TILE_SIZE;
 		break;
 	case eUnitTileSize::Big:
 		mpCurDetailMap = mpBigUnitMap;
+		mpVecCurTileState = &mVecBigTileState;
 		tileSize = BIG_UNIT_TILE_SIZE;
 		break;
 	default:
@@ -529,6 +531,20 @@ bool TileManager::IsPassable(const TileCoord& coord)
 bool TileManager::IsPassable(const TileCoord& coord, const int dir)
 {
 	return IsPassable(TileCoord::NextCoordinate(coord, dir));
+}
+
+bool TileManager::IsTilePassable(const TileCoord& coord)
+{
+	if (coord.GetX() < 0 ||
+		coord.GetX() >= mTileWidth - 1 ||
+		coord.GetY() < 0 ||
+		coord.GetY() >= mTileHeight - 1)
+	{
+		return false;
+	}
+
+	return (!(*mpVecCurTileState)[coord.GetX() + coord.GetY() * mTileWidth].IsObstacle() &&
+		!(*mpVecCurTileState)[coord.GetX() + coord.GetY() * mTileWidth].IsOccupied());
 }
 
 int TileManager::ForcedNeighbours(const TileCoord& coord, const int dir)
@@ -822,7 +838,7 @@ bool TileManager::IsNearCoord(const TileCoord& startCoord, const TileCoord& endC
 		bool result = false;
 		for (int i = 0; i < nearDist; ++i)
 		{
-			if (IsPassable(curCoord))
+			if (IsTilePassable(curCoord))
 			{
 				dist = GetCoordinateDistance(startCoord, curCoord);
 				if (dist < nearDist)

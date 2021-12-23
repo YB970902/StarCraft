@@ -2,6 +2,9 @@
 #include "Component.h"
 #include "JPS.h"
 
+static const int UNIT_MOVE_SPEED = 100;
+static const int DISTANCE_EPSILON = 2;
+
 class DetailMap;
 class BitArray;
 class TransformComponent;
