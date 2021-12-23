@@ -4,6 +4,7 @@
 #include "Scene.h"
 #include "UserManager.h"
 #include "PhysicsManager.h"
+#include "TileManager.h"
 #include "IObserver.h"
 #include "Subject.h"
 #include "Marine.h"
@@ -75,11 +76,20 @@ void UnitManager::CreateUnit(eTeamTag teamTag, eUnitTag unitTag, Fix posX, Fix p
 	default:
 		break;
 	}
-	mpScene->AddGameObject(newUnit);
-	newUnit->SetPosition(posX, posY);
-	newUnit->Stop();
 
-	mMapUnit[ID] = newUnit;
+	Vector2 targetPos;
+	if (TILE->GetSpawnPosition(Vector2(posX, posY), newUnit->GetUnitTileSize(), targetPos))
+	{
+		mpScene->AddGameObject(newUnit);
+		newUnit->SetPosition(targetPos.x, targetPos.y);
+		newUnit->Stop();
+
+		mMapUnit[ID] = newUnit;
+	}
+	else
+	{
+		delete newUnit;
+	}
 }
 
 void UnitManager::RemoveUnit(UnitID ID)
@@ -136,6 +146,11 @@ bool UnitManager::GetUnitPosition(UnitID ID, POINT& position)
 
 	position = POINT{ it->second->GetPosition().x, it->second->GetPosition().y };
 	return true;
+}
+
+eUnitTag UnitManager::GetUnitTag(UnitID ID)
+{
+	return mMapUnit[ID]->GetUnitTag();
 }
 
 bool UnitManager::SetTargetID(UnitID ID, UnitID targetID)

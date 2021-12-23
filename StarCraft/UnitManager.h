@@ -32,6 +32,7 @@ public:
 	void SetSelectUnit(UnitID ID, bool set);
 
 	bool GetUnitPosition(UnitID ID, POINT& position);
+	eUnitTag GetUnitTag(UnitID ID);
 
 	bool SetTargetID(UnitID ID, UnitID targetID);
 	IObserver* GetObserver(UnitID ID);

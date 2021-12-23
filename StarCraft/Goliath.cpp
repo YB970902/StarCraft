@@ -21,6 +21,8 @@ Goliath::Goliath(eTeamTag teamTag, UnitID ID, const float* arrColor)
 	mDeadSound = eSoundTag::GoliathDead;
 	mSelectedBitmap = eBitmapTag::SELECTED_CIRCLE_MIDIUM;
 	mDeadParticle = eParticleTag::ParticleExplosion;
+	mUnitTileSize = eUnitTileSize::Big;
+	mUnitTag = eUnitTag::Goliath;
 	Init();
 	mpHeadModel->ChangeUnitColor(arrColor);
 	mpLegModel->ChangeUnitColor(arrColor);
@@ -34,7 +36,7 @@ void Goliath::Init()
 {
 	mpSprite = static_cast<SpriteComponent*>(AddComponent(new SpriteComponent(eBitmapTag::SELECTED_CIRCLE_MIDIUM, SpriteData::SINGLE_FRAME_X, SpriteData::SINGLE_FRAME_Y)));
 	mpEffect = static_cast<EffectComponent*>(AddComponent(new EffectComponent(eEffectTag::COLOR_REPLACE)))->GetEffect();
-	mpPathFind = static_cast<PathFindComponent*>(AddComponent(new PathFindComponent(eUnitTileSize::Big)));
+	mpPathFind = static_cast<PathFindComponent*>(AddComponent(new PathFindComponent(mUnitTileSize)));
 	AddComponent(new ColliderComponent(Vector2(0, -10), Vector2(32, 32), mTeamTag));
 	mpEffect->SetInput(0, mpSprite->GetBitmap());
 	SetIsSelected(false);

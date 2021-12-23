@@ -49,8 +49,16 @@ void UserManager::Update()
 			vector<UnitID> vecUnit;
 			if (PHYSICS->GetDragUnit(mTeamTag, mDragStartPos, INPUT->GetMousePosition(), vecUnit, MAX_SELECT_UNIT))
 			{
-				SOUND->Play(eSoundTag::MarineClick);
 				ChangeSelectDragUnit(vecUnit);
+				switch (mSelectedUnit)
+				{
+				case eUnitTag::Goliath:
+					SOUND->Play(eSoundTag::GoliathClick);
+					break;
+				case eUnitTag::Marine:
+					SOUND->Play(eSoundTag::MarineClick);
+					break;
+				}
 			}
 			else if (PHYSICS->GetDragUnit(mEnemyTeamTag, mDragStartPos, INPUT->GetMousePosition(), vecUnit, 1))
 			{
@@ -92,8 +100,16 @@ void UserManager::Update()
 				UI->ChangeCursorState(eCursorState::OnGreen);
 				if (INPUT->IsOnceKeyUp(VK_LBUTTON))
 				{
-					SOUND->Play(eSoundTag::MarineClick);
 					ChangeSelectUnit(ID);
+					switch (mSelectedUnit)
+					{
+					case eUnitTag::Goliath:
+						SOUND->Play(eSoundTag::GoliathClick);
+						break;
+					case eUnitTag::Marine:
+						SOUND->Play(eSoundTag::MarineClick);
+						break;
+					}
 				}
 			}
 		}
@@ -212,6 +228,7 @@ void UserManager::ChangeSelectUnit(UnitID ID)
 
 	UNIT->SetSelectUnit(ID, true);
 	mVecSelectedUnit.push_back(ID);
+	mSelectedUnit = UNIT->GetUnitTag(ID);
 }
 
 void UserManager::ChangeSelectDragUnit(const vector<UnitID>& vecUnit)
@@ -222,11 +239,15 @@ void UserManager::ChangeSelectDragUnit(const vector<UnitID>& vecUnit)
 	}
 	mVecSelectedUnit.clear();
 
+	eUnitTag heightUnit = eUnitTag::Marine;
 	for (int i = 0; i < vecUnit.size(); ++i)
 	{
 		UNIT->SetSelectUnit(vecUnit[i], true);
 		mVecSelectedUnit.push_back(vecUnit[i]);
+		if (UNIT->GetUnitTag(vecUnit[i]) == eUnitTag::Goliath) { heightUnit = eUnitTag::Goliath; }
 	}
+
+	mSelectedUnit = heightUnit;
 }
 
 void UserManager::UnitMove(const POINT& pos)
@@ -236,7 +257,15 @@ void UserManager::UnitMove(const POINT& pos)
 	POINT mousePos = INPUT->GetMousePosition();
 	PARTICLE->CreateOnceParticle(eParticleTag::ClickCircle, Vector2(mousePos.x, mousePos.y));
 
-	SOUND->Play(eSoundTag::MarineMove);
+	switch (mSelectedUnit)
+	{
+	case eUnitTag::Goliath:
+		SOUND->Play(eSoundTag::GoliathMove);
+		break;
+	case eUnitTag::Marine:
+		SOUND->Play(eSoundTag::MarineMove);
+		break;
+	}
 
 	if (mVecSelectedUnit.size() == 1)
 	{
@@ -278,7 +307,15 @@ void UserManager::ChaseTarget(UnitID ID)
 {
 	if (mVecSelectedUnit.empty()) { return; }
 
-	SOUND->Play(eSoundTag::MarineMove);
+	switch (mSelectedUnit)
+	{
+	case eUnitTag::Goliath:
+		SOUND->Play(eSoundTag::GoliathMove);
+		break;
+	case eUnitTag::Marine:
+		SOUND->Play(eSoundTag::MarineMove);
+		break;
+	}
 	for (int i = 0; i < mVecSelectedUnit.size(); ++i)
 	{
 		UNIT->CommandAttackUnit(mVecSelectedUnit[i], ID);
@@ -289,7 +326,15 @@ void UserManager::AttackGround(const POINT& pos)
 {
 	if (mVecSelectedUnit.empty()) { return; }
 
-	SOUND->Play(eSoundTag::MarineMove);
+	switch (mSelectedUnit)
+	{
+	case eUnitTag::Goliath:
+		SOUND->Play(eSoundTag::GoliathMove);
+		break;
+	case eUnitTag::Marine:
+		SOUND->Play(eSoundTag::MarineMove);
+		break;
+	}
 	for (int i = 0; i < mVecSelectedUnit.size(); ++i)
 	{
 		UNIT->CommandAttackGround(mVecSelectedUnit[i], pos);

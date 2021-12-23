@@ -13,6 +13,7 @@ private:
 	eTeamTag mEnemyTeamTag;
 
 	vector<UnitID> mVecSelectedUnit;
+	eUnitTag mSelectedUnit;
 
 	bool mbIsDrag = false;
 	POINT mDragStartPos = { 0, 0 };

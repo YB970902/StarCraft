@@ -158,22 +158,26 @@ bool TileManager::GetEndPosition(const Vector2& startPos, const Vector2& targetP
 	GetTileCoordByPosition(startPos, startCoord);
 	GetTileCoordByPosition(targetPos, endCoord);
 
-	if (endCoord.GetX() <= 0) { endCoord.SetX(1); }
-	if (endCoord.GetX() >= mTileWidth - 1) { endCoord.SetX(mTileWidth - 2); }
-	if (endCoord.GetY() <= 0) { endCoord.SetY(1); }
-	if (endCoord.GetY() >= mTileHeight - 1) { endCoord.SetY(mTileWidth - 2); }
-
+	int tileSize = 0;
 	switch (unitSize)
 	{
 	case eUnitTileSize::Small:
 		mpCurDetailMap = mpSmallUnitMap;
+		tileSize = SMALL_UNIT_TILE_SIZE;
 		break;
 	case eUnitTileSize::Big:
 		mpCurDetailMap = mpBigUnitMap;
+		tileSize = BIG_UNIT_TILE_SIZE;
 		break;
 	default:
 		return false;
 	}
+
+	if (endCoord.GetX() <= 0) { endCoord.SetX(tileSize); }
+	if (endCoord.GetX() >= mTileWidth - 1) { endCoord.SetX(mTileWidth - tileSize - 1); }
+	if (endCoord.GetY() <= 0) { endCoord.SetY(tileSize); }
+	if (endCoord.GetY() >= mTileHeight - 1) { endCoord.SetY(mTileWidth - tileSize - 1); }
+
 
 	if (mpCurDetailMap->IsCollision(endCoord.GetX(), endCoord.GetY()))
 	{
@@ -405,6 +409,58 @@ bool TileManager::IsTileOpen(const Vector2& pos, const eUnitTileSize& unitSize, 
 	}
 
 	return result;
+}
+
+bool TileManager::GetSpawnPosition(const Vector2& spawnPos, const eUnitTileSize& unitSize, Vector2& pos)
+{
+	TileCoord spawnCoord;
+
+	GetTileCoordByPosition(spawnPos, spawnCoord);
+
+	int tileSize = 0;
+	switch (unitSize)
+	{
+	case eUnitTileSize::Small:
+		mpCurDetailMap = mpSmallUnitMap;
+		tileSize = SMALL_UNIT_TILE_SIZE;
+		break;
+	case eUnitTileSize::Big:
+		mpCurDetailMap = mpBigUnitMap;
+		tileSize = BIG_UNIT_TILE_SIZE;
+		break;
+	default:
+		return false;
+	}
+
+	if (spawnCoord.GetX() <= 0) { spawnCoord.SetX(tileSize); }
+	if (spawnCoord.GetX() >= mTileWidth - 1) { spawnCoord.SetX(mTileWidth - tileSize - 1); }
+	if (spawnCoord.GetY() <= 0) { spawnCoord.SetY(tileSize); }
+	if (spawnCoord.GetY() >= mTileHeight - 1) { spawnCoord.SetY(mTileWidth - tileSize - 1); }
+
+	if (mpCurDetailMap->IsCollision(spawnCoord.GetX(), spawnCoord.GetY()))
+	{
+		int nearDist = INT_MAX;
+		TileCoord result;
+		IsNearCoord(spawnCoord, spawnCoord, result, DIR_DOWN, nearDist);
+		IsNearCoord(spawnCoord, spawnCoord, result, DIR_RIGHT, nearDist);
+		IsNearCoord(spawnCoord, spawnCoord, result, DIR_UP, nearDist);
+		IsNearCoord(spawnCoord, spawnCoord, result, DIR_LEFT, nearDist);
+
+		IsNearCoord(spawnCoord, spawnCoord, result, DIR_LEFT_DOWN, nearDist);
+		IsNearCoord(spawnCoord, spawnCoord, result, DIR_RIGHT_DOWN, nearDist);
+		IsNearCoord(spawnCoord, spawnCoord, result, DIR_UP_RIGHT, nearDist);
+		IsNearCoord(spawnCoord, spawnCoord, result, DIR_UP_LEFT, nearDist);
+
+		GetPositionByTileCoord(result, pos);
+
+		return true;
+	}
+	else
+	{
+		GetPositionByTileCoord(spawnCoord, pos);
+		return true;
+	}
+	return false;
 }
 
 void TileManager::SetGizmoColor(int x, int y, int color)

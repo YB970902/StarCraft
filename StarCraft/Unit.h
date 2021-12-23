@@ -23,6 +23,10 @@ protected:
 	eSoundTag mDeadSound;
 	eParticleTag mDeadParticle;
 
+	eUnitTileSize mUnitTileSize;
+
+	eUnitTag mUnitTag;
+
 protected:
 	int mMaxHealth = 10;
 	int mCurHealth = 10;
@@ -48,6 +52,8 @@ public:
 	inline void SetPosition(Fix x, Fix y) { mpTransform->SetPosition(x, y); }
 	inline void SetRotation(Fix angle) { mpTransform->SetRotation(angle); }
 
+	inline eUnitTileSize GetUnitTileSize() { return mUnitTileSize; }
+	inline eUnitTag GetUnitTag() { return mUnitTag; }
 
 	inline eTeamTag GetTeamTag() { return mTeamTag; }
 	inline UnitID GetUnitID() { return mID; }

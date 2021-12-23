@@ -27,13 +27,13 @@ void PathFindingScene::Enter()
 
 	for (int i = 1; i <= 12; ++i)
 	{
-		UNIT->CreateUnit(eTeamTag::RED_TEAM, eUnitTag::Goliath, 25, 55 * i);
-		UNIT->CreateUnit(eTeamTag::RED_TEAM, eUnitTag::Marine, 75, 55 * i);
+		UNIT->CreateUnit(eTeamTag::RED_TEAM, eUnitTag::Goliath, 200, 200);
+		UNIT->CreateUnit(eTeamTag::RED_TEAM, eUnitTag::Marine, 200, 200);
 	}
 
 	for (int i = 1; i <= 6; ++i)
 	{
-		UNIT->CreateUnit(eTeamTag::BLUE_TEAM, eUnitTag::Goliath, 500, 55 * i);
+		UNIT->CreateUnit(eTeamTag::BLUE_TEAM, eUnitTag::Goliath, 800, 200);
 	}
 }
 
@@ -59,6 +59,12 @@ void PathFindingScene::Update()
 	UNIT->Update();
 	USER->Update();
 	PARTICLE->Update();
+
+	if (INPUT->IsOnceKeyDown('1'))
+	{
+		UNIT->CreateUnit(eTeamTag::RED_TEAM, eUnitTag::Goliath, 200, 200);
+		UNIT->CreateUnit(eTeamTag::RED_TEAM, eUnitTag::Marine, 200, 200);
+	}
 
 	if (INPUT->IsStayKeyDown(VK_LSHIFT))
 	{

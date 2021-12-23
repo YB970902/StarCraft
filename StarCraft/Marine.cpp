@@ -20,6 +20,8 @@ Marine::Marine(eTeamTag teamTag, UnitID ID, const float* arrColor)
 	mDeadSound = eSoundTag::MarineDead;
 	mSelectedBitmap = eBitmapTag::SELECTED_CIRCLE_SMALL;
 	mDeadParticle = eParticleTag::ParticleMarineDead;
+	mUnitTileSize = eUnitTileSize::Small;
+	mUnitTag = eUnitTag::Marine;
 	Init();
 	mpModel->ChangeUnitColor(arrColor);
 }
@@ -32,7 +34,7 @@ void Marine::Init()
 {
 	mpSprite = static_cast<SpriteComponent*>(AddComponent(new SpriteComponent(eBitmapTag::SELECTED_CIRCLE_SMALL, SpriteData::SINGLE_FRAME_X, SpriteData::SINGLE_FRAME_Y)));
 	mpEffect = static_cast<EffectComponent*>(AddComponent(new EffectComponent(eEffectTag::COLOR_REPLACE)))->GetEffect();
-	mpPathFind = static_cast<PathFindComponent*>(AddComponent(new PathFindComponent(eUnitTileSize::Small)));
+	mpPathFind = static_cast<PathFindComponent*>(AddComponent(new PathFindComponent(mUnitTileSize)));
 	AddComponent(new ColliderComponent(Vector2(0, -10), Vector2(16, 16), mTeamTag));
 	mpEffect->SetInput(0, mpSprite->GetBitmap());
 	SetIsSelected(false);

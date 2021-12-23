@@ -94,6 +94,8 @@ public:
 	void SetObstacleTile(const Vector2& pos, const eUnitTileSize& unitSize, bool set);
 	bool IsTileOpen(const Vector2& pos, const eUnitTileSize& unitSize, eTileState& state);
 
+	bool GetSpawnPosition(const Vector2& spawnPos, const eUnitTileSize& unitSize, Vector2& pos);
+
 	void SetGizmoColor(int x, int y, int color);
 	void InitGizmoColor();
 
