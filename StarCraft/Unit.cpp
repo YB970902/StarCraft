@@ -9,19 +9,9 @@
 #include "SoundManager.h"
 
 Unit::Unit(eTeamTag teamTag, UnitID ID, const float* arrColor)
-	: GameObject::GameObject(), mTeamTag{ teamTag }, mID{ ID }
+	: GameObject::GameObject(), mTeamTag{ teamTag }, mID{ ID }, mArrColor{ arrColor }
 {
-	if (USER->GetTeamTag() == teamTag)
-	{
-		mArrColor = EFFECT_COLOR_GREEN;
-	}
-	else
-	{
-		mArrColor = EFFECT_COLOR_RED;
-	}
 
-	Init();
-	mpModel->ChangeUnitColor(arrColor);
 }
 
 Unit::~Unit()
@@ -30,15 +20,7 @@ Unit::~Unit()
 
 void Unit::Init()
 {
-	mpSprite = static_cast<SpriteComponent*>(AddComponent(new SpriteComponent(eBitmapTag::SELECTED_CIRCLE_SMALL, SpriteData::SINGLE_FRAME_X, SpriteData::SINGLE_FRAME_Y)));
-	mpEffect = static_cast<EffectComponent*>(AddComponent(new EffectComponent(eEffectTag::COLOR_REPLACE)))->GetEffect();
-	mpPathFind = static_cast<PathFindComponent*>(AddComponent(new PathFindComponent(eUnitTileSize::Small)));
-	AddComponent(new ColliderComponent(Vector2(0, -10), Vector2(16, 16), mTeamTag));
-	mpEffect->SetInput(0, mpSprite->GetBitmap());
-	SetIsSelected(false);
-	mpModel = static_cast<UnitModel*>(AddChild(new UnitModel(), 0));
-	mpModel->ChangeAnimation(eAnimationTag::Idle);
-	mpState = static_cast<StateMachineComponent*>(AddComponent(new StateMachineComponent()));
+
 }
 
 void Unit::Release()
@@ -47,10 +29,7 @@ void Unit::Release()
 
 void Unit::Update()
 {
-	if (IsHaveTarget())
-	{
-		UNIT->GetUnitPosition(mTargetID, mTargetPos);
-	}
+
 }
 
 void Unit::SetTargetID(UnitID ID)
@@ -68,7 +47,7 @@ void Unit::SetTargetID(UnitID ID)
 bool Unit::AttackTarget()
 {
 	PARTICLE->CreateParticle(eParticleTag::ParticleAttack, Vector2(mTargetPos.x, mTargetPos.y));
-	SOUND->Play(eSoundTag::MarineAttack);
+	SOUND->Play(mAttackSound);
 	return UNIT->Attack(mID, mTargetID);
 }
 
@@ -101,6 +80,11 @@ bool Unit::FindCloserEnemy()
 	}
 }
 
+void Unit::UpdateTargetPos()
+{
+	UNIT->GetUnitPosition(mTargetID, mTargetPos);
+}
+
 void Unit::MoveAlertly(const POINT& pos)
 {
 	SetTargetID(UNIT_ID_NONE);
@@ -114,11 +98,6 @@ void Unit::UpdateAngle()
 	mpTransform->SetRotation(mpPathFind->GetAngle());
 }
 
-void Unit::ChangeAnimation(eAnimationTag animTag)
-{
-	mpModel->ChangeAnimation(animTag);
-}
-
 void Unit::StopFindPath()
 {
 	mpPathFind->Stop();
@@ -126,12 +105,8 @@ void Unit::StopFindPath()
 
 void Unit::LookAtTarget()
 {
-	POINT targetPos;
-	if (UNIT->GetUnitPosition(mTargetID, targetPos))
-	{
-		float angle = atan2(-(targetPos.y - (int)GetPosition().y), targetPos.x - (int)GetPosition().x);
-		mpTransform->SetRotation(RAD2DEG(angle));
-	}
+	float angle = atan2(-(mTargetPos.y - (int)GetPosition().y), mTargetPos.x - (int)GetPosition().x);
+	mpTransform->SetRotation(RAD2DEG(angle));
 }
 
 void Unit::FindPath(const POINT& pos)
@@ -146,10 +121,9 @@ bool Unit::IsMoving()
 
 POINT Unit::GetTargetPosition()
 {
-	POINT result;
-	if (UNIT->GetUnitPosition(mTargetID, result))
+	if (IsHaveTarget())
 	{
-		return result;
+		return mTargetPos;
 	}
 	else
 	{
@@ -176,7 +150,7 @@ void Unit::SetIsSelected(bool set)
 {
 	if (set)
 	{
-		mpSprite->ChangeBitmap(eBitmapTag::SELECTED_CIRCLE_SMALL);
+		mpSprite->ChangeBitmap(mSelectedBitmap);
 		mpEffect->SetValue((int)EffectData::eColorReplaceProperty::GROUP_COLOR, D2D_VECTOR_3F{ mArrColor[0], mArrColor[1], mArrColor[2] });
 	}
 	else
@@ -190,13 +164,14 @@ bool Unit::OnDamaged(int attack)
 	mCurHealth -= attack;
 	if (mCurHealth <= 0)
 	{
-		PARTICLE->CreateParticle(eParticleTag::ParticleMarineDead, GetPosition());
-		SOUND->Play(eSoundTag::MarineDead);
+		mbIsDead = true;
+
+		PARTICLE->CreateParticle(mDeadParticle, GetPosition());
+		SOUND->Play(mDeadSound);
 
 		SetTargetID(UNIT_ID_NONE);
-		UNIT->Dead(mID);
 		Notify(mID, eObserverMessage::Dead);
-		mbIsDead = true;
+		UNIT->Dead(mID);
 
 		return false;
 	}
@@ -205,6 +180,7 @@ bool Unit::OnDamaged(int attack)
 
 void Unit::OnNotify(const UnitID& ID, const eObserverMessage& message)
 {
+	if (mbIsDead) { return; }
 	switch (message)
 	{
 	case eObserverMessage::BeginChasing:
@@ -214,6 +190,7 @@ void Unit::OnNotify(const UnitID& ID, const eObserverMessage& message)
 		RemoveObserver(UNIT->GetObserver(ID));
 		break;
 	case eObserverMessage::Dead:
+		UpdateTargetPos();
 		RemoveObserver(UNIT->GetObserver(ID));
 		SetTargetID(UNIT_ID_NONE);
 		break;

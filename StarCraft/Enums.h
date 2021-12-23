@@ -12,6 +12,10 @@ enum class eBitmapTag
 
 	UNIT_MARINE_L,
 	UNIT_MARINE_R,
+	UNIT_GOLIATH_HEAD_L,
+	UNIT_GOLIATH_HEAD_R,
+	UNIT_GOLIATH_LEG_L,
+	UNIT_GOLIATH_LEG_R,
 
 	BUILDING_BARRACK,
 	BUILDING_FACTORY,
@@ -85,8 +89,8 @@ enum class eUnitTileSize
 enum class eUnitTag
 {
 	None,
-	Marrine,
-	Goliaht,
+	Marine,
+	Goliath,
 };
 
 enum class eBuildingTag
@@ -126,6 +130,7 @@ enum class eObserverMessage
 
 enum class eStateTag
 {
+	None,
 	Idle,
 	Move,
 	Chase,
@@ -156,6 +161,11 @@ enum class eSoundTag
 	MarineAttack,
 	MarineMove,
 	MarineClick,
+
+	GoliathDead,
+	GoliathAttack,
+	GoliathMove,
+	GoliathClick,
 };
 
 enum class eTextAlign

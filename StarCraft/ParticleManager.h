@@ -22,4 +22,3 @@ public:
 private:
 	Particle* InstantiateParticle(eParticleTag tag);
 };
-

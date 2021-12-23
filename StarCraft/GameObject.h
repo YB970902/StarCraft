@@ -30,7 +30,7 @@ private:
 	void init();
 	void release();
 	void update();
-	void render(ID2D1DeviceContext2* pContext);
+	bool render(ID2D1DeviceContext2* pContext);
 protected:
 	TransformComponent* mpTransform = nullptr;
 	RendererComponent* mpRenderer = nullptr;

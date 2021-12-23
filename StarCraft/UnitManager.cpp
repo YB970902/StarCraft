@@ -6,10 +6,17 @@
 #include "PhysicsManager.h"
 #include "IObserver.h"
 #include "Subject.h"
+#include "Marine.h"
+#include "Goliath.h"
 
 void UnitManager::Init(Scene* pScene)
 {
 	mpScene = pScene;
+
+	for (int i = UNIT_ID_NONE + 1; i <= MAX_UNIT_COUNT; ++i)
+	{
+		mQueIDAllocater.push(i);
+	}
 }
 
 void UnitManager::Release()
@@ -31,8 +38,18 @@ void UnitManager::Update()
 	}
 }
 
-void UnitManager::CreateUnit(eTeamTag teamTag, eUnitTag unitTag, Fix posX, Fix posY, UnitID ID)
+void UnitManager::CreateUnit(eTeamTag teamTag, eUnitTag unitTag, Fix posX, Fix posY)
 {
+	if (mQueIDAllocater.empty())
+	{
+		// 여기서 경고를 띄워야함!
+		// 유닛 생성 실패!!
+		return;
+	}
+
+	UnitID ID = mQueIDAllocater.front();
+	mQueIDAllocater.pop();
+
 	Unit* newUnit = nullptr;
 
 	const float* arrColor = nullptr;
@@ -49,11 +66,11 @@ void UnitManager::CreateUnit(eTeamTag teamTag, eUnitTag unitTag, Fix posX, Fix p
 
 	switch (unitTag)
 	{
-	case eUnitTag::Marrine:
-		newUnit = new Unit(teamTag, ID, arrColor);
+	case eUnitTag::Marine:
+		newUnit = new Marine(teamTag, ID, arrColor);
 		break;
-	case eUnitTag::Goliaht:
-		newUnit = new Unit(teamTag, ID, arrColor);
+	case eUnitTag::Goliath:
+		newUnit = new Goliath(teamTag, ID, arrColor);
 		break;
 	default:
 		break;
@@ -68,7 +85,7 @@ void UnitManager::CreateUnit(eTeamTag teamTag, eUnitTag unitTag, Fix posX, Fix p
 void UnitManager::RemoveUnit(UnitID ID)
 {
 	mMapUnit.erase(ID);
-
+	mQueIDAllocater.push(ID);
 }
 
 void UnitManager::CommandAttackUnit(UnitID ID, UnitID targetID)

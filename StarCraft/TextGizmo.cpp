@@ -15,14 +15,11 @@ TextGizmo::~TextGizmo()
 
 void TextGizmo::Render(ID2D1DeviceContext2* pD2DContext)
 {
-	if (mpRenderer->IsRender())
-	{
-		pD2DContext->DrawTextW(mText.c_str(), mText.length(), mpFormat, D2D1_RECT_F{
-			mpTransform->GetPosition().x,
-			mpTransform->GetPosition().y,
-			mpTransform->GetPosition().x + mSize.x,
-			mpTransform->GetPosition().y + mSize.y
-			}, mpBrush
-		);
-	}
+	pD2DContext->DrawTextW(mText.c_str(), mText.length(), mpFormat, D2D1_RECT_F{
+		mpTransform->GetPosition().x,
+		mpTransform->GetPosition().y,
+		mpTransform->GetPosition().x + mSize.x,
+		mpTransform->GetPosition().y + mSize.y
+		}, mpBrush
+	);
 }

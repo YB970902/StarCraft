@@ -93,6 +93,20 @@ void SoundManager::Init()
 	LoadFile(eSoundTag::MarineClick, "Sounds/Marine/tmawht02.wav", 1.0f, false, true, eSoundTag::MarineMove);
 	LoadFile(eSoundTag::MarineClick, "Sounds/Marine/tmawht03.wav", 1.0f, false, true, eSoundTag::MarineMove);
 
+	LoadFile(eSoundTag::GoliathAttack, "Sounds/Goliath/tgofir00.wav", 1.0f, false);
+
+	LoadFile(eSoundTag::GoliathDead, "Sounds/Goliath/tgodth00.wav", 1.0f, false);
+
+	LoadFile(eSoundTag::GoliathMove, "Sounds/Goliath/tgoyes00.wav", 1.0f, false, true, eSoundTag::GoliathClick);
+	LoadFile(eSoundTag::GoliathMove, "Sounds/Goliath/tgoyes01.wav", 1.0f, false, true, eSoundTag::GoliathClick);
+	LoadFile(eSoundTag::GoliathMove, "Sounds/Goliath/tgoyes02.wav", 1.0f, false, true, eSoundTag::GoliathClick);
+	LoadFile(eSoundTag::GoliathMove, "Sounds/Goliath/tgoyes03.wav", 1.0f, false, true, eSoundTag::GoliathClick);
+
+	LoadFile(eSoundTag::GoliathClick, "Sounds/Goliath/tgowht00.wav", 1.0f, false, true, eSoundTag::GoliathMove);
+	LoadFile(eSoundTag::GoliathClick, "Sounds/Goliath/tgowht01.wav", 1.0f, false, true, eSoundTag::GoliathMove);
+	LoadFile(eSoundTag::GoliathClick, "Sounds/Goliath/tgowht02.wav", 1.0f, false, true, eSoundTag::GoliathMove);
+	LoadFile(eSoundTag::GoliathClick, "Sounds/Goliath/tgowht03.wav", 1.0f, false, true, eSoundTag::GoliathMove);
+
 	LoadFile(eSoundTag::TerranTheme, "Musics/terran1.wav", 0.5f, true, true);
 	LoadFile(eSoundTag::TerranTheme, "Musics/terran2.wav", 0.5f, true, true);
 	LoadFile(eSoundTag::TerranTheme, "Musics/terran3.wav", 0.5f, true, true);

@@ -14,13 +14,10 @@ RectGizmo::~RectGizmo()
 
 void RectGizmo::Render(ID2D1DeviceContext2* pD2DContext)
 {
-	if (mpRenderer->IsRender())
-	{
-		pD2DContext->DrawRectangle(D2D1_RECT_F{
-			mpTransform->GetPosition().x - mSize.x * mAnchor.x,
-			mpTransform->GetPosition().y - mSize.y * mAnchor.y,
-			mpTransform->GetPosition().x + mSize.x - mSize.x * mAnchor.x,
-			mpTransform->GetPosition().y + mSize.y - mSize.y * mAnchor.y
-			}, mpBrush, mWidth);
-	}
+	pD2DContext->DrawRectangle(D2D1_RECT_F{
+		mpTransform->GetPosition().x - mSize.x * mAnchor.x,
+		mpTransform->GetPosition().y - mSize.y * mAnchor.y,
+		mpTransform->GetPosition().x + mSize.x - mSize.x * mAnchor.x,
+		mpTransform->GetPosition().y + mSize.y - mSize.y * mAnchor.y
+		}, mpBrush, mWidth);
 }

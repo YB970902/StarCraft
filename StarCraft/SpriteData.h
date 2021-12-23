@@ -6,6 +6,11 @@ public:
 	static const int MARINE_FRAME_X = 17;
 	static const int MARINE_FRAME_Y = 13;
 
+	static const int GOLIATH_HEAD_FRAME_X = 17;
+	static const int GOLIATH_HEAD_FRAME_Y = 11;
+	static const int GOLIATH_LEG_FRAME_X = 17;
+	static const int GOLIATH_LEG_FRAME_Y = 10;
+
 	static const int BARRACK_FRAME_X = 3;
 	static const int BARRACK_FRAME_Y = 1;
 

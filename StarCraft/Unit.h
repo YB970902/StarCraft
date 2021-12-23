@@ -8,7 +8,7 @@ class UnitManager;
 class Unit : public GameObject, public IObserver, public Subject
 {
 	friend UnitManager;
-private:
+protected:
 	UnitID mID = UNIT_ID_NONE;
 	eTeamTag mTeamTag;
 	const float* mArrColor;
@@ -17,8 +17,11 @@ private:
 	ID2D1Effect* mpEffect = nullptr;
 	PathFindComponent* mpPathFind = nullptr;
 	StateMachineComponent* mpState = nullptr;
+	eBitmapTag mSelectedBitmap;
 
-	UnitModel* mpModel = nullptr;
+	eSoundTag mAttackSound;
+	eSoundTag mDeadSound;
+	eParticleTag mDeadParticle;
 
 protected:
 	int mMaxHealth = 10;
@@ -52,6 +55,7 @@ public:
 	bool AttackTarget();
 
 	void UpdateAngle();
+	void UpdateTargetPos();
 	void LookAtTarget();
 	void FindPath(const POINT& pos);
 	void StopFindPath();
@@ -74,7 +78,7 @@ public:
 	bool IsMoving();
 	bool IsArrived();
 
-	void ChangeAnimation(eAnimationTag animTag);
+	virtual void ChangeAnimation(eAnimationTag animTag) {}
 
 protected:
 	void SetIsSelected(bool set);

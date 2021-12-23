@@ -31,6 +31,7 @@ void UserManager::Init(eTeamTag teamTag)
 
 void UserManager::Release()
 {
+	mVecSelectedUnit.clear();
 	for (int i = 0; i < LINE_SIZE; ++i)
 	{
 		UI->RemoveUI(mpArrLineGizmo[i]);

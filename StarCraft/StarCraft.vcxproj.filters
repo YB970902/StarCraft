@@ -193,6 +193,18 @@
     <Filter Include="GameObject\UIObject\Button">
       <UniqueIdentifier>{bfa4c423-92ee-4bd5-94b6-e056d11c7b18}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObject\Unit\Marine">
+      <UniqueIdentifier>{3041bbc5-6298-4683-a4c6-0ca970b9d82c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Unit\Goliath">
+      <UniqueIdentifier>{6d21969c-96ba-4855-9cf7-6ce9950c6d7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Unit\Marine\Model">
+      <UniqueIdentifier>{bdd0bbff-827e-47df-9d3d-f305002db3c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Unit\Goliath\Model">
+      <UniqueIdentifier>{1155bd46-a0d7-46aa-9a64-f81d59c552db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -383,6 +395,21 @@
     </ClCompile>
     <ClCompile Include="UIButton.cpp">
       <Filter>GameObject\UIObject\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="Marine.cpp">
+      <Filter>GameObject\Unit\Marine</Filter>
+    </ClCompile>
+    <ClCompile Include="MarineModel.cpp">
+      <Filter>GameObject\Unit\Marine\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Goliath.cpp">
+      <Filter>GameObject\Unit\Goliath</Filter>
+    </ClCompile>
+    <ClCompile Include="GoliathHeadModel.cpp">
+      <Filter>GameObject\Unit\Goliath\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="GoliathLegModel.cpp">
+      <Filter>GameObject\Unit\Goliath\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -604,6 +631,21 @@
     </ClInclude>
     <ClInclude Include="UIButton.h">
       <Filter>GameObject\UIObject\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="Marine.h">
+      <Filter>GameObject\Unit\Marine</Filter>
+    </ClInclude>
+    <ClInclude Include="MarineModel.h">
+      <Filter>GameObject\Unit\Marine\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Goliath.h">
+      <Filter>GameObject\Unit\Goliath</Filter>
+    </ClInclude>
+    <ClInclude Include="GoliathHeadModel.h">
+      <Filter>GameObject\Unit\Goliath\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="GoliathLegModel.h">
+      <Filter>GameObject\Unit\Goliath\Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

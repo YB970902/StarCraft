@@ -3,7 +3,7 @@
 
 class UnitModel : public GameObject
 {
-private:
+protected:
 	SpriteComponent* mpSprite = nullptr;
 	ID2D1Effect* mpEffect = nullptr;
 	AnimatorComponent* mpAnimator = nullptr;

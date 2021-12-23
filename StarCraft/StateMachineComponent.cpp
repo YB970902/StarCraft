@@ -26,8 +26,6 @@ void StateMachineComponent::Init(GameObject* pObject)
 	{
 		it->second->Init(mpUnit, this);
 	}
-
-	ChangeState(eStateTag::Idle);
 }
 
 void StateMachineComponent::Release()
@@ -107,6 +105,7 @@ void IdleState::Update()
 		mElapsedTime -= mDurationTime;
 		if (mpUnit->FindCloserEnemy())
 		{
+			mpUnit->UpdateTargetPos();
 			mpStateMachine->ChangeState(eStateTag::Chase);
 			return;
 		}
@@ -182,6 +181,7 @@ void AttackState::Enter()
 	}
 	else
 	{
+		mpUnit->UpdateTargetPos();
 		mpUnit->LookAtTarget();
 	}
 }
@@ -301,15 +301,18 @@ void ChaseState::Update()
 	if (mElapsedFindPathTime >= mDurationFindPathTime)
 	{
 		mElapsedFindPathTime -= mDurationFindPathTime;
+		mpUnit->UpdateTargetPos();
 		mpUnit->FindPath(mpUnit->GetTargetPosition());
 	}
 	else if (mpUnit->IsArrived())
 	{
+		mpUnit->UpdateTargetPos();
 		mpUnit->FindPath(mpUnit->GetTargetPosition());
 	}
 
 	if (mpUnit->GetDistanceToTarget() <= mpUnit->GetAttackRange())
 	{
+		mpUnit->UpdateTargetPos();
 		mpStateMachine->ChangeState(eStateTag::Attack);
 	}
 }

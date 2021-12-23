@@ -27,12 +27,13 @@ void PathFindingScene::Enter()
 
 	for (int i = 1; i <= 12; ++i)
 	{
-		UNIT->CreateUnit(eTeamTag::RED_TEAM, eUnitTag::Marrine, 25, 25 * i, i);
+		UNIT->CreateUnit(eTeamTag::RED_TEAM, eUnitTag::Goliath, 25, 55 * i);
+		UNIT->CreateUnit(eTeamTag::RED_TEAM, eUnitTag::Marine, 75, 55 * i);
 	}
 
 	for (int i = 1; i <= 6; ++i)
 	{
-		UNIT->CreateUnit(eTeamTag::BLUE_TEAM, eUnitTag::Marrine, 500, 25 * i, 12 + i);
+		UNIT->CreateUnit(eTeamTag::BLUE_TEAM, eUnitTag::Goliath, 500, 55 * i);
 	}
 }
 

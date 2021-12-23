@@ -39,7 +39,7 @@ const SingleAnimationClip UIButtonOnExit = SingleAnimationClip(eSingleClipDirect
 const SingleAnimationClip ClickCircle = SingleAnimationClip(eSingleClipDirection::Right, 0, 0, 5, false, 0.2f);
 
 const SingleAnimationClip ParticleAttack = SingleAnimationClip(eSingleClipDirection::Right, 0, 0, 15, false, 1);
-const SingleAnimationClip ParticleExplosion = SingleAnimationClip(eSingleClipDirection::Right, 0, 0, 9, false, 1);
+const SingleAnimationClip ParticleExplosion = SingleAnimationClip(eSingleClipDirection::Right, 0, 0, 9, false, 0.5f);
 const SingleAnimationClip ParticleMarineDead = SingleAnimationClip(eSingleClipDirection::Right, 0, 0, 7, false, 0.5f);
 
 const SingleAnimationClip RemainsMarine = SingleAnimationClip(eSingleClipDirection::Right, 0, 0, 3, false, 5);
@@ -50,3 +50,10 @@ const MultipleAnimationClip MarinePrepairAttack = MultipleAnimationClip(eMultipl
 const MultipleAnimationClip MarinePrepairIdle = MultipleAnimationClip(eMultipleClipDirection::Up, 2, 3, false, 0.2f);
 const MultipleAnimationClip MarineWaitAttack = MultipleAnimationClip(eMultipleClipDirection::Down, 2, 1, false, 0);
 const MultipleAnimationClip MarineAttack = MultipleAnimationClip(eMultipleClipDirection::Down, 3, 1, false, 0);
+
+const MultipleAnimationClip GoliathHeadIdle = MultipleAnimationClip(eMultipleClipDirection::Down, 0, 1, false, 0);
+const MultipleAnimationClip GoliathHeadMove = MultipleAnimationClip(eMultipleClipDirection::Down, 1, 9, true, 0.5f);
+const MultipleAnimationClip GoliathHeadAttack = MultipleAnimationClip(eMultipleClipDirection::Down, 10, 1, false, 0);
+
+const MultipleAnimationClip GoliathLegIdle = MultipleAnimationClip(eMultipleClipDirection::Down, 0, 1, false, 0);
+const MultipleAnimationClip GoliathLegMove = MultipleAnimationClip(eMultipleClipDirection::Down, 1, 9, true, 0.5f);

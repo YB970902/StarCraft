@@ -14,10 +14,6 @@ void Subject::RemoveObserver(IObserver* pObserver)
 	{
 		mVecObserver.erase(it);
 	}
-	else
-	{
-		cout << "그럴수가 있나? " << endl;
-	}
 }
 
 void Subject::Notify(const UnitID& ID, const eObserverMessage& message)

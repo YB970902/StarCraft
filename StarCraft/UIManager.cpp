@@ -39,7 +39,10 @@ void UIManager::Render(ID2D1DeviceContext2* pContext)
 {
 	for (auto it = mVecUI.begin(); it != mVecUI.end(); ++it)
 	{
-		(*it)->render(pContext);
+		if ((*it)->render(pContext))
+		{
+			(*it)->Render(pContext);
+		}
 	}
 
 	if (mpCursor) { mpCursor->render(pContext); }

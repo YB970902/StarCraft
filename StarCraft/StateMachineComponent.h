@@ -7,12 +7,12 @@ class StateMachineComponent : public Component
 {
 private:
 	unordered_map<eStateTag, State*> mMapState;
-	eStateTag mCurStateTag = eStateTag::Idle;
+	eStateTag mCurStateTag = eStateTag::None;
 	State* mpCurState = nullptr;
 	Unit* mpUnit = nullptr;
 
 	bool mbIsHaveNextState = false;
-	eStateTag mNextStateTag = eStateTag::Idle;
+	eStateTag mNextStateTag = eStateTag::None;
 
 public:
 	StateMachineComponent();

@@ -10,6 +10,17 @@ void ParticleManager::Init(Scene* pScene)
 
 void ParticleManager::Release()
 {
+	for (auto it = mListParticle.begin(); it != mListParticle.end();)
+	{
+		mpCurScene->RemoveGameObject(*it);
+		it = mListParticle.erase(it);
+	}
+
+	for (auto it = mListOnceParticle.begin(); it != mListOnceParticle.end();)
+	{
+		mpCurScene->RemoveGameObject(*it);
+		it = mListOnceParticle.erase(it);
+	}
 }
 
 void ParticleManager::Update()

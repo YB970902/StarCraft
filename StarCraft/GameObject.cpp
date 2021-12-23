@@ -44,9 +44,9 @@ void GameObject::update()
 	}
 }
 
-void GameObject::render(ID2D1DeviceContext2* pContext)
+bool GameObject::render(ID2D1DeviceContext2* pContext)
 {
-	if (!mpRenderer->IsRender()) return;
+	if (!mpRenderer->IsRender()) return false;
 
 	mpRenderer->Render(pContext);
 
@@ -54,6 +54,8 @@ void GameObject::render(ID2D1DeviceContext2* pContext)
 	{
 		mVecChild[i].second->render(pContext);
 	}
+
+	return true;
 }
 
 GameObject::GameObject()

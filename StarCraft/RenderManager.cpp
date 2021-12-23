@@ -367,6 +367,10 @@ void RenderManager::InitBitmap()
 
 	mMapBitmap[eBitmapTag::UNIT_MARINE_L] = CreateBitmap((LPWSTR)TEXT("Images/Units/Marine/MarineL.png"));
 	mMapBitmap[eBitmapTag::UNIT_MARINE_R] = CreateBitmap((LPWSTR)TEXT("Images/Units/Marine/MarineR.png"));
+	mMapBitmap[eBitmapTag::UNIT_GOLIATH_HEAD_L] = CreateBitmap((LPWSTR)TEXT("Images/Units/GoliathHead/GoliathL.png"));
+	mMapBitmap[eBitmapTag::UNIT_GOLIATH_HEAD_R] = CreateBitmap((LPWSTR)TEXT("Images/Units/GoliathHead/GoliathR.png"));
+	mMapBitmap[eBitmapTag::UNIT_GOLIATH_LEG_L] = CreateBitmap((LPWSTR)TEXT("Images/Units/GoliathBody/GoliathL.png"));
+	mMapBitmap[eBitmapTag::UNIT_GOLIATH_LEG_R] = CreateBitmap((LPWSTR)TEXT("Images/Units/GoliathBody/GoliathR.png"));
 
 	mMapBitmap[eBitmapTag::BUILDING_BARRACK] = CreateBitmap((LPWSTR)TEXT("Images/Buildings/Barrack/Barrack.png"));
 	mMapBitmap[eBitmapTag::BUILDING_FACTORY] = CreateBitmap((LPWSTR)TEXT("Images/Buildings/Factory/Factory.png"));
