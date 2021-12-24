@@ -12,7 +12,7 @@
 #include "Fixed.h"
 typedef numeric::fixed<16, 16> fix;
 
-#include "../StarCraftServer/Protocol.h"
+#include "../StarCraft/Protocol.h"
 #include "TimeManager.h"
 #include "NetworkManager.h"
 #include "SceneManager.h"

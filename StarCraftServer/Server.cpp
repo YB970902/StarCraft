@@ -15,7 +15,7 @@ Server::Server(boost::asio::io_service& ioService)
 		mQueRoomID.push_back(i + 1);
 	}
 
-	Room* pRoom = new Room(this, DEFAULT_ROOM_ID, "채팅방", MAX_USER_COUNT);
+	Room* pRoom = new Room(this, DEFAULT_ROOM_ID, TEXT("채팅방"), MAX_USER_COUNT);
 	mVecRoom.push_back(pRoom);
 }
 
@@ -54,7 +54,7 @@ void Server::ProcessPacket(const user_id userID, const char* pData)
 
 }
 
-Room* Server::CreateRoom(const char* pTitle, int maxCount)
+Room* Server::CreateRoom(const wchar_t* pTitle, int maxCount)
 {
 	Room* newRoom = new Room(this, mQueRoomID.front(), pTitle, maxCount);
 	mQueRoomID.pop_front();

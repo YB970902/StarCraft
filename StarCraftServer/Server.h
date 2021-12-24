@@ -22,7 +22,7 @@ public:
 	void CloseSession(const user_id userID);
 	void ProcessPacket(const user_id userID, const char* pData);
 
-	Room* CreateRoom(const char* pTitle, int maxCount);
+	Room* CreateRoom(const wchar_t* pTitle, int maxCount);
 	void DestroyRoom(Room* pRoom);
 	Room* GetRoom(room_id roomID);
 	std::vector<Room*> GetRoomList();

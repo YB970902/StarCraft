@@ -61,7 +61,7 @@ void RoomScene::Render()
 	std::cout << "이름 [" << USER->GetPlayerName() << "]\n";
 	for (auto it = mListChatContent.begin(); it != mListChatContent.end(); ++it)
 	{
-		std::cout << "[" << it->first << "] [" << it->second << "]\n";
+		std::cout << "[" << it->Name.c_str() << "] [" << it->Content.c_str() << "]\n";
 	}
 	std::cout << "[" << mChat << "]\n";
 }
@@ -74,7 +74,7 @@ void RoomScene::Notice(Message* pMsg)
 		AddChat(((MsgRoomText*)pMsg)->Name, ((MsgRoomText*)pMsg)->Text);
 		break;
 	case eMessageTag::RoomExit:
-		AddChat(((MsgRoomExit*)pMsg)->Name, "접속종료");
+		AddChat(((MsgRoomExit*)pMsg)->Name, TEXT("접속종료"));
 		break;
 	case eMessageTag::RoomJoinFail:
 		mbIsExitRoom = false;
@@ -88,7 +88,7 @@ void RoomScene::Notice(Message* pMsg)
 	}
 }
 
-void RoomScene::AddChat(std::string name, std::string chat)
+void RoomScene::AddChat(std::wstring name, std::wstring chat)
 {
 	mListChatContent.emplace_back(name, chat);
 	if (mListChatContent.size() > MAX_TEXT_LOG_SIZE) mListChatContent.pop_front();

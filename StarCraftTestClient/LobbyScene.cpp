@@ -98,13 +98,13 @@ void LobbyScene::Render()
 	std::cout << "이름 [" << USER->GetPlayerName() << "]\n\n";
 	for (int i = 0; i < mVecRoom.size(); ++i)
 	{
-		std::cout << "방 번호 [" << i << "] 방 이름[" << mVecRoom[i].RoomName << "] 인원 ( " << mVecRoom[i].CurCount << " / " << mVecRoom[i].MaxCount << " )\n";
+		std::cout << "방 번호 [" << i << "] 방 이름[" << mVecRoom[i].RoomName.c_str() << "] 인원 ( " << mVecRoom[i].CurCount << " / " << mVecRoom[i].MaxCount << " )\n";
 	}
 	std::cout << "\n";
 
 	for (auto it = mListChatContent.begin(); it != mListChatContent.end(); ++it)
 	{
-		std::cout << "[" << it->first << "] [" << it->second << "]\n";
+		std::cout << "[" << it->Name.c_str() << "] [" << it->Content.c_str() << "]\n";
 	}
 	std::cout << "[" << mChat << "]\n";
 }
@@ -117,10 +117,10 @@ void LobbyScene::Notice(Message* pMsg)
 		AddChat(static_cast<MsgRoomText*>(pMsg)->Name, static_cast<MsgRoomText*>(pMsg)->Text);
 		break;
 	case eMessageTag::RoomExit:
-		AddChat(static_cast<MsgRoomExit*>(pMsg)->Name, "님이 로비에서 나갔습니다.");
+		AddChat(static_cast<MsgRoomExit*>(pMsg)->Name, TEXT("님이 로비에서 나갔습니다."));
 		break;
 	case eMessageTag::RoomJoin:
-		AddChat(static_cast<MsgRoomJoin*>(pMsg)->Name, "님이 로비에 접속하였습니다.");
+		AddChat(static_cast<MsgRoomJoin*>(pMsg)->Name, TEXT("님이 로비에 접속하였습니다."));
 		break;
 	case eMessageTag::RoomInfo:
 		AddRoomInfo(static_cast<MsgRoomInfo*>(pMsg));
@@ -129,7 +129,7 @@ void LobbyScene::Notice(Message* pMsg)
 		NET->RefreshRoomInfo();
 		mbIsWaitingJoinRoom = false;
 		mbIsShowNotice = true;
-		mpNoticeText = "[들어갈 수 없는 방입니다!]\n";
+		mpNoticeText = TEXT("[들어갈 수 없는 방입니다!]\n");
 		break;
 	case eMessageTag::RoomJoinSuccess:
 		USER->SetRoomName(static_cast<MsgRoomJoinSuccess*>(pMsg)->Title);
@@ -140,9 +140,9 @@ void LobbyScene::Notice(Message* pMsg)
 	}
 }
 
-void LobbyScene::AddChat(std::string name, std::string chat)
+void LobbyScene::AddChat(std::wstring name, std::wstring chat)
 {
-	mListChatContent.emplace_back(name, chat);
+	mListChatContent.emplace_back(ChatData(name, chat));
 	if (mListChatContent.size() > MAX_TEXT_LOG_SIZE) mListChatContent.pop_front();
 }
 

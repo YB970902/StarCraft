@@ -8,8 +8,10 @@ enum class eSceneTag
 	MapToolScene,
 	LogoScene,
 	MainScene,
+	ChattingScene,
 };
 
+struct Message;
 class Scene;
 class GameObject;
 class SceneManager : public Singleton<SceneManager>
@@ -25,6 +27,8 @@ public:
 	
 	void ChangeScene(eSceneTag tag);
 	void AddScene(eSceneTag tag, Scene* pScene);
+
+	void ReceiveMessage(Message* pMsg);
 
 	GameObject* AddGameObject(GameObject* pGameObject);
 	void RemoveGameObject(GameObject* pGameObject);

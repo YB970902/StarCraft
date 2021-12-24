@@ -4,7 +4,7 @@
 TextGizmo::TextGizmo(IDWriteTextFormat* pFormat, wstring text, Vector2 pos, Vector2 size, ID2D1SolidColorBrush* pBrush)
 	:Gizmo(pBrush), mSize{ size }, mpFormat{ pFormat }, mText{ text }
 {
-
+	SetPosition(pos);
 }
 
 TextGizmo::~TextGizmo()

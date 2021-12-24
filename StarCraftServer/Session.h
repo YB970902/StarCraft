@@ -18,7 +18,7 @@ protected:
 	std::deque<char*> mQueSendData;
 
 	user_id mUserID = DEFAULT_USER_ID;
-	char mName[MAX_NAME_LEN] = { 0, };
+	wchar_t mName[MAX_NAME_LEN] = { 0, };
 	bool mbIsJoinedRoom = false;
 public:
 	Session(user_id userID, boost::asio::io_service& IOService, Server* pServer);
@@ -36,15 +36,15 @@ public:
 	void ExitRoom();
 
 	void SendRoomInfo();
-	void CreateRoom(const char* pTitle, int maxCount);
+	void CreateRoom(const wchar_t* pTitle, int maxCount);
 
 	inline boost::asio::ip::tcp::socket& GetSocket() { return mSocket; }
 	inline Room* GetRoom() { return mpRoom; }
 	inline void SetRoom(Room* pRoom) { mpRoom = pRoom; }
 	inline SessionState* GetSessionState() { return mpState; }
 	inline const user_id& GetUserID() { return mUserID; }
-	inline const char* GetName() { return mName; }
-	inline void SetName(const char* pName) { sprintf_s(mName, MAX_NAME_LEN, "%s", pName); }
+	inline const wchar_t* GetName() { return mName; }
+	inline void SetName(const wchar_t* pName) { swprintf_s(mName, MAX_NAME_LEN, TEXT("%s"), pName); }
 protected:
 	void HandleWrite(const boost::system::error_code& error, size_t bytes_transferred);
 	void HandleReceive(const boost::system::error_code& error, size_t bytes_transferred);

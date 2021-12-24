@@ -1,8 +1,9 @@
 #pragma once
+#include "INetworkReceiver.h"
 
 class GameObject;
 class SceneManager;
-class Scene abstract
+class Scene : public INetworkReceiver
 {
 private:
 	friend SceneManager;
@@ -17,8 +18,10 @@ public:
 
 	virtual ~Scene() = default;
 
-	virtual void Enter() = 0;
-	virtual void Exit() = 0;
-	virtual void Update() = 0;
+	virtual void Enter() abstract;
+	virtual void Exit() abstract;
+	virtual void Update() abstract;
+
+	virtual void ReceiveMessage(Message* pMsg) override {};
 };
 

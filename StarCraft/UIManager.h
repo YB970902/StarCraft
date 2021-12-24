@@ -23,7 +23,7 @@ public:
 
 	UIGameObject* CreateLine(const Vector2& startPos, const Vector2& endPos, int order, float width = 1.0f, D2D1::ColorF color = D2D1::ColorF::Black);
 	UIGameObject* CreateRect(const Vector2& pos, const Vector2& size, const Vector2& anchor, int order, float width = 1.0f, D2D1::ColorF color = D2D1::ColorF::Black);
-	UIGameObject* CreateText(const wstring& text, const Vector2& pos, const Vector2& size, int order, int fontSize = 14, D2D1::ColorF color = D2D1::ColorF::Black, eTextAlign align = eTextAlign::Center);
+	UIGameObject* CreateText(const Vector2& pos, const Vector2& size, int order, int width, int fontSize = 14, D2D1::ColorF color = D2D1::ColorF::Black, eTextAlign align = eTextAlign::Center);
 
 	void RemoveUI(UIGameObject* pObject);
 private:

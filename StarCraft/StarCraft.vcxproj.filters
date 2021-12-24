@@ -208,6 +208,18 @@
     <Filter Include="Manager\NetworkManager">
       <UniqueIdentifier>{a11cdb87-3161-4fad-95d0-a4b15f26b555}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pattern\Observer\Network">
+      <UniqueIdentifier>{205bd23d-6479-4ccc-a150-ce828c267762}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{a07a010c-8e1c-40fc-9c72-92f3ca471ed7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Client">
+      <UniqueIdentifier>{2498c4bc-cc98-4e67-99fa-da1566fd7b61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\ChattingScene">
+      <UniqueIdentifier>{45946620-2700-4f5b-93f7-8462af24fe9f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -416,6 +428,15 @@
     </ClCompile>
     <ClCompile Include="NetworkManager.cpp">
       <Filter>Manager\NetworkManager</Filter>
+    </ClCompile>
+    <ClCompile Include="INetworkReceiver.cpp">
+      <Filter>Pattern\Observer\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>Network\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="ChattingScene.cpp">
+      <Filter>Scene\ChattingScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -655,6 +676,18 @@
     </ClInclude>
     <ClInclude Include="NetworkManager.h">
       <Filter>Manager\NetworkManager</Filter>
+    </ClInclude>
+    <ClInclude Include="INetworkReceiver.h">
+      <Filter>Pattern\Observer\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Client.h">
+      <Filter>Network\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="ChattingScene.h">
+      <Filter>Scene\ChattingScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol.h">
+      <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

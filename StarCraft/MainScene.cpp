@@ -62,6 +62,11 @@ void MainScene::Update()
 		SCENE->ChangeScene(eSceneTag::MapToolScene);
 		return;
 	}
+	if (INPUT->IsOnceKeyDown('3'))
+	{
+		SCENE->ChangeScene(eSceneTag::ChattingScene);
+		return;
+	}
 	if (INPUT->IsOnceKeyDown(VK_ESCAPE))
 	{
 		DestroyWindow(g_hWnd);

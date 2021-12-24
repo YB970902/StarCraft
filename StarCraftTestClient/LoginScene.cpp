@@ -35,13 +35,13 @@ void LoginScene::Update()
 			{
 				mbIsPrintNotice = true;
 				mElapsedNoticeTime = 0.0f;
-				mNoticeText = "[이름을 입력해주세요]\n";
+				mNoticeText = TEXT("[이름을 입력해주세요]\n");
 			}
 			else if (!mbIsGetID)
 			{
 				mbIsPrintNotice = true;
 				mElapsedNoticeTime = 0.0f;
-				mNoticeText = "[잠시후 다시시도해주세요]\n";
+				mNoticeText = TEXT("[잠시후 다시시도해주세요]\n");
 			}
 			else
 			{

@@ -8,6 +8,7 @@
 #define UI UIManager::GetInstance()
 #define USER UserManager::GetInstance()
 #define SOUND SoundManager::GetInstance()
+#define NET NetworkManager::GetInstance()
 
 #define DELTA_TIME TimeManager::GetInstance()->GetDeltaTime()
 

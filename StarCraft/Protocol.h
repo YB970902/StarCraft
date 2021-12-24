@@ -67,7 +67,7 @@ struct MsgSetName : public Message
 		Tag = eMessageTag::SetName;
 		Size = sizeof(MsgSetName);
 	}
-	char Name[MAX_NAME_LEN] = { 0, };
+	wchar_t Name[MAX_NAME_LEN] = { 0, };
 };
 
 struct MsgSetUserID : public Message
@@ -106,7 +106,7 @@ struct MsgRoomJoinSuccess : public Message
 		Tag = eMessageTag::RoomJoinSuccess;
 		Size = sizeof(MsgRoomJoinSuccess);
 	}
-	char Title[MAX_NAME_LEN] = { 0, };
+	wchar_t Title[MAX_NAME_LEN] = { 0, };
 	int CurCount = 0;
 	int MaxCount = 0;
 };
@@ -118,7 +118,7 @@ struct MsgRoomJoin : public Message
 		Tag = eMessageTag::RoomJoin;
 		Size = sizeof(MsgRoomJoin);
 	}
-	char Name[MAX_NAME_LEN] = { 0, };
+	wchar_t Name[MAX_NAME_LEN] = { 0, };
 };
 
 struct MsgRoomExitRequest : public Message
@@ -137,7 +137,7 @@ struct MsgRoomExit : public Message
 		Tag = eMessageTag::RoomExit;
 		Size = sizeof(MsgRoomExit);
 	}
-	char Name[MAX_NAME_LEN] = { 0, };
+	wchar_t Name[MAX_NAME_LEN] = { 0, };
 };
 
 struct MsgRoomCreate : public Message
@@ -147,7 +147,7 @@ struct MsgRoomCreate : public Message
 		Tag = eMessageTag::RoomCreate;
 		Size = sizeof(MsgRoomCreate);
 	}
-	char Title[MAX_NAME_LEN] = { 0, };
+	wchar_t Title[MAX_NAME_LEN] = { 0, };
 	int MaxCount = 0;
 };
 
@@ -179,7 +179,7 @@ struct MsgRoomInfo : public Message
 	int Length = 0;
 	int Index = 0;
 	room_id RoomID = DEFAULT_ROOM_ID;
-	char Title[MAX_NAME_LEN] = { 0, };
+	wchar_t Title[MAX_NAME_LEN] = { 0, };
 	int CurCount = 0;
 	int MaxCount = 0;
 };
@@ -200,8 +200,8 @@ struct MsgRoomText : public Message
 		Tag = eMessageTag::RoomText;
 		Size = sizeof(MsgRoomText);
 	}
-	char Name[MAX_NAME_LEN] = { 0, };
-	char Text[MAX_TEXT_LEN] = { 0, };
+	wchar_t Name[MAX_NAME_LEN] = { 0, };
+	wchar_t Text[MAX_TEXT_LEN] = { 0, };
 };
 
 struct MsgUnitMove : public Message

@@ -3,7 +3,7 @@
 class LoginScene : public IScene
 {
 private:
-	char mName[MAX_NAME_LEN] = { '\0', };
+	wchar_t mName[MAX_NAME_LEN] = { '\0', };
 	int mNameIndex = 0;
 	bool mbIsChoicedName = false;
 	bool mbIsGetID = false;
@@ -12,7 +12,7 @@ private:
 	fix mElapsedNoticeTime = 0.0f;
 	fix mMaxNoticeTime = 1.0f;
 
-	const char* mNoticeText = "";
+	const wchar_t* mNoticeText = TEXT("");
 public:
 	virtual void Init() override;
 	virtual void Release() override;

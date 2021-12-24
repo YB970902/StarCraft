@@ -18,10 +18,10 @@ public:
 
 	bool IsSending() { return mbIsSending; }
 
-	void SetPlayerName(const char* pPlayerName);
+	void SetPlayerName(const wchar_t* pPlayerName);
 
-	void SendChat(const char* pChat);
-	void CreateRoom(const char* pTitle, int maxCount);
+	void SendChat(const wchar_t* pChat);
+	void CreateRoom(const wchar_t* pTitle, int maxCount);
 	void RefreshRoomInfo();
 	void RequestJoinRoom(room_id roomID);
 

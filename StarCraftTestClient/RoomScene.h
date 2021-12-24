@@ -3,10 +3,15 @@
 class RoomScene : public IScene
 {
 private:
-	char mChat[MAX_TEXT_LEN] = { '\0', };
+	wchar_t mChat[MAX_TEXT_LEN] = { '\0', };
 	int mChatIndex = 0;
-
-	std::list<std::pair<std::string, std::string>> mListChatContent;
+	struct ChatData
+	{
+		ChatData(std::wstring name, std::wstring content) : Name{ name }, Content{ content } {}
+		std::wstring Name;
+		std::wstring Content;
+	};
+	std::list<ChatData> mListChatContent;
 
 	bool mbIsExitRoom = false;
 
@@ -17,5 +22,5 @@ public:
 	virtual void Render() override;
 	virtual void Notice(Message* pMsg) override;
 private:
-	void AddChat(std::string name, std::string chat);
+	void AddChat(std::wstring name, std::wstring chat);
 };

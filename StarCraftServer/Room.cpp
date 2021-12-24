@@ -3,10 +3,10 @@
 #include "Server.h"
 #include "Session.h"
 
-Room::Room(Server* pServer, room_id roomID, const char* pTitle, int maxCount)
+Room::Room(Server* pServer, room_id roomID, const wchar_t* pTitle, int maxCount)
 	: mpServer{ pServer }, mRoomID { roomID }, mMaxPeopleCount{ maxCount }
 {
-	sprintf_s(mTitle, MAX_NAME_LEN, "%s", pTitle);
+	swprintf_s(mTitle, MAX_NAME_LEN, TEXT("%s"), pTitle);
 }
 
 Room::~Room()
@@ -35,7 +35,7 @@ void Room::UserJoin(Session* pSession)
 {
 	mVecSession.push_back(pSession);
 	MsgRoomJoin msg;
-	sprintf_s(msg.Name, MAX_NAME_LEN, "%s", pSession->GetName());
+	swprintf_s(msg.Name, MAX_NAME_LEN, TEXT("%s"), pSession->GetName());
 
 	for (int i = 0; i < mVecSession.size(); ++i)
 	{
@@ -47,7 +47,7 @@ void Room::UserJoin(Session* pSession)
 void Room::UserExit(Session* pSession)
 {
 	MsgRoomExit msg;
-	sprintf_s(msg.Name, MAX_NAME_LEN, "%s", pSession->GetName());
+	swprintf_s(msg.Name, MAX_NAME_LEN, TEXT("%s"), pSession->GetName());
 
 	for (auto it = mVecSession.begin(); it != mVecSession.end();)
 	{

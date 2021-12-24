@@ -36,4 +36,6 @@ public:
 	POINT GetLocalMousePosition() { return mLocalMousePosition; }
 	POINT GetMousePosition() { return mMousePosition; }
 	int GetMouseWheel() { return mMouseWheel; }
+
+	wstring GetTypedString();
 };

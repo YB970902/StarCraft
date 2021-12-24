@@ -81,9 +81,11 @@ UIGameObject* UIManager::CreateRect(const Vector2& pos, const Vector2& size, con
 	return pNewObject;
 }
 
-UIGameObject* UIManager::CreateText(const wstring& text, const Vector2& pos, const Vector2& size, int order, int fontSize, D2D1::ColorF color, eTextAlign align)
+UIGameObject* UIManager::CreateText(const Vector2& pos, const Vector2& size, int order, int width, int fontSize, D2D1::ColorF color, eTextAlign align)
 {
-	return nullptr;
+	UIGameObject* pNewObject = new TextGizmo(RENDER->GetTextFormat(fontSize, color, align), TEXT(""), pos, size, RENDER->GetSolidBrush(width, color));
+	AddUIObject(pNewObject, order);
+	return pNewObject;
 }
 
 void UIManager::RemoveUI(UIGameObject* pObject)

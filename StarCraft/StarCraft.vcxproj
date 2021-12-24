@@ -75,7 +75,8 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(WindowsSDK_IncludePath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;C:\boost_1_77_0;$(IncludePath)</IncludePath>
     <ReferencePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(ReferencePath)</ReferencePath>
-    <LibraryPath>C:\Users\남궁영빈\Desktop\StarCraftPortfolio\StarCraft\fmod;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\boost_1_77_0\stage\lib;C:\Users\남궁영빈\Desktop\StarCraftPortfolio\StarCraft\fmod;$(LibraryPath)</LibraryPath>
+    <IntDir>$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -95,6 +96,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Create</PrecompiledHeader>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -151,6 +153,7 @@
     <ClCompile Include="AnimatorComponent.cpp" />
     <ClCompile Include="BitArray.cpp" />
     <ClCompile Include="CameraManager.cpp" />
+    <ClCompile Include="Client.cpp" />
     <ClCompile Include="ColliderComponent.cpp" />
     <ClCompile Include="ColorReplaceEffect.cpp" />
     <ClCompile Include="DetailMap.cpp" />
@@ -164,6 +167,7 @@
     <ClCompile Include="Goliath.cpp" />
     <ClCompile Include="GoliathHeadModel.cpp" />
     <ClCompile Include="GoliathLegModel.cpp" />
+    <ClCompile Include="INetworkReceiver.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="IObserver.cpp" />
     <ClCompile Include="JPS.cpp" />
@@ -175,6 +179,7 @@
     <ClCompile Include="Marine.cpp" />
     <ClCompile Include="MarineModel.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
+    <ClCompile Include="ChattingScene.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleManager.cpp" />
     <ClCompile Include="PathFindComponent.cpp" />
@@ -226,6 +231,7 @@
     <ClInclude Include="AnimatorData.h" />
     <ClInclude Include="BitArray.h" />
     <ClInclude Include="CameraManager.h" />
+    <ClInclude Include="Client.h" />
     <ClInclude Include="ColliderComponent.h" />
     <ClInclude Include="ColorReplaceEffect.h" />
     <ClInclude Include="Defines.h" />
@@ -245,6 +251,7 @@
     <ClInclude Include="GoliathHeadModel.h" />
     <ClInclude Include="GoliathLegModel.h" />
     <ClInclude Include="Headers.h" />
+    <ClInclude Include="INetworkReceiver.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="GameRoot.h" />
     <ClInclude Include="IObserver.h" />
@@ -257,12 +264,14 @@
     <ClInclude Include="Marine.h" />
     <ClInclude Include="MarineModel.h" />
     <ClInclude Include="NetworkManager.h" />
+    <ClInclude Include="ChattingScene.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleManager.h" />
     <ClInclude Include="PathFindComponent.h" />
     <ClInclude Include="PathFinder.h" />
     <ClInclude Include="PathFindingScene.h" />
     <ClInclude Include="PhysicsManager.h" />
+    <ClInclude Include="Protocol.h" />
     <ClInclude Include="RandomManager.h" />
     <ClInclude Include="RectGizmo.h" />
     <ClInclude Include="Scene.h" />

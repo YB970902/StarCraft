@@ -1,18 +1,24 @@
 #include "stdafx.h"
 #include "NetworkManager.h"
+#include "Protocol.h"
 #include "Client.h"
 
-void NetworkManager::Init(boost::asio::io_service& IOService)
+void NetworkManager::Init()
 {
-	mpClient = new Client(IOService);
+	mpClient = new Client(mIOService);
 	mpClient->Connect();
+	mThread = make_shared<boost::thread>(boost::bind(&boost::asio::io_service::run, &mIOService));
 }
 
 void NetworkManager::Release()
 {
-	mpClient->Close();
-	delete mpClient;
-	mpClient = nullptr;
+	mIOService.stop();
+	if (mpClient)
+	{
+		mpClient->Close();
+		SAFE_DELETE(mpClient);
+	}
+	mThread = nullptr;
 }
 
 void NetworkManager::Update()
@@ -27,9 +33,9 @@ void NetworkManager::Update()
 	{
 		pMsg = mQueMessage.front();
 		mQueMessage.pop();
-		Notice(pMsg);
+		ProcessMessage(pMsg);
 		// 유닛 매니저에 보내기
-		SCENE->Notice(pMsg);
+		SCENE->ReceiveMessage(pMsg);
 		delete pMsg;
 		pMsg = nullptr;
 	}
@@ -39,6 +45,7 @@ void NetworkManager::Update()
 
 void NetworkManager::SetPlayerName(const wchar_t* pPlayerName)
 {
+	swprintf_s(mPlayerName, MAX_NAME_LEN - 1, TEXT("%s"), pPlayerName);
 	MsgSetName msg;
 	swprintf_s(msg.Name, MAX_NAME_LEN, TEXT("%s"), pPlayerName);
 	mpClient->PostSend(false, sizeof(msg), (char*)&msg);
@@ -47,7 +54,7 @@ void NetworkManager::SetPlayerName(const wchar_t* pPlayerName)
 void NetworkManager::SendChat(const wchar_t* pChat)
 {
 	MsgRoomText msg;
-	swprintf_s(msg.Name, MAX_NAME_LEN, TEXT("%s"), USER->GetPlayerName());
+	swprintf_s(msg.Name, MAX_NAME_LEN, TEXT("%s"), GetPlayerName());
 	swprintf_s(msg.Text, MAX_TEXT_LEN, TEXT("%s"), pChat);
 
 	mpClient->PostSend(false, msg.Size, (char*)&msg);
@@ -121,20 +128,20 @@ void NetworkManager::ReceiveEnd()
 	mbIsReceiving = false;
 }
 
-void NetworkManager::Notice(Message* pMsg)
+void NetworkManager::ProcessMessage(Message* pMsg)
 {
 	switch (pMsg->Tag)
 	{
 	case eMessageTag::RoomJoinSuccess:
-		USER->SetCurrentRoomCount(static_cast<MsgRoomJoinSuccess*>(pMsg)->CurCount);
-		USER->SetMaxRoomCount(static_cast<MsgRoomJoinSuccess*>(pMsg)->MaxCount);
-		USER->SetRoomName(static_cast<MsgRoomJoinSuccess*>(pMsg)->Title);
+		SetCurrentRoomCount(static_cast<MsgRoomJoinSuccess*>(pMsg)->CurCount);
+		SetMaxRoomCount(static_cast<MsgRoomJoinSuccess*>(pMsg)->MaxCount);
+		SetRoomName(static_cast<MsgRoomJoinSuccess*>(pMsg)->Title);
 		break;
 	case eMessageTag::RoomJoin:
-		USER->SetCurrentRoomCount(USER->GetCurrentRoomCount() + 1);
+		SetCurrentRoomCount(GetCurrentRoomCount() + 1);
 		break;
 	case eMessageTag::RoomExit:
-		USER->SetCurrentRoomCount(USER->GetCurrentRoomCount() - 1);
+		SetCurrentRoomCount(GetCurrentRoomCount() - 1);
 		break;
 	}
 }

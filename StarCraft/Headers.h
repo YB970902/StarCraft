@@ -4,6 +4,7 @@
 #include <fstream>
 #include <atlstr.h>
 #include <stdio.h>
+#include <conio.h>
 #include <tchar.h>
 #include <stdlib.h>
 #include <vector>
@@ -12,6 +13,9 @@
 #include <set>
 #include <list>
 #include <queue>
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
+#include <boost/thread.hpp>
 
 #include <Windows.h>
 #include <d2d1_3.h>

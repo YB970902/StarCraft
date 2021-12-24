@@ -5,6 +5,7 @@
 #include "MapToolScene.h"
 #include "LogoScene.h"
 #include "MainScene.h"
+#include "ChattingScene.h"
 
 void SceneManager::Init()
 {
@@ -13,6 +14,7 @@ void SceneManager::Init()
 	AddScene(eSceneTag::MainScene, new MainScene());
 	AddScene(eSceneTag::PathFindingScene, new PathFindingScene());
 	AddScene(eSceneTag::MapToolScene, new MapToolScene());
+	AddScene(eSceneTag::ChattingScene, new ChattingScene());
 
 	ChangeScene(eSceneTag::LogoScene);
 }
@@ -42,6 +44,11 @@ void SceneManager::ChangeScene(eSceneTag tag)
 void SceneManager::AddScene(eSceneTag tag, Scene* pScene)
 {
 	mMapScene[tag] = pScene;
+}
+
+void SceneManager::ReceiveMessage(Message* pMsg)
+{
+	if (mpCurScene) { mpCurScene->ReceiveMessage(pMsg); }
 }
 
 GameObject* SceneManager::AddGameObject(GameObject* pGameObject)

@@ -67,3 +67,33 @@ bool InputManager::IsStayKeyDown(int key)
 {
 	return (mKeyState[key] == eInputState::Down || mKeyState[key] == eInputState::Press);
 }
+
+wstring InputManager::GetTypedString()
+{
+	wstring result;
+	for (int i = 'a'; i <= 'z'; ++i)
+	{
+		if (IsOnceKeyDown(i))
+		{
+			result.append(1, (wchar_t)i);
+		}
+	}
+
+	for (int i = 'A'; i <= 'Z'; ++i)
+	{
+		if (IsOnceKeyDown(i))
+		{
+			result.append(1, (wchar_t)i);
+		}
+	}
+
+	for (int i = '0'; i <= '9'; ++i)
+	{
+		if (IsOnceKeyDown(i))
+		{
+			result.append(1, (wchar_t)i);
+		}
+	}
+
+	return result;
+}
