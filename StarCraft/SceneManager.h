@@ -9,6 +9,8 @@ enum class eSceneTag
 	LogoScene,
 	MainScene,
 	ChattingScene,
+	MatchingScene,
+	MultiGameScene,
 };
 
 struct Message;

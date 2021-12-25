@@ -71,8 +71,8 @@ void LoginScene::Update()
 void LoginScene::Render()
 {
 	system("cls");
-	if (mbIsPrintNotice) { std::cout << mNoticeText; }
-	std::cout << "이름 [" << mName << "]";
+	if (mbIsPrintNotice) { std::wcout << mNoticeText; }
+	std::wcout << "이름 [" << mName << "]";
 }
 
 void LoginScene::Notice(Message* pMsg)

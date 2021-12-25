@@ -6,6 +6,8 @@
 #include "LogoScene.h"
 #include "MainScene.h"
 #include "ChattingScene.h"
+#include "MatchingScene.h"
+#include "MultiGameScene.h"
 
 void SceneManager::Init()
 {
@@ -15,16 +17,19 @@ void SceneManager::Init()
 	AddScene(eSceneTag::PathFindingScene, new PathFindingScene());
 	AddScene(eSceneTag::MapToolScene, new MapToolScene());
 	AddScene(eSceneTag::ChattingScene, new ChattingScene());
+	AddScene(eSceneTag::MatchingScene, new MatchingScene());
+	AddScene(eSceneTag::MultiGameScene, new MultiGameScene());
 
 	ChangeScene(eSceneTag::LogoScene);
 }
 
 void SceneManager::Release()
 {
+	if (mpCurScene) { mpCurScene->release(); }
+
 	for (auto it = mMapScene.begin(); it != mMapScene.end();)
 	{
-		it->second->release();
-		delete it->second;
+		SAFE_DELETE(it->second);
 		it = mMapScene.erase(it);
 	}
 }

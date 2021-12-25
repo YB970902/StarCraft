@@ -9,6 +9,7 @@
 #include "Subject.h"
 #include "Marine.h"
 #include "Goliath.h"
+#include "NetworkManager.h"
 
 void UnitManager::Init(Scene* pScene)
 {
@@ -16,8 +17,11 @@ void UnitManager::Init(Scene* pScene)
 
 	for (int i = UNIT_ID_NONE + 1; i <= MAX_UNIT_COUNT; ++i)
 	{
-		mQueIDAllocater.push(i);
+		mQueRedTeamIDAllocater.push(i);
+		mQueBlueTeamIDAllocater.push(i + MAX_UNIT_COUNT);
 	}
+
+	mVecRemovedUnit.reserve(MAX_UNIT_COUNT * 2);
 }
 
 void UnitManager::Release()
@@ -32,24 +36,79 @@ void UnitManager::Release()
 
 void UnitManager::Update()
 {
-	for (auto it = mVecRemovedUnit.begin(); it != mVecRemovedUnit.end();)
+	if (mVecRemovedUnit.empty() == false)
 	{
-		mpScene->RemoveGameObject((*it));
-		it = mVecRemovedUnit.erase(it);
+		for (auto it = mVecRemovedUnit.begin(); it != mVecRemovedUnit.end();)
+		{
+			mpScene->RemoveGameObject((*it));
+			it = mVecRemovedUnit.erase(it);
+		}
 	}
 }
 
-void UnitManager::CreateUnit(eTeamTag teamTag, eUnitTag unitTag, Fix posX, Fix posY)
+void UnitManager::CommandCreateUnit(eTeamTag teamTag, eUnitTag unitTag, int posX, int posY)
 {
-	if (mQueIDAllocater.empty())
+	if (teamTag == eTeamTag::RED_TEAM && mQueRedTeamIDAllocater.empty())
 	{
 		// 여기서 경고를 띄워야함!
 		// 유닛 생성 실패!!
 		return;
 	}
+	else if (teamTag == eTeamTag::BLUE_TEAM && mQueBlueTeamIDAllocater.empty())
+	{
+		// 여기서 경고를 띄워야함!
+		// 유닛 생성 실패!!
+		return;
+	}
+	NET->AddCommand(new CreateCommand(teamTag, unitTag, posX, posY));
+}
 
-	UnitID ID = mQueIDAllocater.front();
-	mQueIDAllocater.pop();
+void UnitManager::CommandAttackUnit(UnitID ID, UnitID targetID)
+{
+	Unit* pUnit = mMapUnit[ID];
+	if (pUnit == nullptr || pUnit->GetTeamTag() != USER->GetTeamTag()) { return; }
+
+	NET->AddCommand(new AttackUnitCommand(ID, targetID));
+}
+
+void UnitManager::CommandAttackGround(UnitID ID, const POINT& pos)
+{
+	Unit* pUnit = mMapUnit[ID];
+	if (pUnit == nullptr || pUnit->GetTeamTag() != USER->GetTeamTag()) { return; }
+
+	NET->AddCommand(new AttackGroundCommand(ID, pos));
+}
+
+void UnitManager::CommandMoveUnit(UnitID ID, const POINT& pos)
+{
+	Unit* pUnit = mMapUnit[ID];
+	if (pUnit == nullptr || pUnit->GetTeamTag() != USER->GetTeamTag()) { return; }
+
+	NET->AddCommand(new MoveCommand(ID, pos));
+}
+
+void UnitManager::CommandStopUnit(UnitID ID)
+{
+	Unit* pUnit = mMapUnit[ID];
+	if (pUnit == nullptr || pUnit->GetTeamTag() != USER->GetTeamTag()) { return; }
+
+	NET->AddCommand(new StopCommand(ID));
+}
+
+void UnitManager::ExecuteCreateUnit(eTeamTag teamTag, eUnitTag unitTag, int posX, int posY)
+{
+	UnitID ID = UNIT_ID_NONE;
+	switch (teamTag)
+	{
+	case eTeamTag::RED_TEAM:
+		ID = mQueRedTeamIDAllocater.front();
+		mQueRedTeamIDAllocater.pop();
+		break;
+	case eTeamTag::BLUE_TEAM:
+		ID = mQueBlueTeamIDAllocater.front();
+		mQueBlueTeamIDAllocater.pop();
+		break;
+	}
 
 	Unit* newUnit = nullptr;
 
@@ -92,35 +151,24 @@ void UnitManager::CreateUnit(eTeamTag teamTag, eUnitTag unitTag, Fix posX, Fix p
 	}
 }
 
-void UnitManager::CommandAttackUnit(UnitID ID, UnitID targetID)
+void UnitManager::ExecuteAttackUnit(UnitID ID, UnitID targetID)
 {
-	Unit* pUnit = mMapUnit[ID];
-	if (pUnit == nullptr || pUnit->GetTeamTag() != USER->GetTeamTag()) { return; }
-
-	pUnit->ChaseTarget(targetID);
+	mMapUnit[ID]->ChaseTarget(targetID);
 }
 
-void UnitManager::CommandAttackGround(UnitID ID, const POINT& pos)
+void UnitManager::ExecuteAttackGround(UnitID ID, int posX, int posY)
 {
-	Unit* pUnit = mMapUnit[ID];
-	if (pUnit == nullptr || pUnit->GetTeamTag() != USER->GetTeamTag()) { return; }
-
-	pUnit->MoveAlertly(pos);
+	mMapUnit[ID]->MoveAlertly(POINT{ posX, posY });
 }
 
-void UnitManager::CommandMoveUnit(UnitID ID, const POINT& pos)
+void UnitManager::ExecuteMoveUnit(UnitID ID, int posX, int posY)
 {
-	Unit* pUnit = mMapUnit[ID];
-	if (pUnit == nullptr || pUnit->GetTeamTag() != USER->GetTeamTag()) { return; }
-
-	pUnit->Move(pos);
+	mMapUnit[ID]->Move(POINT{ posX, posY });
 }
 
-void UnitManager::CommandStopUnit(UnitID ID)
+void UnitManager::ExecuteStopUnit(UnitID ID)
 {
 	Unit* pUnit = mMapUnit[ID];
-	if (pUnit == nullptr || pUnit->GetTeamTag() != USER->GetTeamTag()) { return; }
-
 	pUnit->Stop();
 }
 
@@ -202,9 +250,17 @@ bool UnitManager::Attack(UnitID ID, UnitID TargetID)
 void UnitManager::Dead(UnitID ID)
 {
 	Unit* pUnit = mMapUnit[ID];
+	mVecRemovedUnit.push_back(pUnit);
 	mMapUnit.erase(ID);
 
-	mVecRemovedUnit.push_back(pUnit);
 	USER->OnUnitRemoved(ID);
-	mQueIDAllocater.push(ID);
+	switch (pUnit->GetTeamTag())
+	{
+	case eTeamTag::RED_TEAM:
+		mQueRedTeamIDAllocater.push(ID);
+		break;
+	case eTeamTag::BLUE_TEAM:
+		mQueBlueTeamIDAllocater.push(ID);
+		break;
+	}
 }

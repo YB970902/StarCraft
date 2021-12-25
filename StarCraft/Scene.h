@@ -12,6 +12,9 @@ private:
 	void init();
 	void release();
 	void update();
+
+protected:
+	bool mbIsCanUpdate = true;
 public:
 	GameObject* AddGameObject(GameObject* pGameObject);
 	void RemoveGameObject(GameObject* pGameObject);

@@ -56,14 +56,14 @@ void RoomScene::Update()
 void RoomScene::Render()
 {
 	system("cls");
-	std::cout << "게임시작[F1] 방 나가기[ESC]\n";
-	std::cout << "방 이름 [ " << USER->GetRoomName() << " ] ( " << USER->GetCurrentRoomCount() << " / " << USER->GetMaxRoomCount() << " )\n";
-	std::cout << "이름 [" << USER->GetPlayerName() << "]\n";
+	std::wcout << "게임시작[F1] 방 나가기[ESC]\n";
+	std::wcout << "방 이름 [ " << USER->GetRoomName() << " ] ( " << USER->GetCurrentRoomCount() << " / " << USER->GetMaxRoomCount() << " )\n";
+	std::wcout << "이름 [" << USER->GetPlayerName() << "]\n";
 	for (auto it = mListChatContent.begin(); it != mListChatContent.end(); ++it)
 	{
-		std::cout << "[" << it->Name.c_str() << "] [" << it->Content.c_str() << "]\n";
+		std::wcout << "[" << it->Name.c_str() << "] [" << it->Content.c_str() << "]\n";
 	}
-	std::cout << "[" << mChat << "]\n";
+	std::wcout << "[" << mChat << "]\n";
 }
 
 void RoomScene::Notice(Message* pMsg)

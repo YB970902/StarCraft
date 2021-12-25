@@ -10,18 +10,8 @@
 #include "ParticleManager.h"
 #include "UIManager.h"
 
-void UserManager::Init(eTeamTag teamTag)
+void UserManager::Init()
 {
-	mTeamTag = teamTag;
-	switch (teamTag)
-	{
-	case eTeamTag::RED_TEAM:
-		mEnemyTeamTag = eTeamTag::BLUE_TEAM;
-		break;
-	case eTeamTag::BLUE_TEAM:
-		mEnemyTeamTag = eTeamTag::RED_TEAM;
-		break;
-	}
 	mVecSelectedUnit.reserve(MAX_SELECT_UNIT);
 	for (int i = 0; i < LINE_SIZE; ++i)
 	{
@@ -169,6 +159,20 @@ void UserManager::Update()
 				}
 			}
 		}
+	}
+}
+
+void UserManager::SetTeamTag(eTeamTag teamTag)
+{
+	mTeamTag = teamTag;
+	switch (teamTag)
+	{
+	case eTeamTag::RED_TEAM:
+		mEnemyTeamTag = eTeamTag::BLUE_TEAM;
+		break;
+	case eTeamTag::BLUE_TEAM:
+		mEnemyTeamTag = eTeamTag::RED_TEAM;
+		break;
 	}
 }
 

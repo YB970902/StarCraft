@@ -12,11 +12,11 @@ Server::Server(boost::asio::io_service& ioService)
 		Session* pSession = new Session(i, ioService, this);
 		mVecSession.push_back(pSession);
 		mQueUserID.push_back(i);
-		mQueRoomID.push_back(i + 1);
+		mQueRoomID.push_back(i);
 	}
 
-	Room* pRoom = new Room(this, DEFAULT_ROOM_ID, TEXT("채팅방"), MAX_USER_COUNT);
-	mVecRoom.push_back(pRoom);
+	//Room* pRoom = new Room(this, DEFAULT_ROOM_ID, TEXT("채팅방"), MAX_USER_COUNT);
+	//mVecRoom.push_back(pRoom);
 }
 
 Server::~Server()
@@ -66,7 +66,7 @@ Room* Server::CreateRoom(const wchar_t* pTitle, int maxCount)
 
 void Server::DestroyRoom(Room* pRoom)
 {
-	if (pRoom->GetRoomID() == DEFAULT_ROOM_ID) { return; }
+	//if (pRoom->GetRoomID() == DEFAULT_ROOM_ID) { return; }
 
 	for (auto it = mVecRoom.begin(); it != mVecRoom.end(); ++it)
 	{
@@ -143,6 +143,28 @@ void Server::HandleAccept(Session* pSession, const boost::system::error_code& er
 	MsgSetUserID msgUserID;
 	msgUserID.UserID = pSession->GetUserID();
 	pSession->PostSend(false, msgUserID.Size, (char*)&msgUserID);
+
+	Room* pRoom = nullptr;
+	for (int i = 0; i < mVecRoom.size(); ++i)
+	{
+		if (mVecRoom[i]->IsGameStarted() == false)
+		{
+			pRoom = mVecRoom[i];
+			break;
+		}
+	}
+
+	if (pRoom)
+	{
+		pSession->JoinRoomByRoom(pRoom);
+		pRoom->GameStart();
+	}
+	else
+	{
+		pRoom = new Room(this, mQueRoomID.front(), TEXT("Room"), 2);
+		pSession->JoinRoomByRoom(pRoom);
+		mVecRoom.push_back(pRoom);
+	}
 
 	PostAccept();
 }

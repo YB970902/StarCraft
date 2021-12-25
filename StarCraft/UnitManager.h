@@ -3,7 +3,7 @@
 
 #define UNIT UnitManager::GetInstance()
 
-static const int MAX_UNIT_COUNT = 400;
+static const int MAX_UNIT_COUNT = 200;
 
 class Scene;
 class Unit;
@@ -13,7 +13,8 @@ class UnitManager : public Singleton<UnitManager>
 	Scene* mpScene = nullptr;
 	unordered_map<UnitID, Unit*> mMapUnit;
 
-	queue<int> mQueIDAllocater;
+	queue<int> mQueRedTeamIDAllocater;
+	queue<int> mQueBlueTeamIDAllocater;
 
 	vector<Unit*> mVecRemovedUnit;
 public:
@@ -21,12 +22,17 @@ public:
 	void Release();
 	void Update();
 
-	void CreateUnit(eTeamTag teamTag, eUnitTag unitTag, Fix posX, Fix posY);
-
+	void CommandCreateUnit(eTeamTag teamTag, eUnitTag unitTag, int posX, int posY);
 	void CommandAttackUnit(UnitID ID, UnitID targetID);
 	void CommandAttackGround(UnitID ID, const POINT& pos);
 	void CommandMoveUnit(UnitID ID, const POINT& pos);
 	void CommandStopUnit(UnitID ID);
+
+	void ExecuteCreateUnit(eTeamTag teamTag, eUnitTag unitTag, int posX, int posY);
+	void ExecuteAttackUnit(UnitID ID, UnitID targetID);
+	void ExecuteAttackGround(UnitID ID, int posX, int posY);
+	void ExecuteMoveUnit(UnitID ID, int posX, int posY);
+	void ExecuteStopUnit(UnitID ID);
 
 	void SetSelectUnit(UnitID ID, bool set);
 

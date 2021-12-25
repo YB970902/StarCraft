@@ -6,24 +6,14 @@ Client::Client(boost::asio::io_service& ioService)
 	:mEndPoint(boost::asio::ip::address::from_string(SERVER_ADDRESS), PORT_NUMBER),
 	mSocket(ioService)
 {
+	InitializeCriticalSectionAndSpinCount(&mLock, 4000);
 	mbIsReleased = false;
 	mbIsJoinRoom = false;
-	InitializeCriticalSectionAndSpinCount(&mLock, 4000);
 }
 
 Client::~Client()
 {
-	EnterCriticalSection(&mLock);
-
-	while (mQueSendData.empty() == false)
-	{
-		delete[] mQueSendData.front();
-		mQueSendData.pop_front();
-	}
-
-	LeaveCriticalSection(&mLock);
-
-	DeleteCriticalSection(&mLock);
+	
 }
 
 void Client::Connect()
@@ -44,7 +34,15 @@ void Client::Close()
 	{
 		mSocket.close();
 	}
+
+	while (mQueSendData.empty() == false)
+	{
+		delete[] mQueSendData.front();
+		mQueSendData.pop_front();
+	}
 	LeaveCriticalSection(&mLock);
+
+	DeleteCriticalSection(&mLock);
 }
 
 void Client::PostSend(const bool bIsImmediately, size_t size, char* pData)
@@ -152,7 +150,12 @@ void Client::HandleReceive(const boost::system::error_code& error, size_t bytes_
 		if (pMsg->Size <= packetData)
 		{
 			EnterCriticalSection(&mLock);
-			if (mbIsReleased) { return; }
+			if (mbIsReleased)
+			{
+				LeaveCriticalSection(&mLock);
+				NET->ReceiveEnd();
+				return;
+			}
 			NET->ReceiveMessage(pMsg);
 
 			packetData -= pMsg->Size;
@@ -166,7 +169,12 @@ void Client::HandleReceive(const boost::system::error_code& error, size_t bytes_
 	}
 
 	EnterCriticalSection(&mLock);
-	if (mbIsReleased) { return; }
+	if (mbIsReleased)
+	{
+		LeaveCriticalSection(&mLock);
+		NET->ReceiveEnd();
+		return;
+	}
 
 	if (packetData > 0)
 	{

@@ -71,7 +71,7 @@ HRESULT __stdcall ColorReplaceEffect::Initialize(ID2D1EffectContext* effectConte
     
     BYTE* pData = nullptr;
     DWORD dwBytes = 0;
-    EffectReader::LoadEffectFromFile("Debug/ColorReplaceShader.cso", &pData, &dwBytes);
+    EffectReader::LoadEffectFromFile("ColorReplaceShader.cso", &pData, &dwBytes);
 
     effectContext->LoadPixelShader(GUID_ColorReplacePixelShader, pData, dwBytes);
     delete[] pData;

@@ -220,6 +220,12 @@
     <Filter Include="Scene\ChattingScene">
       <UniqueIdentifier>{45946620-2700-4f5b-93f7-8462af24fe9f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\MatchingScene">
+      <UniqueIdentifier>{79c04aae-18ee-4217-8291-c10f9b1361c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\MultiGameScene">
+      <UniqueIdentifier>{68e2ca70-fdee-4407-a738-d04c6b15878d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -437,6 +443,12 @@
     </ClCompile>
     <ClCompile Include="ChattingScene.cpp">
       <Filter>Scene\ChattingScene</Filter>
+    </ClCompile>
+    <ClCompile Include="MatchingScene.cpp">
+      <Filter>Scene\MatchingScene</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiGameScene.cpp">
+      <Filter>Scene\MultiGameScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -688,6 +700,12 @@
     </ClInclude>
     <ClInclude Include="Protocol.h">
       <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="MatchingScene.h">
+      <Filter>Scene\MatchingScene</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiGameScene.h">
+      <Filter>Scene\MultiGameScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

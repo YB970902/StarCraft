@@ -257,7 +257,7 @@ struct MsgUnitMove : public Message
 	int DestPosY = 0;
 };
 
-struct MsgUnitMoveAlertly: public Message
+struct MsgUnitMoveAlertly : public Message
 {
 	MsgUnitMoveAlertly()
 	{

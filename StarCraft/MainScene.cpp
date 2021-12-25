@@ -7,6 +7,7 @@
 #include "PhysicsManager.h"
 #include "UIGameObject.h"
 #include "GameObject.h"
+#include "NetworkManager.h"
 
 void MainScene::Enter()
 {
@@ -64,7 +65,8 @@ void MainScene::Update()
 	}
 	if (INPUT->IsOnceKeyDown('3'))
 	{
-		SCENE->ChangeScene(eSceneTag::ChattingScene);
+		NET->Init();
+		SCENE->ChangeScene(eSceneTag::MatchingScene);
 		return;
 	}
 	if (INPUT->IsOnceKeyDown(VK_ESCAPE))

@@ -22,9 +22,11 @@ private:
 	bool mbIsAttackMode = false;
 
 public:
-	void Init(eTeamTag teamTag);
+	void Init();
 	void Release();
 	void Update();
+
+	void SetTeamTag(eTeamTag teamTag);
 
 	inline eTeamTag GetTeamTag() { return mTeamTag; }
 

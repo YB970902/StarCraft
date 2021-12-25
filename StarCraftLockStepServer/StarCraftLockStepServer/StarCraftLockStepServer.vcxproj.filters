@@ -13,59 +13,50 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Session">
-      <UniqueIdentifier>{0a0ecab8-921c-45e4-88c1-40196a680646}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Server">
-      <UniqueIdentifier>{f1e1f988-067d-4e42-bb34-74703c5af7f5}</UniqueIdentifier>
+      <UniqueIdentifier>{c04b6f32-f1f1-4855-a991-acaf5b6d86ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Session">
+      <UniqueIdentifier>{0cd11afc-2746-4617-ae28-6879a5736c65}</UniqueIdentifier>
     </Filter>
     <Filter Include="Room">
-      <UniqueIdentifier>{2cdb999d-2bd5-4f82-81c4-d53be1629a23}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Session\State">
-      <UniqueIdentifier>{e9c5aaca-709e-4eac-8347-8433f90c3b0b}</UniqueIdentifier>
+      <UniqueIdentifier>{029068e7-1ac4-4cea-ae6e-bb1dd7974e80}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Session.cpp">
-      <Filter>Session</Filter>
+    <ClCompile Include="main.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Server.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="Room.cpp">
-      <Filter>Room</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="Session.cpp">
+      <Filter>Session</Filter>
     </ClCompile>
     <ClCompile Include="SessionState.cpp">
       <Filter>Session</Filter>
     </ClCompile>
+    <ClCompile Include="Room.cpp">
+      <Filter>Room</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Session.h">
-      <Filter>Session</Filter>
+    <ClInclude Include="stdafx.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Server.h">
       <Filter>Server</Filter>
     </ClInclude>
-    <ClInclude Include="Room.h">
-      <Filter>Room</Filter>
-    </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="Session.h">
+      <Filter>Session</Filter>
     </ClInclude>
     <ClInclude Include="SessionState.h">
       <Filter>Session</Filter>
     </ClInclude>
-    <ClInclude Include="resource1.h">
+    <ClInclude Include="Room.h">
+      <Filter>Room</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

@@ -63,7 +63,7 @@ HRESULT __stdcall ShadowEffect::Initialize(ID2D1EffectContext* effectContext, ID
 
     BYTE* pData = nullptr;
     DWORD dwBytes = 0;
-    EffectReader::LoadEffectFromFile("Debug/ShadowShader.cso", &pData, &dwBytes);
+    EffectReader::LoadEffectFromFile("ShadowShader.cso", &pData, &dwBytes);
 
     effectContext->LoadPixelShader(GUID_ShadowPixelShader, pData, dwBytes);
     delete[] pData;

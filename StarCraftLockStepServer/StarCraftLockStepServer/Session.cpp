@@ -126,7 +126,7 @@ void Session::SendRoomInfo()
 
 	MsgRoomInfo msg;
 	msg.Length = roomList.size();
-	
+
 	for (int i = 0; i < roomList.size(); ++i)
 	{
 		msg.Index = i;
@@ -228,6 +228,14 @@ void Session::ProcessPacket(char* pData)
 	break;
 	case eMessageTag::RoomText:
 		mpRoom->ProcessMessage(mUserID, pData);
+		break;
+	case eMessageTag::InputData:
+	case eMessageTag::UnitSpawn:
+	case eMessageTag::UnitMove:
+	case eMessageTag::UnitMoveAlertly:
+	case eMessageTag::UnitAttack:
+	case eMessageTag::UnitStop:
+		mpRoom->SendToOther(this, pHeader->Size, (char*)pHeader);
 		break;
 	}
 

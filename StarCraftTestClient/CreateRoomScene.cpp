@@ -49,7 +49,7 @@ void CreateRoomScene::Update()
 void CreateRoomScene::Render()
 {
 	system("cls");
-	std::cout << "생성할 방의 이름 [" << mTitle << "]\n";
+	std::wcout << "생성할 방의 이름 [" << mTitle << "]\n";
 }
 
 void CreateRoomScene::Notice(Message* pMsg)

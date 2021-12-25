@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "PathFindingScene.h"
+#include "MultiGameScene.h"
 #include "RenderManager.h"
 #include "PhysicsManager.h"
 #include "Unit.h"
@@ -9,64 +9,81 @@
 #include "UserManager.h"
 #include "UnitManager.h"
 #include "ParticleManager.h"
+#include "NetworkManager.h"
 
-void PathFindingScene::Enter()
+const Fix CAMERA_MOVING_SPEED = 500;
+const Fix CAMERA_FAST_MOVING_SPEED = 1000;
+
+void MultiGameScene::Enter()
 {
+	NET->InitGame();
+
 	SOUND->StopAll();
 	SOUND->Play(eSoundTag::TerranTheme);
 	PARTICLE->Init(this);
 
 	UI->Init();
-	USER->SetTeamTag(eTeamTag::RED_TEAM);
 	USER->Init();
+	// 이거 메시지 받으면 바꿀 수 있도록 수정
+	//USER->Init(eTeamTag::RED_TEAM);
 	UNIT->Init(this);
 
 	TILE->Init();
 	TILE->LoadTileMap(this, TEXT("MapData/Test.txt"));
 
-	RANDOM->SetSeed(time(nullptr));
+	// 이거 메시지 받으면 바꿀 수 있도록 수정
+	//RANDOM->SetSeed(0);
 
-	for (int i = 1; i <= 12; ++i)
+	for (int i = 0; i < 12; ++i)
 	{
 		UNIT->CommandCreateUnit(eTeamTag::RED_TEAM, eUnitTag::Goliath, 200, 200);
 		UNIT->CommandCreateUnit(eTeamTag::RED_TEAM, eUnitTag::Marine, 200, 200);
 	}
 
-	for (int i = 1; i <= 6; ++i)
+	for (int i = 0; i < 12; ++i)
 	{
 		UNIT->CommandCreateUnit(eTeamTag::BLUE_TEAM, eUnitTag::Goliath, 800, 200);
+		UNIT->CommandCreateUnit(eTeamTag::BLUE_TEAM, eUnitTag::Marine, 800, 200);
 	}
 }
 
-void PathFindingScene::Exit()
+void MultiGameScene::Exit()
 {
+	NET->ReleaseGame();
+
 	SOUND->StopAll();
+
 	PARTICLE->Release();
 	UI->Release();
 	USER->Release();
 	UNIT->Release();
-
 	TILE->Release();
 }
 
-void PathFindingScene::Update()
+void MultiGameScene::Update()
 {
-	if (INPUT->IsOnceKeyDown(VK_BACK))
+	if (INPUT->IsOnceKeyDown(VK_ESCAPE))
 	{
-		SCENE->ChangeScene(eSceneTag::MainScene);
+		SCENE->ChangeScene(eSceneTag::MatchingScene);
 		return;
 	}
 
-	UNIT->Update();
-	USER->Update();
-	PARTICLE->Update();
+	NET->Update();
+	mbIsCanUpdate = NET->UpdateGame();
+
+	if (mbIsCanUpdate)
+	{
+		UNIT->Update();
+		USER->Update();
+		PARTICLE->Update();
+	}
 
 	if (INPUT->IsOnceKeyDown('1'))
 	{
 		UNIT->CommandCreateUnit(eTeamTag::RED_TEAM, eUnitTag::Goliath, 400, 200);
 		UNIT->CommandCreateUnit(eTeamTag::RED_TEAM, eUnitTag::Marine, 400, 200);
 	}
-
+	
 	if (INPUT->IsOnceKeyDown('2'))
 	{
 		UNIT->CommandCreateUnit(eTeamTag::BLUE_TEAM, eUnitTag::Goliath, 500, 200);
@@ -90,4 +107,8 @@ void PathFindingScene::Update()
 
 	// GameRoot에서 Update와 Render사이에 둘 것
 	UI->Update();
+}
+
+void MultiGameScene::ReceiveMessage(Message* pMsg)
+{
 }

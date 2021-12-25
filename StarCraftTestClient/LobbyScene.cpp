@@ -91,22 +91,22 @@ void LobbyScene::Render()
 	system("cls");
 	if (mbIsShowNotice)
 	{
-		std::cout << mpNoticeText;
+		std::wcout << mpNoticeText;
 	}
-	std::cout << "방 생성[F1] 새로고침[F5]\n";
-	std::cout << "로비 명 [ " << USER->GetRoomName() << " ] ( " << USER->GetCurrentRoomCount() << " / " << USER->GetMaxRoomCount() << " )\n";
-	std::cout << "이름 [" << USER->GetPlayerName() << "]\n\n";
+	std::wcout << "방 생성[F1] 새로고침[F5]\n";
+	std::wcout << "로비 명 [ " << USER->GetRoomName() << " ] ( " << USER->GetCurrentRoomCount() << " / " << USER->GetMaxRoomCount() << " )\n";
+	std::wcout << "이름 [" << USER->GetPlayerName() << "]\n\n";
 	for (int i = 0; i < mVecRoom.size(); ++i)
 	{
-		std::cout << "방 번호 [" << i << "] 방 이름[" << mVecRoom[i].RoomName.c_str() << "] 인원 ( " << mVecRoom[i].CurCount << " / " << mVecRoom[i].MaxCount << " )\n";
+		std::wcout << "방 번호 [" << i << "] 방 이름[" << mVecRoom[i].RoomName.c_str() << "] 인원 ( " << mVecRoom[i].CurCount << " / " << mVecRoom[i].MaxCount << " )\n";
 	}
-	std::cout << "\n";
+	std::wcout << "\n";
 
 	for (auto it = mListChatContent.begin(); it != mListChatContent.end(); ++it)
 	{
-		std::cout << "[" << it->Name.c_str() << "] [" << it->Content.c_str() << "]\n";
+		std::wcout << "[" << it->Name.c_str() << "] [" << it->Content.c_str() << "]\n";
 	}
-	std::cout << "[" << mChat << "]\n";
+	std::wcout << "[" << mChat << "]\n";
 }
 
 void LobbyScene::Notice(Message* pMsg)

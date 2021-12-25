@@ -77,6 +77,7 @@
     <ReferencePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(ReferencePath)</ReferencePath>
     <LibraryPath>C:\boost_1_77_0\stage\lib;C:\Users\남궁영빈\Desktop\StarCraftPortfolio\StarCraft\fmod;$(LibraryPath)</LibraryPath>
     <IntDir>$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -96,7 +97,9 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Create</PrecompiledHeader>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
+      <ExpandAttributedSource>false</ExpandAttributedSource>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -178,6 +181,8 @@
     <ClCompile Include="MapToolScene.cpp" />
     <ClCompile Include="Marine.cpp" />
     <ClCompile Include="MarineModel.cpp" />
+    <ClCompile Include="MatchingScene.cpp" />
+    <ClCompile Include="MultiGameScene.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="ChattingScene.cpp" />
     <ClCompile Include="Particle.cpp" />
@@ -263,6 +268,8 @@
     <ClInclude Include="MapToolScene.h" />
     <ClInclude Include="Marine.h" />
     <ClInclude Include="MarineModel.h" />
+    <ClInclude Include="MatchingScene.h" />
+    <ClInclude Include="MultiGameScene.h" />
     <ClInclude Include="NetworkManager.h" />
     <ClInclude Include="ChattingScene.h" />
     <ClInclude Include="Particle.h" />

@@ -22,9 +22,13 @@ void Scene::release()
 void Scene::update()
 {
 	Update();
-	for (int i = 0; i < mVecGameObject.size(); ++i)
+
+	if (mbIsCanUpdate)
 	{
-		mVecGameObject[i]->update();
+		for (int i = 0; i < mVecGameObject.size(); ++i)
+		{
+			mVecGameObject[i]->update();
+		}
 	}
 }
 
