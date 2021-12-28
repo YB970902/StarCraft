@@ -1,47 +1,114 @@
 #include "stdafx.h"
 #include "GameObject.h"
+#include "Component.h"
+#include "RendererComponent.h"
 
-void GameObject::Init()
+void GameObject::init()
 {
-	mPosition.x = 0;
-	mPosition.y = 0;
-
-	mTargetPosition.x = 0;
-	mTargetPosition.y = 0;
-
-	mbIsMoving = false;
-
-	mAngle = 0.0f;
+	mpTransform = static_cast<TransformComponent*>(AddComponent(new TransformComponent()));
+	mpRenderer = static_cast<RendererComponent*>(AddComponent(new RendererComponent()));
 }
 
-void GameObject::Release()
+void GameObject::release()
 {
-}
+	Release();
 
-void GameObject::Update()
-{
-	if (mbIsMoving)
+	for (auto it = mVecChild.begin(); it != mVecChild.end();)
 	{
-		mPosition.x += cosf(mAngle);
-		mPosition.y += sinf(mAngle);
+		it->second->release();
+		delete it->second;
+		it = mVecChild.erase(it);
+	}
 
-		if ((mPosition.x - mTargetPosition.x) * (mPosition.x - mTargetPosition.x) +
-			(mPosition.y - mTargetPosition.y) * (mPosition.y - mTargetPosition.y) < 0.1f)
-		{
-			mPosition = mTargetPosition;
-			mbIsMoving = false;
-		}
+	Component* pCom = nullptr;
+	for (auto it = mVecComponent.begin(); it != mVecComponent.end();)
+	{
+		pCom = (*it);
+		it = mVecComponent.erase(it);
+		SAFE_RELEASE(pCom);
 	}
 }
 
-void GameObject::Render(HDC hdc)
+void GameObject::update()
 {
-	Ellipse(hdc, mPosition.x - 10, mPosition.y - 10, mPosition.x + 10, mPosition.y + 10);
+	Update();
+
+	for (int i = 0; i < mComponentSize; ++i)
+	{
+		mVecComponent[i]->Update();
+	}
+
+	for (int i = 0; i < mChildSize; ++i)
+	{
+		mVecChild[i].second->update();
+	}
 }
 
-void GameObject::MoveTo(const POINTFLOAT& target)
+bool GameObject::render(ID2D1DeviceContext2* pContext)
 {
-	mbIsMoving = true;
-	mTargetPosition = target;
-	mAngle = atan2(target.y - mPosition.y, target.x - mPosition.x);
+	if (!mpRenderer->IsRender()) return false;
+
+	mpRenderer->Render(pContext);
+
+	for (int i = 0; i < mChildSize; ++i)
+	{
+		mVecChild[i].second->render(pContext);
+	}
+
+	return true;
+}
+
+GameObject::GameObject()
+{
+	init();
+}
+
+GameObject::GameObject(RendererComponent* pRenderer)
+{
+	mpTransform = static_cast<TransformComponent*>(AddComponent(new TransformComponent()));
+	mpRenderer = static_cast<RendererComponent*>(AddComponent(pRenderer));
+}
+
+GameObject::~GameObject()
+{
+	release();
+}
+
+Component* GameObject::AddComponent(Component* pComponent)
+{
+	++mComponentSize;
+	mVecComponent.push_back(pComponent);
+	sort(mVecComponent.begin(), mVecComponent.end(),
+		[](const Component* lhs, const Component* rhs)
+		{
+			return lhs->GetOrder() < rhs->GetOrder();
+		});
+	pComponent->Init(this);
+	return pComponent;
+}
+
+Component* GameObject::GetComponent(eComponentTag tag)
+{
+	for (int i = 0; i < mVecComponent.size(); ++i)
+	{
+		if (mVecComponent[i]->GetTag() == tag)
+		{
+			return mVecComponent[i];
+		}
+	}
+
+	return nullptr;
+}
+
+GameObject* GameObject::AddChild(GameObject* pObject, int order)
+{
+	++mChildSize;
+	pObject->GetTransform()->SetParent(mpTransform);
+	mVecChild.push_back(make_pair(order, pObject));
+	sort(mVecChild.begin(), mVecChild.end(),
+		[](const pair<int, GameObject*>& lhs, const pair<int, GameObject*>& rhs)
+		{
+			return lhs.first < rhs.first;
+		});
+	return pObject;
 }

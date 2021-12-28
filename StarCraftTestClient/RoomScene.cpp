@@ -56,14 +56,14 @@ void RoomScene::Update()
 void RoomScene::Render()
 {
 	system("cls");
-	std::cout << "게임시작[F1] 방 나가기[ESC]\n";
-	std::cout << "방 이름 [ " << USER->GetRoomName() << " ] ( " << USER->GetCurrentRoomCount() << " / " << USER->GetMaxRoomCount() << " )\n";
-	std::cout << "이름 [" << USER->GetPlayerName() << "]\n";
+	std::wcout << "게임시작[F1] 방 나가기[ESC]\n";
+	std::wcout << "방 이름 [ " << USER->GetRoomName() << " ] ( " << USER->GetCurrentRoomCount() << " / " << USER->GetMaxRoomCount() << " )\n";
+	std::wcout << "이름 [" << USER->GetPlayerName() << "]\n";
 	for (auto it = mListChatContent.begin(); it != mListChatContent.end(); ++it)
 	{
-		std::cout << "[" << it->first << "] [" << it->second << "]\n";
+		std::wcout << "[" << it->Name.c_str() << "] [" << it->Content.c_str() << "]\n";
 	}
-	std::cout << "[" << mChat << "]\n";
+	std::wcout << "[" << mChat << "]\n";
 }
 
 void RoomScene::Notice(Message* pMsg)
@@ -74,7 +74,7 @@ void RoomScene::Notice(Message* pMsg)
 		AddChat(((MsgRoomText*)pMsg)->Name, ((MsgRoomText*)pMsg)->Text);
 		break;
 	case eMessageTag::RoomExit:
-		AddChat(((MsgRoomExit*)pMsg)->Name, "접속종료");
+		AddChat(((MsgRoomExit*)pMsg)->Name, TEXT("접속종료"));
 		break;
 	case eMessageTag::RoomJoinFail:
 		mbIsExitRoom = false;
@@ -88,7 +88,7 @@ void RoomScene::Notice(Message* pMsg)
 	}
 }
 
-void RoomScene::AddChat(std::string name, std::string chat)
+void RoomScene::AddChat(std::wstring name, std::wstring chat)
 {
 	mListChatContent.emplace_back(name, chat);
 	if (mListChatContent.size() > MAX_TEXT_LOG_SIZE) mListChatContent.pop_front();

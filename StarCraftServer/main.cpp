@@ -8,7 +8,7 @@ int main()
 	server.Start();
 	ioService.run();
 
-	std::cout << "匙飘况农 立加 辆丰" << std::endl;
+	std::wcout << "匙飘况农 立加 辆丰" << std::endl;
 
 	getchar();
 

@@ -10,22 +10,29 @@ private:
 			: RoomName{ pInfo->Title }, CurCount{ pInfo->CurCount }, MaxCount{ pInfo->MaxCount }, RoomID{ pInfo->RoomID } { }
 
 		room_id RoomID = DEFAULT_ROOM_ID;
-		std::string RoomName = "";
+		std::wstring RoomName = TEXT("");
 		int CurCount = 0;
 		int MaxCount = 0;
 	};
 
-	char mChat[MAX_TEXT_LEN] = { '\0', };
+	struct ChatData
+	{
+		ChatData(std::wstring name, std::wstring content) : Name{ name }, Content{ content } {}
+		std::wstring Name;
+		std::wstring Content;
+	};
+
+	wchar_t mChat[MAX_TEXT_LEN] = { '\0', };
 	int mChatIndex = 0;
 
-	std::list<std::pair<std::string, std::string>> mListChatContent;
+	std::list<ChatData> mListChatContent;
 	std::vector<RoomData> mVecRoom;
 	std::vector<RoomData> mVecRoomReceiving;
 	int mReceivingCount = 0;
 
 	bool mbIsWaitingJoinRoom = false;
 
-	const char* mpNoticeText = "";
+	const wchar_t* mpNoticeText = TEXT("");
 	fix mElapsedNoticeTime = 0;
 	fix mMaxNoticeTime = 1.0f;
 	bool mbIsShowNotice = false;
@@ -38,6 +45,6 @@ public:
 
 	virtual void Notice(Message* pMsg) override;
 private:
-	void AddChat(std::string name, std::string chat);
+	void AddChat(std::wstring name, std::wstring chat);
 	void AddRoomInfo(MsgRoomInfo* pMsg);
 };

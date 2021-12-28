@@ -37,26 +37,26 @@ void NetworkManager::Update()
 	mbIsSending = false;
 }
 
-void NetworkManager::SetPlayerName(const char* pPlayerName)
+void NetworkManager::SetPlayerName(const wchar_t* pPlayerName)
 {
 	MsgSetName msg;
-	sprintf_s(msg.Name, MAX_NAME_LEN, "%s", pPlayerName);
+	swprintf_s(msg.Name, MAX_NAME_LEN, TEXT("%s"), pPlayerName);
 	mpClient->PostSend(false, sizeof(msg), (char*)&msg);
 }
 
-void NetworkManager::SendChat(const char* pChat)
+void NetworkManager::SendChat(const wchar_t* pChat)
 {
 	MsgRoomText msg;
-	sprintf_s(msg.Name, MAX_NAME_LEN, "%s", USER->GetPlayerName());
-	sprintf_s(msg.Text, MAX_TEXT_LEN, "%s", pChat);
+	swprintf_s(msg.Name, MAX_NAME_LEN, TEXT("%s"), USER->GetPlayerName());
+	swprintf_s(msg.Text, MAX_TEXT_LEN, TEXT("%s"), pChat);
 
 	mpClient->PostSend(false, msg.Size, (char*)&msg);
 }
 
-void NetworkManager::CreateRoom(const char* pTitle, int maxCount)
+void NetworkManager::CreateRoom(const wchar_t* pTitle, int maxCount)
 {
 	MsgRoomCreate msg;
-	sprintf_s(msg.Title, MAX_NAME_LEN, "%s", pTitle);
+	swprintf_s(msg.Title, MAX_NAME_LEN, TEXT("%s"), pTitle);
 	msg.MaxCount = maxCount;
 
 	mpClient->PostSend(false, msg.Size, (char*)&msg);

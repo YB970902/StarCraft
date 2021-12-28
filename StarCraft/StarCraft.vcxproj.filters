@@ -31,14 +31,206 @@
     <Filter Include="Component\Renderer">
       <UniqueIdentifier>{1b22c799-80e7-4171-b5b3-4bd35bce6dc3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sprite">
-      <UniqueIdentifier>{ae2a8162-480e-4776-8842-842e05e99307}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameObject">
       <UniqueIdentifier>{f0248cd9-7729-4db4-a03c-0a2476cce9eb}</UniqueIdentifier>
     </Filter>
     <Filter Include="Effect">
       <UniqueIdentifier>{78db92d6-9512-422d-9dd6-acda4121e9bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect\EffectReader">
+      <UniqueIdentifier>{393b3ed9-4a49-4aa9-ac7e-eb978115318d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\RenderManager">
+      <UniqueIdentifier>{226d7155-12c1-4faf-8482-a7f00510e1c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Sprite">
+      <UniqueIdentifier>{ae2a8162-480e-4776-8842-842e05e99307}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stdafx">
+      <UniqueIdentifier>{4f8153ce-e2af-454b-ac4e-0e537c8207ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Effect">
+      <UniqueIdentifier>{39d99b0b-8e4c-481d-b0f9-8a52718d9219}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Transform">
+      <UniqueIdentifier>{8e4a6f6b-e979-497b-b764-fc7e180b3011}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{edb6bb6d-8e77-4365-ad6e-1641e7ae602d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Unit">
+      <UniqueIdentifier>{0c4f0cdd-e3b1-4c88-82e1-fdd489811497}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect\ColorReplace">
+      <UniqueIdentifier>{495fa4f5-c411-43d5-bdbd-1ef911f91765}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect\Shadow">
+      <UniqueIdentifier>{2369a769-9df7-471f-a674-4dc31f25b949}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Animator">
+      <UniqueIdentifier>{f510aa4e-2b3a-48c2-9412-adf841791154}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\SceneManager">
+      <UniqueIdentifier>{45e5f1b6-644f-4ebe-b37d-0776a104c994}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{17242a78-027b-4366-83be-2cc47a722a83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\TestScene">
+      <UniqueIdentifier>{77c92c61-52e0-40cb-b677-e17e60b468f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Animation">
+      <UniqueIdentifier>{ccb20fc9-0113-417e-a680-5bb0963c3249}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\PathFindingScene">
+      <UniqueIdentifier>{375dffd4-7f68-4e95-8ee1-7d24be653c3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JPS">
+      <UniqueIdentifier>{23f73891-90b3-4f6e-9aaa-4a72f2b5c78c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JPS\DetailMap">
+      <UniqueIdentifier>{f66db868-cc6b-40cb-97bd-0e89cb7caf4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JPS\BitArray">
+      <UniqueIdentifier>{7ee0e0e2-5b6b-4d2c-bcc8-3abf39c12881}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Window">
+      <UniqueIdentifier>{4a2da385-e1fe-4976-9f30-7a55bbf3f1fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JPS\PathFinder">
+      <UniqueIdentifier>{c7f2d4b2-2ce1-4429-ab91-a8a846940547}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\PathFind">
+      <UniqueIdentifier>{7c7c876f-fae6-4640-957a-15af42cd48d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\TileManager">
+      <UniqueIdentifier>{d2214a74-0ace-4933-8c54-2666d39676ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\MapToolScene">
+      <UniqueIdentifier>{547a92c0-1b4c-463d-8673-f6ceb678b240}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\CameraManager">
+      <UniqueIdentifier>{40e54198-fcd6-4220-b7e1-4c8f09c21b86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Tile">
+      <UniqueIdentifier>{97c047cd-fb45-4f7d-8b96-10c2b4f4e86b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\RandomManager">
+      <UniqueIdentifier>{2ed0deb5-02a5-4f44-9fe5-c24726180285}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\PhysicsManager">
+      <UniqueIdentifier>{ec0a7424-41db-42f9-a304-25c01ca92cb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Collider">
+      <UniqueIdentifier>{1cd8fa9a-903c-4be2-b3f0-3c3fbeae1216}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\MapObject">
+      <UniqueIdentifier>{6456c71f-5049-4c55-98d1-747ec7017bf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Unit\UnitModel">
+      <UniqueIdentifier>{c07d5efe-727b-4191-9aee-ad2bdf8f57df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\UIManager">
+      <UniqueIdentifier>{a0cf76bf-8d13-4a05-83af-3aed226af0b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\UIObject">
+      <UniqueIdentifier>{d08950a3-7734-41e4-8326-85058e012ec9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\IngameScene">
+      <UniqueIdentifier>{d6cb213e-bcf6-4379-9791-efb7cdc202ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\UserManager">
+      <UniqueIdentifier>{503878c1-af44-461e-86b7-812770190f6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\UnitManager">
+      <UniqueIdentifier>{fceb1665-f608-4775-9474-7ff80cca6ff2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pattern">
+      <UniqueIdentifier>{c72656bd-9cf0-4e39-869f-8d55812eeaf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pattern\Observer">
+      <UniqueIdentifier>{2ead7c73-93a4-4411-a5ed-772f21f705a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\StateMachine">
+      <UniqueIdentifier>{d392dcdc-2c8e-48d7-914a-6cd36efd3d66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\ParticleManager">
+      <UniqueIdentifier>{bb079bff-a2e2-414c-8ed5-7f5b07ba6020}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Particle">
+      <UniqueIdentifier>{9886d77b-62a2-4043-93e7-980cf4f48140}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\SoundManager">
+      <UniqueIdentifier>{083ae44a-0227-4303-8b4a-056563c46355}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\LogoScene">
+      <UniqueIdentifier>{0b6243f9-b516-4f71-9826-8390b7d20d22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\UIObject\Cursor">
+      <UniqueIdentifier>{1ae7d4cb-1677-4e81-950b-cf4654586308}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\UIObject\Animation">
+      <UniqueIdentifier>{d6eb2519-13c9-4a51-8d3f-471062ccaa5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\UIObject\Sprite">
+      <UniqueIdentifier>{f53d2813-2584-47c8-9eaf-148dce87a0aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\MainScene">
+      <UniqueIdentifier>{7413e186-c2f2-4829-8903-557db41c51d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\UIObject\Gizmos">
+      <UniqueIdentifier>{4396df7f-8873-42ba-a4bf-aed93dc0efcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\UIObject\Gizmos\TextGizmo">
+      <UniqueIdentifier>{0a7d60f1-81da-47a1-b997-8b1af72e7195}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\UIObject\Gizmos\RectGizmo">
+      <UniqueIdentifier>{06c3a16c-a3cf-4029-a8bc-c6926e54ae54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\UIObject\Gizmos\LineGizmo">
+      <UniqueIdentifier>{75270b09-bb00-4a94-9bb0-7f482d679d4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\UIObject\Button">
+      <UniqueIdentifier>{bfa4c423-92ee-4bd5-94b6-e056d11c7b18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Unit\Marine">
+      <UniqueIdentifier>{3041bbc5-6298-4683-a4c6-0ca970b9d82c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Unit\Goliath">
+      <UniqueIdentifier>{6d21969c-96ba-4855-9cf7-6ce9950c6d7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Unit\Marine\Model">
+      <UniqueIdentifier>{bdd0bbff-827e-47df-9d3d-f305002db3c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Unit\Goliath\Model">
+      <UniqueIdentifier>{1155bd46-a0d7-46aa-9a64-f81d59c552db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\NetworkManager">
+      <UniqueIdentifier>{a11cdb87-3161-4fad-95d0-a4b15f26b555}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pattern\Observer\Network">
+      <UniqueIdentifier>{205bd23d-6479-4ccc-a150-ce828c267762}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{a07a010c-8e1c-40fc-9c72-92f3ca471ed7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Client">
+      <UniqueIdentifier>{2498c4bc-cc98-4e67-99fa-da1566fd7b61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\ChattingScene">
+      <UniqueIdentifier>{45946620-2700-4f5b-93f7-8462af24fe9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\MatchingScene">
+      <UniqueIdentifier>{79c04aae-18ee-4217-8291-c10f9b1361c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\MultiGameScene">
+      <UniqueIdentifier>{68e2ca70-fdee-4407-a738-d04c6b15878d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\FogManager">
+      <UniqueIdentifier>{657bf348-17c2-4fd4-9e2f-fb5a246f3c22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Fog">
+      <UniqueIdentifier>{cf93951f-fea1-4638-891c-1091e875b282}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -60,14 +252,218 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="EffectTest.cpp">
-      <Filter>Effect</Filter>
+    <ClCompile Include="EffectReader.cpp">
+      <Filter>Effect\EffectReader</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteComponent.cpp">
+      <Filter>Component\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>Manager\RenderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectComponent.cpp">
+      <Filter>Component\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformComponent.cpp">
+      <Filter>Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit.cpp">
+      <Filter>GameObject\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorReplaceEffect.cpp">
+      <Filter>Effect\ColorReplace</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowEffect.cpp">
+      <Filter>Effect\Shadow</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatorComponent.cpp">
+      <Filter>Component\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Manager\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScene.cpp">
+      <Filter>Scene\TestScene</Filter>
+    </ClCompile>
+    <ClCompile Include="SingleAnimation.cpp">
+      <Filter>Component\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="MultipleAnimation.cpp">
+      <Filter>Component\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationBase.cpp">
+      <Filter>Component\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="PairSpriteComponent.cpp">
+      <Filter>Component\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="Fixed.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Gizmo.cpp">
+      <Filter>GameObject\UIObject\Gizmos</Filter>
+    </ClCompile>
+    <ClCompile Include="RectGizmo.cpp">
+      <Filter>GameObject\UIObject\Gizmos\RectGizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="TextGizmo.cpp">
+      <Filter>GameObject\UIObject\Gizmos\TextGizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFindingScene.cpp">
+      <Filter>Scene\PathFindingScene</Filter>
+    </ClCompile>
+    <ClCompile Include="JPS.cpp">
+      <Filter>JPS</Filter>
+    </ClCompile>
+    <ClCompile Include="DetailMap.cpp">
+      <Filter>JPS\DetailMap</Filter>
+    </ClCompile>
+    <ClCompile Include="BitArray.cpp">
+      <Filter>JPS\BitArray</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowManager.cpp">
+      <Filter>Window</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinder.cpp">
+      <Filter>JPS\PathFinder</Filter>
+    </ClCompile>
+    <ClCompile Include="TileManager.cpp">
+      <Filter>Manager\TileManager</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFindComponent.cpp">
+      <Filter>Component\PathFind</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Stdafx</Filter>
+    </ClCompile>
+    <ClCompile Include="MapToolScene.cpp">
+      <Filter>Scene\MapToolScene</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraManager.cpp">
+      <Filter>Manager\CameraManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>GameObject\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomManager.cpp">
+      <Filter>Manager\RandomManager</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsManager.cpp">
+      <Filter>Manager\PhysicsManager</Filter>
+    </ClCompile>
+    <ClCompile Include="LineGizmo.cpp">
+      <Filter>GameObject\UIObject\Gizmos\LineGizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="ColliderComponent.cpp">
+      <Filter>Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="MapObject.cpp">
+      <Filter>GameObject\MapObject</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitModel.cpp">
+      <Filter>GameObject\Unit\UnitModel</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>Manager\UIManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UIRendererComponent.cpp">
+      <Filter>Component\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="UIGameObject.cpp">
+      <Filter>GameObject\UIObject</Filter>
+    </ClCompile>
+    <ClCompile Include="UserManager.cpp">
+      <Filter>Manager\UserManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitManager.cpp">
+      <Filter>Manager\UnitManager</Filter>
+    </ClCompile>
+    <ClCompile Include="IObserver.cpp">
+      <Filter>Pattern\Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="Subject.cpp">
+      <Filter>Pattern\Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="StateMachineComponent.cpp">
+      <Filter>Component\StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleManager.cpp">
+      <Filter>Manager\ParticleManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>GameObject\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Manager\SoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="LogoScene.cpp">
+      <Filter>Scene\LogoScene</Filter>
+    </ClCompile>
+    <ClCompile Include="UICursor.cpp">
+      <Filter>GameObject\UIObject\Cursor</Filter>
+    </ClCompile>
+    <ClCompile Include="UISprite.cpp">
+      <Filter>GameObject\UIObject\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="UIAnimation.cpp">
+      <Filter>GameObject\UIObject\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="MainScene.cpp">
+      <Filter>Scene\MainScene</Filter>
+    </ClCompile>
+    <ClCompile Include="UIButton.cpp">
+      <Filter>GameObject\UIObject\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="Marine.cpp">
+      <Filter>GameObject\Unit\Marine</Filter>
+    </ClCompile>
+    <ClCompile Include="MarineModel.cpp">
+      <Filter>GameObject\Unit\Marine\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Goliath.cpp">
+      <Filter>GameObject\Unit\Goliath</Filter>
+    </ClCompile>
+    <ClCompile Include="GoliathHeadModel.cpp">
+      <Filter>GameObject\Unit\Goliath\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="GoliathLegModel.cpp">
+      <Filter>GameObject\Unit\Goliath\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkManager.cpp">
+      <Filter>Manager\NetworkManager</Filter>
+    </ClCompile>
+    <ClCompile Include="INetworkReceiver.cpp">
+      <Filter>Pattern\Observer\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>Network\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="ChattingScene.cpp">
+      <Filter>Scene\ChattingScene</Filter>
+    </ClCompile>
+    <ClCompile Include="MatchingScene.cpp">
+      <Filter>Scene\MatchingScene</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiGameScene.cpp">
+      <Filter>Scene\MultiGameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="FogManager.cpp">
+      <Filter>Manager\FogManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Fog.cpp">
+      <Filter>GameObject\Fog</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="GameRoot.h">
       <Filter>GameRoot</Filter>
     </ClInclude>
@@ -86,8 +482,256 @@
     <ClInclude Include="GameObject.h">
       <Filter>GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="EffectTest.h">
-      <Filter>Effect</Filter>
+    <ClInclude Include="EffectReader.h">
+      <Filter>Effect\EffectReader</Filter>
     </ClInclude>
+    <ClInclude Include="SpriteComponent.h">
+      <Filter>Component\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>Manager\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectComponent.h">
+      <Filter>Component\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformComponent.h">
+      <Filter>Component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit.h">
+      <Filter>GameObject\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorReplaceEffect.h">
+      <Filter>Effect\ColorReplace</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowEffect.h">
+      <Filter>Effect\Shadow</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatorData.h">
+      <Filter>Component\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatorComponent.h">
+      <Filter>Component\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Manager\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteData.h">
+      <Filter>Component\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScene.h">
+      <Filter>Scene\TestScene</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectData.h">
+      <Filter>Component\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationBase.h">
+      <Filter>Component\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="MultipleAnimation.h">
+      <Filter>Component\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleAnimation.h">
+      <Filter>Component\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationData.h">
+      <Filter>Component\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="PairSpriteComponent.h">
+      <Filter>Component\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Fixed.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="fixed_point.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>Stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="Gizmo.h">
+      <Filter>GameObject\UIObject\Gizmos</Filter>
+    </ClInclude>
+    <ClInclude Include="TextGizmo.h">
+      <Filter>GameObject\UIObject\Gizmos\TextGizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="RectGizmo.h">
+      <Filter>GameObject\UIObject\Gizmos\RectGizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFindingScene.h">
+      <Filter>Scene\PathFindingScene</Filter>
+    </ClInclude>
+    <ClInclude Include="JPS.h">
+      <Filter>JPS</Filter>
+    </ClInclude>
+    <ClInclude Include="DetailMap.h">
+      <Filter>JPS\DetailMap</Filter>
+    </ClInclude>
+    <ClInclude Include="BitArray.h">
+      <Filter>JPS\BitArray</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines.h">
+      <Filter>Stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers.h">
+      <Filter>Stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowManager.h">
+      <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinder.h">
+      <Filter>JPS\PathFinder</Filter>
+    </ClInclude>
+    <ClInclude Include="TileManager.h">
+      <Filter>Manager\TileManager</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFindComponent.h">
+      <Filter>Component\PathFind</Filter>
+    </ClInclude>
+    <ClInclude Include="MapToolScene.h">
+      <Filter>Scene\MapToolScene</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraManager.h">
+      <Filter>Manager\CameraManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>GameObject\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomManager.h">
+      <Filter>Manager\RandomManager</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsManager.h">
+      <Filter>Manager\PhysicsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="LineGizmo.h">
+      <Filter>GameObject\UIObject\Gizmos\LineGizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="ColliderComponent.h">
+      <Filter>Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="MapObject.h">
+      <Filter>GameObject\MapObject</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitModel.h">
+      <Filter>GameObject\Unit\UnitModel</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>Manager\UIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UIRendererComponent.h">
+      <Filter>Component\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="UIGameObject.h">
+      <Filter>GameObject\UIObject</Filter>
+    </ClInclude>
+    <ClInclude Include="UserManager.h">
+      <Filter>Manager\UserManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitManager.h">
+      <Filter>Manager\UnitManager</Filter>
+    </ClInclude>
+    <ClInclude Include="IObserver.h">
+      <Filter>Pattern\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Pattern\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachineComponent.h">
+      <Filter>Component\StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleManager.h">
+      <Filter>Manager\ParticleManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>GameObject\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Manager\SoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="LogoScene.h">
+      <Filter>Scene\LogoScene</Filter>
+    </ClInclude>
+    <ClInclude Include="UICursor.h">
+      <Filter>GameObject\UIObject\Cursor</Filter>
+    </ClInclude>
+    <ClInclude Include="UISprite.h">
+      <Filter>GameObject\UIObject\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="UIAnimation.h">
+      <Filter>GameObject\UIObject\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="MainScene.h">
+      <Filter>Scene\MainScene</Filter>
+    </ClInclude>
+    <ClInclude Include="UIButton.h">
+      <Filter>GameObject\UIObject\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="Marine.h">
+      <Filter>GameObject\Unit\Marine</Filter>
+    </ClInclude>
+    <ClInclude Include="MarineModel.h">
+      <Filter>GameObject\Unit\Marine\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Goliath.h">
+      <Filter>GameObject\Unit\Goliath</Filter>
+    </ClInclude>
+    <ClInclude Include="GoliathHeadModel.h">
+      <Filter>GameObject\Unit\Goliath\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="GoliathLegModel.h">
+      <Filter>GameObject\Unit\Goliath\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkManager.h">
+      <Filter>Manager\NetworkManager</Filter>
+    </ClInclude>
+    <ClInclude Include="INetworkReceiver.h">
+      <Filter>Pattern\Observer\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Client.h">
+      <Filter>Network\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="ChattingScene.h">
+      <Filter>Scene\ChattingScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="MatchingScene.h">
+      <Filter>Scene\MatchingScene</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiGameScene.h">
+      <Filter>Scene\MultiGameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="FogManager.h">
+      <Filter>Manager\FogManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Fog.h">
+      <Filter>GameObject\Fog</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="ColorReplaceShader.hlsl">
+      <Filter>Effect\ColorReplace</Filter>
+    </FxCompile>
+    <FxCompile Include="ShadowShader.hlsl">
+      <Filter>Effect\Shadow</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

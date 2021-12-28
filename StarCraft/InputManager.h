@@ -21,6 +21,8 @@ class InputManager : public Singleton<InputManager>
 protected:
 	eInputState mKeyState[MAX_KEY_COUNT] = {};
 	POINT mMousePosition = {};
+	POINT mLocalMousePosition = {};
+	int mMouseWheel = 0;
 
 public:
 	void Init();
@@ -31,5 +33,9 @@ public:
 	bool IsOnceKeyUp(int key);
 	bool IsStayKeyDown(int key);
 
+	POINT GetLocalMousePosition() { return mLocalMousePosition; }
 	POINT GetMousePosition() { return mMousePosition; }
+	int GetMouseWheel() { return mMouseWheel; }
+
+	wstring GetTypedString();
 };

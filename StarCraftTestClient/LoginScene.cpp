@@ -35,13 +35,13 @@ void LoginScene::Update()
 			{
 				mbIsPrintNotice = true;
 				mElapsedNoticeTime = 0.0f;
-				mNoticeText = "[이름을 입력해주세요]\n";
+				mNoticeText = TEXT("[이름을 입력해주세요]\n");
 			}
 			else if (!mbIsGetID)
 			{
 				mbIsPrintNotice = true;
 				mElapsedNoticeTime = 0.0f;
-				mNoticeText = "[잠시후 다시시도해주세요]\n";
+				mNoticeText = TEXT("[잠시후 다시시도해주세요]\n");
 			}
 			else
 			{
@@ -71,8 +71,8 @@ void LoginScene::Update()
 void LoginScene::Render()
 {
 	system("cls");
-	if (mbIsPrintNotice) { std::cout << mNoticeText; }
-	std::cout << "이름 [" << mName << "]";
+	if (mbIsPrintNotice) { std::wcout << mNoticeText; }
+	std::wcout << "이름 [" << mName << "]";
 }
 
 void LoginScene::Notice(Message* pMsg)

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "InputManager.h"
+#include "RenderManager.h"
 
 void InputManager::Init()
 {
@@ -12,8 +13,14 @@ void InputManager::Release()
 
 void InputManager::Update()
 {
-	GetCursorPos(&mMousePosition);
-	ScreenToClient(g_hWnd, &mMousePosition);
+	GetCursorPos(&mLocalMousePosition);
+	ScreenToClient(g_hWnd, &mLocalMousePosition);
+
+	mMousePosition.x = mLocalMousePosition.x - (int)CAMERA->GetPosition().x;
+	mMousePosition.y = mLocalMousePosition.y - (int)CAMERA->GetPosition().y;
+
+	mMouseWheel = g_nWheel;
+	g_nWheel = 0;
 
 	for (int i = 0; i < MAX_KEY_COUNT; ++i)
 	{
@@ -59,4 +66,34 @@ bool InputManager::IsOnceKeyUp(int key)
 bool InputManager::IsStayKeyDown(int key)
 {
 	return (mKeyState[key] == eInputState::Down || mKeyState[key] == eInputState::Press);
+}
+
+wstring InputManager::GetTypedString()
+{
+	wstring result;
+	for (int i = 'a'; i <= 'z'; ++i)
+	{
+		if (IsOnceKeyDown(i))
+		{
+			result.append(1, (wchar_t)i);
+		}
+	}
+
+	for (int i = 'A'; i <= 'Z'; ++i)
+	{
+		if (IsOnceKeyDown(i))
+		{
+			result.append(1, (wchar_t)i);
+		}
+	}
+
+	for (int i = '0'; i <= '9'; ++i)
+	{
+		if (IsOnceKeyDown(i))
+		{
+			result.append(1, (wchar_t)i);
+		}
+	}
+
+	return result;
 }

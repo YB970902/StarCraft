@@ -6,26 +6,29 @@ void TimeManager::Init(int fps)
 	LONGLONG frequency;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&frequency);
 
-	m_frequencyTime = 1.0 / frequency;
+	mFrequencyTime = 1.0 / frequency;
 
 	LONGLONG count;
 	QueryPerformanceCounter((LARGE_INTEGER*)&count);
-	m_currentCount = count;
-	m_previousCount = count;
+	mCurCount = count;
+	mPrevCount = count;
 
-	m_fps = (float)fps;
-	m_frameTime = 1.0 / fps;
+	mFPS = fps;
+	mFrameTime = 1.0f / fps;
+	mFixedDeltaTime = (Fix)1.0f / (Fix)fps;
 }
 
 bool TimeManager::IsUpdateTime()
 {
-	QueryPerformanceCounter((LARGE_INTEGER*)&m_currentCount);
+	QueryPerformanceCounter((LARGE_INTEGER*)&mCurCount);
 
-	m_deltaTime = (m_currentCount - m_previousCount) * m_frequencyTime;
+	mDeltaTime += (mCurCount - mPrevCount) * mFrequencyTime;
+	mPrevCount = mCurCount;
 
-	if (m_deltaTime > m_frameTime)
+	if (mDeltaTime >= mFrameTime)
 	{
-		m_previousCount = m_currentCount;
+		cout << mDeltaTime << endl;
+		mDeltaTime = 0;
 		return true;
 	}
 	return false;

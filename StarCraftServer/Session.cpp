@@ -104,7 +104,7 @@ void Session::ExitRoom()
 	}
 }
 
-void Session::CreateRoom(const char* pTitle, int maxCount)
+void Session::CreateRoom(const wchar_t* pTitle, int maxCount)
 {
 	if (JoinRoomByRoom(mpServer->CreateRoom(pTitle, maxCount)))
 	{
@@ -130,7 +130,7 @@ void Session::SendRoomInfo()
 	for (int i = 0; i < roomList.size(); ++i)
 	{
 		msg.Index = i;
-		sprintf_s(msg.Title, MAX_NAME_LEN - 1, "%s", roomList[i]->GetTitle());
+		swprintf_s(msg.Title, MAX_NAME_LEN - 1, TEXT("%s"), roomList[i]->GetTitle());
 		msg.CurCount = roomList[i]->GetCurPeopleCount();
 		msg.MaxCount = roomList[i]->GetMaxPeopleCount();
 		msg.RoomID = roomList[i]->GetRoomID();
@@ -158,7 +158,7 @@ bool Session::JoinRoomByRoom(Room* pRoom)
 	}
 	mpRoom = pRoom;
 	MsgRoomJoinSuccess msg;
-	sprintf_s(msg.Title, MAX_NAME_LEN, "%s", pRoom->GetTitle());
+	swprintf_s(msg.Title, MAX_NAME_LEN, TEXT("%s"), pRoom->GetTitle());
 	msg.CurCount = pRoom->GetCurPeopleCount();
 	msg.MaxCount = pRoom->GetMaxPeopleCount();
 	PostSend(false, msg.Size, (char*)&msg);
@@ -222,8 +222,8 @@ void Session::ProcessPacket(char* pData)
 	case eMessageTag::SetName:
 	{
 		MsgSetName* packet = (MsgSetName*)pData;
-		sprintf_s(mName, MAX_NAME_LEN - 1, "%s", packet->Name);
-		std::cout << "이름 : " << mName << std::endl;
+		swprintf_s(mName, MAX_NAME_LEN - 1, TEXT("%s"), packet->Name);
+		std::wcout << "이름 : " << mName << std::endl;
 	}
 	break;
 	case eMessageTag::RoomText:

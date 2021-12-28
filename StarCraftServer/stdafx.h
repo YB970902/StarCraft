@@ -6,4 +6,4 @@
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 
-#include "Protocol.h"
+#include "../StarCraft/Protocol.h"

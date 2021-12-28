@@ -11,11 +11,11 @@ protected:
 	bool mbIsGameStarted = false;
 
 	room_id mRoomID = DEFAULT_ROOM_ID;
-	char mTitle[MAX_NAME_LEN] = { 0, };
+	wchar_t mTitle[MAX_NAME_LEN] = { 0, };
 
 	int mMaxPeopleCount = 0;
 public:
-	Room(Server* pServer, room_id roomID, const char* pTitle, int maxCount);
+	Room(Server* pServer, room_id roomID, const wchar_t* pTitle, int maxCount);
 	~Room();
 
 	void UserJoin(Session* pSession);
@@ -24,8 +24,8 @@ public:
 	void ProcessMessage(user_id userID, char* pData);
 
 	inline room_id GetRoomID() { return mRoomID; }
-	inline const char* GetTitle() { return mTitle; }
-	inline void SetTitle(const char* title) { sprintf_s(mTitle, MAX_NAME_LEN - 1, "%s", title); }
+	inline const wchar_t* GetTitle() { return mTitle; }
+	inline void SetTitle(const wchar_t* title) { swprintf_s(mTitle, MAX_NAME_LEN - 1, TEXT("%s"), title); }
 
 	inline int GetMaxPeopleCount() { return mMaxPeopleCount; }
 	inline int GetCurPeopleCount() { return mVecSession.size(); }

@@ -4,22 +4,22 @@
 class UserManager : public Singleton<UserManager>
 {
 private:
-	char mPlayerName[MAX_NAME_LEN] = { '\0' };
+	wchar_t mPlayerName[MAX_NAME_LEN] = { '\0' };
 	user_id mPlayerID = DEFAULT_USER_ID;
 
-	char mRoomName[MAX_NAME_LEN] = { '\0' };
+	wchar_t mRoomName[MAX_NAME_LEN] = { '\0' };
 
 	int mRoomCurCount = 0;
 	int mRoomMaxCount = 0;
 
 public:
-	const char* GetPlayerName() { return mPlayerName; }
-	void SetPlayerName(const char* pUserName) { sprintf_s(mPlayerName, MAX_NAME_LEN - 1, "%s", pUserName); }
+	const wchar_t* GetPlayerName() { return mPlayerName; }
+	void SetPlayerName(const wchar_t* pUserName) { swprintf_s(mPlayerName, MAX_NAME_LEN - 1, TEXT("%s"), pUserName); }
 	int GetPlayerID() { return mPlayerID; }
 	void SetPlayerID(int playerID) { mPlayerID = playerID; }
 
-	const char* GetRoomName() { return mRoomName; }
-	void SetRoomName(const char* pRoomName) { sprintf_s(mRoomName, MAX_NAME_LEN - 1, "%s", pRoomName); }
+	const wchar_t* GetRoomName() { return mRoomName; }
+	void SetRoomName(const wchar_t* pRoomName) { swprintf_s(mRoomName, MAX_NAME_LEN - 1, TEXT("%s"), pRoomName); }
 
 	int GetCurrentRoomCount() { return mRoomCurCount; }
 	void SetCurrentRoomCount(int count) { mRoomCurCount = count; }

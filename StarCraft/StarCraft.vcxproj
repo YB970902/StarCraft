@@ -54,6 +54,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\hlsl.props" />
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
@@ -72,14 +73,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(WindowsSDK_IncludePath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
-    <ReferencePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(ReferencePath)</ReferencePath>
+    <IncludePath>$(WindowsSDK_IncludePath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;C:\boost_1_77_0;$(IncludePath)</IncludePath>
+    <ReferencePath>$(ReferencePath)</ReferencePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;C:\boost_1_77_0\stage\lib;C:\Users\남궁영빈\Desktop\StarCraftPortfolio\StarCraft\fmod;$(LibraryPath)</LibraryPath>
+    <IntDir>$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(WindowsSDK_IncludePath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;C:\boost_1_77_0;$(IncludePath)</IncludePath>
+    <ReferencePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -91,11 +97,14 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Create</PrecompiledHeader>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
+      <ExpandAttributedSource>false</ExpandAttributedSource>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3dxof.lib;dxguid.lib;d3d9.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3dxof.lib;dxguid.lib;d3d9.lib;d3d11.lib;d2d1.lib;d3d10.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -144,25 +153,197 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="EffectTest.cpp" />
+    <ClCompile Include="AnimatorComponent.cpp" />
+    <ClCompile Include="BitArray.cpp" />
+    <ClCompile Include="CameraManager.cpp" />
+    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="ColliderComponent.cpp" />
+    <ClCompile Include="ColorReplaceEffect.cpp" />
+    <ClCompile Include="DetailMap.cpp" />
+    <ClCompile Include="EffectComponent.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="EffectReader.cpp" />
+    <ClCompile Include="Fixed.cpp" />
+    <ClCompile Include="Fog.cpp" />
+    <ClCompile Include="FogManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="AnimationBase.cpp" />
+    <ClCompile Include="Gizmo.cpp" />
+    <ClCompile Include="Goliath.cpp" />
+    <ClCompile Include="GoliathHeadModel.cpp" />
+    <ClCompile Include="GoliathLegModel.cpp" />
+    <ClCompile Include="INetworkReceiver.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="IObserver.cpp" />
+    <ClCompile Include="JPS.cpp" />
+    <ClCompile Include="LineGizmo.cpp" />
+    <ClCompile Include="LogoScene.cpp" />
+    <ClCompile Include="MainScene.cpp" />
+    <ClCompile Include="MapObject.cpp" />
+    <ClCompile Include="MapToolScene.cpp" />
+    <ClCompile Include="Marine.cpp" />
+    <ClCompile Include="MarineModel.cpp" />
+    <ClCompile Include="MatchingScene.cpp" />
+    <ClCompile Include="MultiGameScene.cpp" />
+    <ClCompile Include="NetworkManager.cpp" />
+    <ClCompile Include="ChattingScene.cpp" />
+    <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="ParticleManager.cpp" />
+    <ClCompile Include="PathFindComponent.cpp" />
+    <ClCompile Include="PathFinder.cpp" />
+    <ClCompile Include="PathFindingScene.cpp" />
+    <ClCompile Include="PhysicsManager.cpp" />
+    <ClCompile Include="RandomManager.cpp" />
+    <ClCompile Include="RectGizmo.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="GameRoot.cpp" />
+    <ClCompile Include="MultipleAnimation.cpp" />
+    <ClCompile Include="PairSpriteComponent.cpp" />
     <ClCompile Include="RendererComponent.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="ShadowEffect.cpp" />
+    <ClCompile Include="SingleAnimation.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="SpriteComponent.cpp" />
+    <ClCompile Include="RenderManager.cpp" />
+    <ClCompile Include="StateMachineComponent.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Subject.cpp" />
+    <ClCompile Include="TestScene.cpp" />
+    <ClCompile Include="TextGizmo.cpp" />
+    <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="TileManager.cpp" />
     <ClCompile Include="TimeManager.cpp" />
+    <ClCompile Include="TransformComponent.cpp" />
+    <ClCompile Include="UIAnimation.cpp" />
+    <ClCompile Include="UIButton.cpp" />
+    <ClCompile Include="UICursor.cpp" />
+    <ClCompile Include="UIGameObject.cpp" />
+    <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="UIRendererComponent.cpp" />
+    <ClCompile Include="UISprite.cpp" />
+    <ClCompile Include="Unit.cpp" />
+    <ClCompile Include="UnitManager.cpp" />
+    <ClCompile Include="UnitModel.cpp" />
+    <ClCompile Include="UserManager.cpp" />
+    <ClCompile Include="Vector2.cpp" />
+    <ClCompile Include="WindowManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="EffectTest.h" />
+    <ClInclude Include="AnimationData.h" />
+    <ClInclude Include="AnimatorComponent.h" />
+    <ClInclude Include="AnimatorData.h" />
+    <ClInclude Include="BitArray.h" />
+    <ClInclude Include="CameraManager.h" />
+    <ClInclude Include="Client.h" />
+    <ClInclude Include="ColliderComponent.h" />
+    <ClInclude Include="ColorReplaceEffect.h" />
+    <ClInclude Include="Defines.h" />
+    <ClInclude Include="DetailMap.h" />
+    <ClInclude Include="EffectComponent.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="EffectData.h" />
+    <ClInclude Include="EffectReader.h" />
+    <ClInclude Include="Enums.h" />
+    <ClInclude Include="Fixed.h" />
+    <ClInclude Include="fixed_point.h" />
+    <ClInclude Include="Fog.h" />
+    <ClInclude Include="FogManager.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="AnimationBase.h" />
+    <ClInclude Include="Gizmo.h" />
+    <ClInclude Include="Globals.h" />
+    <ClInclude Include="Goliath.h" />
+    <ClInclude Include="GoliathHeadModel.h" />
+    <ClInclude Include="GoliathLegModel.h" />
+    <ClInclude Include="Headers.h" />
+    <ClInclude Include="INetworkReceiver.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="GameRoot.h" />
+    <ClInclude Include="IObserver.h" />
+    <ClInclude Include="JPS.h" />
+    <ClInclude Include="LineGizmo.h" />
+    <ClInclude Include="LogoScene.h" />
+    <ClInclude Include="MainScene.h" />
+    <ClInclude Include="MapObject.h" />
+    <ClInclude Include="MapToolScene.h" />
+    <ClInclude Include="Marine.h" />
+    <ClInclude Include="MarineModel.h" />
+    <ClInclude Include="MatchingScene.h" />
+    <ClInclude Include="MultiGameScene.h" />
+    <ClInclude Include="NetworkManager.h" />
+    <ClInclude Include="ChattingScene.h" />
+    <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticleManager.h" />
+    <ClInclude Include="PathFindComponent.h" />
+    <ClInclude Include="PathFinder.h" />
+    <ClInclude Include="PathFindingScene.h" />
+    <ClInclude Include="PhysicsManager.h" />
+    <ClInclude Include="Protocol.h" />
+    <ClInclude Include="RandomManager.h" />
+    <ClInclude Include="RectGizmo.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Math.h" />
+    <ClInclude Include="MultipleAnimation.h" />
+    <ClInclude Include="PairSpriteComponent.h" />
     <ClInclude Include="RendererComponent.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="ShadowEffect.h" />
+    <ClInclude Include="SingleAnimation.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="SpriteComponent.h" />
+    <ClInclude Include="RenderManager.h" />
+    <ClInclude Include="SpriteData.h" />
+    <ClInclude Include="StateMachineComponent.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Subject.h" />
+    <ClInclude Include="TestScene.h" />
+    <ClInclude Include="TextGizmo.h" />
+    <ClInclude Include="Tile.h" />
+    <ClInclude Include="TileManager.h" />
     <ClInclude Include="TimeManager.h" />
+    <ClInclude Include="TransformComponent.h" />
+    <ClInclude Include="UIAnimation.h" />
+    <ClInclude Include="UIButton.h" />
+    <ClInclude Include="UICursor.h" />
+    <ClInclude Include="UIGameObject.h" />
+    <ClInclude Include="UIManager.h" />
+    <ClInclude Include="UIRendererComponent.h" />
+    <ClInclude Include="UISprite.h" />
+    <ClInclude Include="Unit.h" />
+    <ClInclude Include="UnitManager.h" />
+    <ClInclude Include="UnitModel.h" />
+    <ClInclude Include="UserManager.h" />
+    <ClInclude Include="Vector2.h" />
+    <ClInclude Include="WindowManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="ColorReplaceShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <CompileD2DCustomEffect Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</CompileD2DCustomEffect>
+      <FileType>Document</FileType>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(WindowsSDK_IncludePath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="ShadowShader.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(WindowsSDK_IncludePath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include</AdditionalIncludeDirectories>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <CompileD2DCustomEffect Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</CompileD2DCustomEffect>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\hlsl.targets" />
   </ImportGroup>
 </Project>

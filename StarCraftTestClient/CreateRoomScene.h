@@ -2,7 +2,7 @@
 
 class CreateRoomScene : public IScene
 {
-	char mTitle[MAX_NAME_LEN] = { '\0' };
+	wchar_t mTitle[MAX_NAME_LEN] = { '\0' };
 	int mTitleIndex = 0;
 	int mMaxCount = 0;
 	bool mbIsCreateRoom = false;
