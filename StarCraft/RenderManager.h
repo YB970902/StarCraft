@@ -10,7 +10,7 @@ class RendererComponent;
 class GameObject;
 class Gizmo;
 
-typedef vector<vector<GameObject*>> QueueZOrder;
+typedef vector<vector<GameObject*>> Layer;
 class RenderManager : public Singleton<RenderManager>
 {
 private:
@@ -33,10 +33,11 @@ private:
 
 	unordered_map<eBitmapTag, ID2D1Bitmap*> mMapBitmap;
 
-	QueueZOrder mLayerTerrain;
-	QueueZOrder mLayerRemains;
-	QueueZOrder mLayerGround;
-	QueueZOrder mLayerParticle;
+	Layer mLayerTerrain;
+	Layer mLayerRemains;
+	Layer mLayerGround;
+	Layer mLayerParticle;
+	Layer mLayerFog;
 
 	bool mbIsInitLayer = false;
 
@@ -70,9 +71,12 @@ private:
 	void ReleaseDirect2D();
 	void ReleaseLayer();
 
+	void RenderLayer(const Layer& layer, const POINT& leftTop, int width, int height);
+
 	ID2D1Bitmap* CreateBitmap(LPWSTR fileName);
 	ID2D1Effect* CreateColorReplaceEffect();
 	ID2D1Effect* CreateShadowEffect();
+	ID2D1Effect* CreateGaussianEffect();
 
 	POINT GetDetailIndex(const Vector2& pos);
 	POINT GetDetailIndexByPoint(const POINT& pos);

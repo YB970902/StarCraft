@@ -7,10 +7,6 @@
 #include "SpriteComponent.h"
 #include "RendererComponent.h"
 #include "EffectData.h"
-#include "Gizmo.h"
-#include "TextGizmo.h"
-#include "RectGizmo.h"
-#include "LineGizmo.h"
 
 void RenderManager::Init()
 {
@@ -45,55 +41,11 @@ void RenderManager::Render()
 	int width = rightBottom.x - leftTop.x + 1;
 	int height = rightBottom.y - leftTop.y + 1;
 
-	int size = 0;
-
-	for (int y = 0; y < height; ++y)
-	{
-		for (int x = 0; x < width; ++x)
-		{
-			size = mLayerTerrain[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth].size();
-			for (int i = 0; i < size; ++i)
-			{
-				mLayerTerrain[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth][i]->render(mpD2DContext);
-			}
-		}
-	}
-
-	for (int y = 0; y < height; ++y)
-	{
-		for (int x = 0; x < width; ++x)
-		{
-			size = mLayerRemains[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth].size();
-			for (int i = 0; i < size; ++i)
-			{
-				mLayerRemains[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth][i]->render(mpD2DContext);
-			}
-		}
-	}
-
-	for (int y = 0; y < height; ++y)
-	{
-		for (int x = 0; x < width; ++x)
-		{
-			size = mLayerGround[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth].size();
-			for (int i = 0; i < size; ++i)
-			{
-				mLayerGround[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth][i]->render(mpD2DContext);
-			}
-		}
-	}
-
-	for (int y = 0; y < height; ++y)
-	{
-		for (int x = 0; x < width; ++x)
-		{
-			size = mLayerParticle[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth].size();
-			for (int i = 0; i < size; ++i)
-			{
-				mLayerParticle[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth][i]->render(mpD2DContext);
-			}
-		}
-	}
+	RenderLayer(mLayerTerrain, leftTop, width, height);
+	RenderLayer(mLayerRemains, leftTop, width, height);
+	RenderLayer(mLayerGround, leftTop, width, height);
+	RenderLayer(mLayerParticle, leftTop, width, height);
+	RenderLayer(mLayerFog, leftTop, width, height);
 
 	UI->Render(mpD2DContext);
 
@@ -118,6 +70,7 @@ void RenderManager::InitLayerSize(int width, int height)
 		mLayerRemains.clear();
 		mLayerGround.clear();
 		mLayerParticle.clear();
+		mLayerFog.clear();
 	}
 
 	mbIsInitLayer = true;
@@ -129,6 +82,7 @@ void RenderManager::InitLayerSize(int width, int height)
 	mLayerRemains.resize(mLayerWidth * mLayerHeight);
 	mLayerGround.resize(mLayerWidth * mLayerHeight);
 	mLayerParticle.resize(mLayerWidth * mLayerHeight);
+	mLayerFog.resize(mLayerWidth * mLayerHeight);
 }
 
 ID2D1Bitmap* RenderManager::GetBitmap(eBitmapTag tag)
@@ -144,6 +98,8 @@ ID2D1Effect* RenderManager::CreateEffect(eEffectTag tag)
 		return CreateColorReplaceEffect();
 	case eEffectTag::SHADOW:
 		return CreateShadowEffect();
+	case eEffectTag::GAUSSIAN:
+		return CreateGaussianEffect();
 	}
 	return nullptr;
 }
@@ -164,6 +120,9 @@ void RenderManager::AddRenderer(const Vector2& pos, RendererComponent* pComponen
 		break;
 	case eUnitLayer::Particle:
 		mLayerParticle[index.x + index.y * mLayerWidth].push_back(pComponent->GetGameObject());
+		break;
+	case eUnitLayer::Fog:
+		mLayerFog[index.x + index.y * mLayerWidth].push_back(pComponent->GetGameObject());
 		break;
 	}
 }
@@ -198,6 +157,13 @@ void RenderManager::EraseRenderer(const Vector2& pos, RendererComponent* pCompon
 		mLayerParticle[index.x + index.y * mLayerWidth].erase(
 			find(mLayerParticle[index.x + index.y * mLayerWidth].begin(),
 				mLayerParticle[index.x + index.y * mLayerWidth].end(),
+				pComponent->GetGameObject()
+			));
+		break;
+	case eUnitLayer::Fog:
+		mLayerFog[index.x + index.y * mLayerWidth].erase(
+			find(mLayerFog[index.x + index.y * mLayerWidth].begin(),
+				mLayerFog[index.x + index.y * mLayerWidth].end(),
 				pComponent->GetGameObject()
 			));
 		break;
@@ -377,6 +343,8 @@ void RenderManager::InitBitmap()
 	mMapBitmap[eBitmapTag::BUILDING_START] = CreateBitmap((LPWSTR)TEXT("Images/Buildings/StartLocation/StartLocation.png"));
 
 	mMapBitmap[eBitmapTag::TILE_PALETTE] = CreateBitmap((LPWSTR)TEXT("Images/Tile/TilePalette.png"));
+	mMapBitmap[eBitmapTag::TILE_FULL_FOG] = CreateBitmap((LPWSTR)TEXT("Images/Tile/FogFull.png"));
+	mMapBitmap[eBitmapTag::TILE_HALF_FOG] = CreateBitmap((LPWSTR)TEXT("Images/Tile/FogHalf.png"));
 
 	mMapBitmap[eBitmapTag::ICON_BARRACK] = CreateBitmap((LPWSTR)TEXT("Images/Icon/Building/Barrack.png"));
 	mMapBitmap[eBitmapTag::ICON_FACTORY] = CreateBitmap((LPWSTR)TEXT("Images/Icon/Building/Factory.png"));
@@ -431,6 +399,22 @@ void RenderManager::ReleaseLayer()
 	mLayerParticle.clear();
 }
 
+void RenderManager::RenderLayer(const Layer& layer, const POINT& leftTop, int width, int height)
+{
+	size_t size;
+	for (int y = 0; y < height; ++y)
+	{
+		for (int x = 0; x < width; ++x)
+		{
+			size = layer[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth].size();
+			for (int i = 0; i < size; ++i)
+			{
+				layer[(leftTop.x + x) + (leftTop.y + y) * mLayerWidth][i]->render(mpD2DContext);
+			}
+		}
+	}
+}
+
 ID2D1Bitmap* RenderManager::CreateBitmap(LPWSTR fileName)
 {
 	IWICBitmapDecoder* pDecoder = nullptr;
@@ -481,6 +465,13 @@ ID2D1Effect* RenderManager::CreateShadowEffect()
 	ShadowEffect::Register(mpD2DFactory);
 	ID2D1Effect* pResult = nullptr;
 	mpD2DContext->CreateEffect(GUID_ShadowPixelShader, &pResult);
+	return pResult;
+}
+
+ID2D1Effect* RenderManager::CreateGaussianEffect()
+{
+	ID2D1Effect* pResult = nullptr;
+	mpD2DContext->CreateEffect(GUID{ 0x1feb6d69, 0x2fe6, 0x4ac9, 0x8c, 0x58, 0x1d, 0x7f, 0x93, 0xe7, 0xa6, 0xa5 }, &pResult);
 	return pResult;
 }
 

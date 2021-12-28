@@ -5,6 +5,7 @@
 #include "RectGizmo.h"
 #include "RenderManager.h"
 #include "PhysicsManager.h"
+#include "FogManager.h"
 #include "Scene.h"
 #include "Tile.h"
 #include <boost/lexical_cast.hpp>
@@ -42,6 +43,7 @@ void TileManager::LoadTileMap(Scene* pLoadedScene, LPCWSTR path)
 	CAMERA->SetMovingSize(POINT{ width * Tile::TILE_SIZE, height * Tile::TILE_SIZE });
 	RENDER->InitLayerSize(width * Tile::TILE_SIZE, height * Tile::TILE_SIZE);
 	PHYSICS->InitLayerSize(width * Tile::TILE_SIZE, height * Tile::TILE_SIZE);
+	//FOG->InitLayerSize(width * Tile::TILE_SIZE, height * Tile::TILE_SIZE);
 
 	mVecPathChecker.resize(mTileWidth * mTileHeight);
 	mpTerrainMap->Init(mTileWidth, mTileHeight);

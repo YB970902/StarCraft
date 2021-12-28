@@ -62,7 +62,7 @@ void MultiGameScene::Exit()
 
 void MultiGameScene::Update()
 {
-	if (INPUT->IsOnceKeyDown(VK_ESCAPE))
+	if (INPUT->IsOnceKeyDown(VK_BACK))
 	{
 		SCENE->ChangeScene(eSceneTag::MatchingScene);
 		return;

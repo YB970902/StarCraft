@@ -226,6 +226,12 @@
     <Filter Include="Scene\MultiGameScene">
       <UniqueIdentifier>{68e2ca70-fdee-4407-a738-d04c6b15878d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Manager\FogManager">
+      <UniqueIdentifier>{657bf348-17c2-4fd4-9e2f-fb5a246f3c22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Fog">
+      <UniqueIdentifier>{cf93951f-fea1-4638-891c-1091e875b282}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -449,6 +455,12 @@
     </ClCompile>
     <ClCompile Include="MultiGameScene.cpp">
       <Filter>Scene\MultiGameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="FogManager.cpp">
+      <Filter>Manager\FogManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Fog.cpp">
+      <Filter>GameObject\Fog</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -706,6 +718,12 @@
     </ClInclude>
     <ClInclude Include="MultiGameScene.h">
       <Filter>Scene\MultiGameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="FogManager.h">
+      <Filter>Manager\FogManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Fog.h">
+      <Filter>GameObject\Fog</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -9,12 +9,14 @@
 #include "UserManager.h"
 #include "UnitManager.h"
 #include "ParticleManager.h"
+#include "FogManager.h"
 
 void PathFindingScene::Enter()
 {
 	SOUND->StopAll();
 	SOUND->Play(eSoundTag::TerranTheme);
 	PARTICLE->Init(this);
+	FOG->Init(this);
 
 	UI->Init();
 	USER->SetTeamTag(eTeamTag::RED_TEAM);
@@ -32,8 +34,9 @@ void PathFindingScene::Enter()
 		UNIT->CommandCreateUnit(eTeamTag::RED_TEAM, eUnitTag::Marine, 200, 200);
 	}
 
-	for (int i = 1; i <= 6; ++i)
+	for (int i = 1; i <= 12; ++i)
 	{
+		UNIT->CommandCreateUnit(eTeamTag::BLUE_TEAM, eUnitTag::Marine, 800, 200);
 		UNIT->CommandCreateUnit(eTeamTag::BLUE_TEAM, eUnitTag::Goliath, 800, 200);
 	}
 }

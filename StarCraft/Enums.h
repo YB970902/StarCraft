@@ -22,6 +22,8 @@ enum class eBitmapTag
 	BUILDING_START,
 
 	TILE_PALETTE,
+	TILE_FULL_FOG,
+	TILE_HALF_FOG,
 
 	ICON_BARRACK,
 	ICON_FACTORY,
@@ -56,6 +58,7 @@ enum class eEffectTag
 {
 	COLOR_REPLACE,
 	SHADOW,
+	GAUSSIAN,
 };
 
 enum class eComponentTag
@@ -78,6 +81,7 @@ enum class eUnitLayer
 	Remains,
 	Ground,
 	Particle,
+	Fog,
 };
 
 enum class eUnitTileSize
