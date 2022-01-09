@@ -6,6 +6,7 @@
 
 EffectComponent::EffectComponent(eEffectTag tag)
 {
+	mTag = eComponentTag::Effect;
 	mpEffect = RENDER->CreateEffect(tag);
 }
 

@@ -5,7 +5,6 @@
 #include "RectGizmo.h"
 #include "RenderManager.h"
 #include "PhysicsManager.h"
-#include "FogManager.h"
 #include "Scene.h"
 #include "Tile.h"
 #include <boost/lexical_cast.hpp>

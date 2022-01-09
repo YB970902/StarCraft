@@ -32,7 +32,5 @@ public:
 	void SetRotation(const Fix& rot);
 
 	inline bool IsMoved() { return mbIsMoved; }
-
-	virtual eComponentTag GetTag() override { return eComponentTag::Transform; }
 };
 

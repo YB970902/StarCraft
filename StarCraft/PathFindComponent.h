@@ -52,7 +52,6 @@ public:
 	virtual void Init(GameObject* pObject) override;
 	virtual void Release() override;
 	virtual void Update() override;
-	virtual eComponentTag GetTag() override { return eComponentTag::PathFind; }
 
 	void FindPath(Vector2 targetPos);
 

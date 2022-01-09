@@ -15,7 +15,5 @@ public:
 
 	inline ID2D1Bitmap* GetLeftBitmap() { return mpLeftBitmap; }
 	inline ID2D1Bitmap* GetRightBitmap() { return mpRightBitmap; }
-
-	virtual eComponentTag GetTag() override { return eComponentTag::PairSprite; }
 };
 

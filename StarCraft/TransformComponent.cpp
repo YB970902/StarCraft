@@ -4,6 +4,7 @@
 TransformComponent::TransformComponent()
 {
 	mOrder = 20;
+	mTag = eComponentTag::Transform;
 }
 
 TransformComponent::~TransformComponent()

@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "RenderManager.h"
-#include "UIManager.h"
 #include "GameObject.h"
 #include "ColorReplaceEffect.h"
 #include "ShadowEffect.h"

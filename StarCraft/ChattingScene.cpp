@@ -1,13 +1,10 @@
 #include "stdafx.h"
 #include "ChattingScene.h"
-#include "UIManager.h"
 #include "NetworkManager.h"
 #include "TextGizmo.h"
 
 void ChattingScene::Enter()
 {
-	UI->Init();
-
 	mState[eChattingState::Login] = new LoginState();
 	mState[eChattingState::Lobby] = new LobbyState();
 	mState[eChattingState::CreateRoom] = new CreateRoomState();
@@ -33,8 +30,6 @@ void ChattingScene::Exit()
 		SAFE_DELETE(it->second);
 		it = mState.erase(it);
 	}
-
-	UI->Release();
 }
 
 void ChattingScene::Update()
@@ -75,6 +70,8 @@ void LobbyState::Enter()
 
 void LobbyState::Exit()
 {
+	UI->RemoveUI(mpUI);
+	UI->RemoveUI(mpText);
 	mListChatContent.clear();
 	memset(mChat, '\0', MAX_TEXT_LEN);
 

@@ -6,7 +6,6 @@
 #include "PhysicsManager.h"
 #include "UnitManager.h"
 #include "ParticleManager.h"
-#include "SoundManager.h"
 
 Unit::Unit(eTeamTag teamTag, UnitID ID, const float* arrColor)
 	: GameObject::GameObject(), mTeamTag{ teamTag }, mID{ ID }, mArrColor{ arrColor }

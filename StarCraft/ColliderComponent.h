@@ -21,7 +21,6 @@ public:
 	virtual void Init(GameObject* pObject) override;
 	virtual void Release() override;
 	virtual void Update() override;
-	inline virtual eComponentTag GetTag() override { return eComponentTag::Collider; }
 
 	Vector2 GetColliderPosition();
 	inline Vector2 GetColliderSize() { return mSize; }

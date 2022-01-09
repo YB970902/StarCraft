@@ -5,6 +5,7 @@
 
 UIRendererComponent::UIRendererComponent()
 {
+	mTag = eComponentTag::Renderer;
 	mOrder = 10;
 	mbIsRender = true;
 }

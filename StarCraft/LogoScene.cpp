@@ -1,11 +1,9 @@
 #include "stdafx.h"
 #include "LogoScene.h"
 #include "RenderManager.h"
-#include "UIManager.h"
 
 void LogoScene::Enter()
 {
-	UI->Init();
 	RENDER->InitDefaultLayer();
 	SOUND->Play(eSoundTag::TitleBackground);
 
@@ -16,13 +14,11 @@ void LogoScene::Enter()
 
 void LogoScene::Exit()
 {
-	UI->Release();
+	UI->RemoveUI(mpBackground);
 }
 
 void LogoScene::Update()
 {
-	UI->Update();
-
 	mElapsedTime += DELTA_TIME;
 	if (mElapsedTime >= mDurationSceneChangeTime)
 	{

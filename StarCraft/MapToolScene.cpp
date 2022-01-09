@@ -1,10 +1,7 @@
 #include "stdafx.h"
 #include "MapToolScene.h"
 #include "RenderManager.h"
-#include "UIManager.h"
 #include "PhysicsManager.h"
-#include "RectGizmo.h"
-#include "TextGizmo.h"
 #include "LineGizmo.h"
 #include "Tile.h"
 #include "MapObject.h"
@@ -18,8 +15,6 @@ void MapToolScene::Enter()
 	CAMERA->SetMovingSize(POINT{ mMapWidth * Tile::TILE_SIZE, mMapHeight * Tile::TILE_SIZE });
 	RENDER->InitLayerSize(mMapWidth * Tile::TILE_SIZE, mMapHeight * Tile::TILE_SIZE);
 	PHYSICS->InitLayerSize(mMapWidth * Tile::TILE_SIZE, mMapHeight * Tile::TILE_SIZE);
-
-	UI->Init();
 
 	mpLineLT = (LineGizmo*)UI->CreateLine(Vector2(0, 0), Vector2(Tile::TILE_SIZE * 2, -Tile::TILE_SIZE), 0, 3, D2D1::ColorF::LimeGreen);
 	mpLineLB = (LineGizmo*)UI->CreateLine(Vector2(0, 0), Vector2(Tile::TILE_SIZE * 2, Tile::TILE_SIZE), 0, 3, D2D1::ColorF::LimeGreen);
@@ -52,8 +47,6 @@ void MapToolScene::Exit()
 {
 	SOUND->StopAll();
 	PHYSICS->Release();
-
-	UI->Release();
 
 	UI->RemoveUI(mpLineLT);
 	UI->RemoveUI(mpLineLB);

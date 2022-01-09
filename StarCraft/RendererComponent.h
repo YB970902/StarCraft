@@ -32,7 +32,6 @@ public:
 
 	virtual void LinkComponent(Component* pOther) override;
 
-	inline virtual eComponentTag GetTag() override { return eComponentTag::Renderer; }
 	inline eUnitLayer GetUnitLayer() const { return mUnitLayer; }
 	void SetUnitLayer(eUnitLayer layer);
 	int GetUnitY() const;

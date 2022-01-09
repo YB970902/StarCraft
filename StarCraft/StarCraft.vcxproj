@@ -81,6 +81,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(WindowsSDK_IncludePath);C:\boost_1_77_0;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;C:\boost_1_77_0\stage\lib;C:\Users\남궁영빈\Desktop\StarCraftPortfolio\StarCraft\fmod;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -122,6 +124,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3dxof.lib;dxguid.lib;d3d9.lib;d3d11.lib;d2d1.lib;d3d10.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -164,8 +168,6 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="EffectReader.cpp" />
     <ClCompile Include="Fixed.cpp" />
-    <ClCompile Include="Fog.cpp" />
-    <ClCompile Include="FogManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="AnimationBase.cpp" />
     <ClCompile Include="Gizmo.cpp" />
@@ -250,8 +252,6 @@
     <ClInclude Include="Enums.h" />
     <ClInclude Include="Fixed.h" />
     <ClInclude Include="fixed_point.h" />
-    <ClInclude Include="Fog.h" />
-    <ClInclude Include="FogManager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="AnimationBase.h" />
     <ClInclude Include="Gizmo.h" />

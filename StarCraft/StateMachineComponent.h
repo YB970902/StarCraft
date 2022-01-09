@@ -24,8 +24,6 @@ public:
 	void ChangeState(eStateTag tag);
 	void ChangeNextState();
 
-	virtual eComponentTag GetTag() override;
-
 	inline bool IsHaveNextState() { return mbIsHaveNextState; }
 	inline eStateTag GetNextStateTag() { return mNextStateTag; }
 };

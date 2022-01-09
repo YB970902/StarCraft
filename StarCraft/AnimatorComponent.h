@@ -36,6 +36,4 @@ public:
 	void Play();
 	void Stop();
 	bool IsEnd();
-
-	virtual eComponentTag GetTag() override { return eComponentTag::Animator; }
 };

@@ -52,3 +52,4 @@ using namespace std;
 #include "CameraManager.h"
 #include "RandomManager.h"
 #include "SoundManager.h"
+#include "UiManager.h"

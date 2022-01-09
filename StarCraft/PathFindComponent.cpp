@@ -8,6 +8,7 @@
 
 PathFindComponent::PathFindComponent(eUnitTileSize size)
 {
+	mTag = eComponentTag::PathFind;
 	mUnitSize = size;
 	mpSearched = new BitArray;
 	mpSearched->Init(TILE->GetTileWidth(), TILE->GetTileHeight());

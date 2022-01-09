@@ -6,6 +6,7 @@
 PairSpriteComponent::PairSpriteComponent(eBitmapTag leftTag, eBitmapTag rightTag, int frameX, int frameY, D2D1_POINT_2F anchor)
 	:SpriteComponent(leftTag, frameX, frameY, anchor)
 {
+	mTag = eComponentTag::PairSprite;
 	mpLeftBitmap = mpBitmap;
 	mpRightBitmap = RENDER->GetBitmap(rightTag);
 }

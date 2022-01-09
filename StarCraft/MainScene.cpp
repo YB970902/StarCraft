@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "MainScene.h"
 #include "RenderManager.h"
-#include "UIManager.h"
 #include "SingleAnimation.h"
 #include "AnimatorData.h"
 #include "PhysicsManager.h"
@@ -13,7 +12,6 @@ void MainScene::Enter()
 {
 	SOUND->Play(eSoundTag::TitleBackground);
 
-	UI->Init();
 	RENDER->InitDefaultLayer();
 	PHYSICS->InitDefaultLayer();
 
@@ -48,7 +46,20 @@ void MainScene::Enter()
 void MainScene::Exit()
 {
 	PHYSICS->Release();
-	UI->Release();
+
+	UI->RemoveUI(mpBackground);
+	UI->RemoveUI(mpBtnSingle);
+	UI->RemoveUI(mpBtnOnSingle);
+
+	UI->RemoveUI(mpBtnMulti);
+	UI->RemoveUI(mpBtnOnMulti);
+	UI->RemoveUI(mpMultiTail);
+
+	UI->RemoveUI(mpBtnEditor);
+	UI->RemoveUI(mpBtnOnEditor);
+
+	UI->RemoveUI(mpBtnExit);
+	UI->RemoveUI(mpBtnOnExit);
 }
 
 void MainScene::Update()
@@ -74,6 +85,4 @@ void MainScene::Update()
 		DestroyWindow(g_hWnd);
 		return;
 	}
-
-	UI->Update();
 }

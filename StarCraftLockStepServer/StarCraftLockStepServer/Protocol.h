@@ -13,8 +13,8 @@ using user_id = unsigned int;
 using unit_id = unsigned int;
 using room_id = unsigned int;
 
-const unsigned int MAX_USER_COUNT = 10;
-const unsigned int MAX_ROOM_COUNT = 10;
+const unsigned int MAX_USER_COUNT = 20;
+const unsigned int MAX_ROOM_COUNT = 20;
 const user_id DEFAULT_USER_ID = 0;
 const room_id DEFAULT_ROOM_ID = 0;
 

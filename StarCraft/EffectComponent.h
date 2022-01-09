@@ -15,6 +15,4 @@ public:
 	virtual void Update() override;
 
 	inline ID2D1Effect* GetEffect() { return mpEffect; }
-
-	virtual eComponentTag GetTag() override { return eComponentTag::Effect; }
 };

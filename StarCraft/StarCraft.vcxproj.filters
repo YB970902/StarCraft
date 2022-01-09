@@ -124,9 +124,6 @@
     <Filter Include="Component\Collider">
       <UniqueIdentifier>{1cd8fa9a-903c-4be2-b3f0-3c3fbeae1216}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\MapObject">
-      <UniqueIdentifier>{6456c71f-5049-4c55-98d1-747ec7017bf2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameObject\Unit\UnitModel">
       <UniqueIdentifier>{c07d5efe-727b-4191-9aee-ad2bdf8f57df}</UniqueIdentifier>
     </Filter>
@@ -226,11 +223,8 @@
     <Filter Include="Scene\MultiGameScene">
       <UniqueIdentifier>{68e2ca70-fdee-4407-a738-d04c6b15878d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Manager\FogManager">
-      <UniqueIdentifier>{657bf348-17c2-4fd4-9e2f-fb5a246f3c22}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject\Fog">
-      <UniqueIdentifier>{cf93951f-fea1-4638-891c-1091e875b282}</UniqueIdentifier>
+    <Filter Include="GameObject\MapObject">
+      <UniqueIdentifier>{3657c0a5-b412-4d7f-adc8-ec8427e32914}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -366,9 +360,6 @@
     <ClCompile Include="ColliderComponent.cpp">
       <Filter>Component\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="MapObject.cpp">
-      <Filter>GameObject\MapObject</Filter>
-    </ClCompile>
     <ClCompile Include="UnitModel.cpp">
       <Filter>GameObject\Unit\UnitModel</Filter>
     </ClCompile>
@@ -456,11 +447,8 @@
     <ClCompile Include="MultiGameScene.cpp">
       <Filter>Scene\MultiGameScene</Filter>
     </ClCompile>
-    <ClCompile Include="FogManager.cpp">
-      <Filter>Manager\FogManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Fog.cpp">
-      <Filter>GameObject\Fog</Filter>
+    <ClCompile Include="MapObject.cpp">
+      <Filter>GameObject\MapObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -626,9 +614,6 @@
     <ClInclude Include="ColliderComponent.h">
       <Filter>Component\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="MapObject.h">
-      <Filter>GameObject\MapObject</Filter>
-    </ClInclude>
     <ClInclude Include="UnitModel.h">
       <Filter>GameObject\Unit\UnitModel</Filter>
     </ClInclude>
@@ -719,11 +704,8 @@
     <ClInclude Include="MultiGameScene.h">
       <Filter>Scene\MultiGameScene</Filter>
     </ClInclude>
-    <ClInclude Include="FogManager.h">
-      <Filter>Manager\FogManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Fog.h">
-      <Filter>GameObject\Fog</Filter>
+    <ClInclude Include="MapObject.h">
+      <Filter>GameObject\MapObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

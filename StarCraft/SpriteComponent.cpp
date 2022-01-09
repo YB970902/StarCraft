@@ -7,6 +7,7 @@
 SpriteComponent::SpriteComponent(eBitmapTag tag, int frameX, int frameY, D2D1_POINT_2F anchor)
 	:mMaxFrameX{ frameX }, mMaxFrameY{ frameY }, mAnchor{ anchor }
 {
+	mTag = eComponentTag::Sprite;
 	mpBitmap = RENDER->GetBitmap(tag);
 	mSize.width = mpBitmap->GetSize().width / frameX;
 	mSize.height = mpBitmap->GetSize().height / frameY;

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "UIManager.h"
+#include "UIGameObject.h"
 #include "RenderManager.h"
 #include "UICursor.h"
 #include "UISprite.h"
@@ -7,7 +8,6 @@
 #include "LineGizmo.h"
 #include "RectGizmo.h"
 #include "TextGizmo.h"
-#include "UIGameObject.h"
 
 void UIManager::Init()
 {

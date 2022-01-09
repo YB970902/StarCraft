@@ -8,6 +8,7 @@
 ColliderComponent::ColliderComponent(const Vector2& localPos, const Vector2& size, eTeamTag teamTag)
 	: mLocalPos{ localPos }, mSize{ size }, mTeamTag{ teamTag }
 {
+	mTag = eComponentTag::Collider;
 	mOrder = 1;
 }
 

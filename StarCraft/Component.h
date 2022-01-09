@@ -7,6 +7,8 @@ protected:
 	GameObject* mpGameObject = nullptr;
 	unsigned int mOrder = 0;
 
+	eComponentTag mTag = eComponentTag::None;
+
 public:
 	Component() = default;
 	virtual ~Component() = default;
@@ -18,7 +20,7 @@ public:
 
 	inline unsigned int GetOrder() const { return mOrder; }
 
-	virtual eComponentTag GetTag() = 0;
+	inline eComponentTag GetTag() { return mTag; }
 
 	GameObject* GetGameObject() { return mpGameObject; }
 };

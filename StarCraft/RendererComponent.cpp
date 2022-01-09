@@ -8,6 +8,7 @@
 
 RendererComponent::RendererComponent()
 {
+	mTag = eComponentTag::Renderer;
 	mOrder = 10;
 }
 

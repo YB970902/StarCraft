@@ -10,6 +10,7 @@
 
 void AnimatorComponent::Init(GameObject* pObject)
 {
+	mTag = eComponentTag::Animator;
 	mpGameObject = pObject;
 	mpSprite = static_cast<SpriteComponent*>(mpGameObject->GetComponent(eComponentTag::Sprite));
 	mpPairSprite = static_cast<PairSpriteComponent*>(mpGameObject->GetComponent(eComponentTag::PairSprite));

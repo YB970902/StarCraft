@@ -1,13 +1,10 @@
 #include "stdafx.h"
 #include "MatchingScene.h"
 #include "NetworkManager.h"
-#include "UIManager.h"
 #include "TextGizmo.h"
 
 void MatchingScene::Enter()
 {
-	UI->Init();
-
 	mpText = static_cast<TextGizmo*>(UI->CreateText(Vector2(100, 100), Vector2(200, 100), 0, 1, 14, D2D1::ColorF::White, eTextAlign::Left));
 }
 
@@ -15,7 +12,6 @@ void MatchingScene::Exit()
 {
 	UI->RemoveUI(mpText);
 	mpText = nullptr;
-	UI->Release();
 }
 
 void MatchingScene::Update()
@@ -28,8 +24,6 @@ void MatchingScene::Update()
 		SCENE->ChangeScene(eSceneTag::MainScene);
 		return;
 	}
-
-	UI->Update();
 }
 
 void MatchingScene::ReceiveMessage(Message* pMsg)

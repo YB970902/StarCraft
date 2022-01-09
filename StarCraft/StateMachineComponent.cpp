@@ -5,7 +5,7 @@
 
 StateMachineComponent::StateMachineComponent()
 {
-	
+	mTag = eComponentTag::StateMachine;
 }
 
 StateMachineComponent::~StateMachineComponent()

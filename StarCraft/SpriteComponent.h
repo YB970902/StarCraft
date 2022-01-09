@@ -52,6 +52,4 @@ public:
 	inline void SetBitmap(ID2D1Bitmap* pBitmap) { mpBitmap = pBitmap; }
 
 	void ChangeBitmap(eBitmapTag tag);
-
-	virtual eComponentTag GetTag() override { return eComponentTag::Sprite; }
 };
